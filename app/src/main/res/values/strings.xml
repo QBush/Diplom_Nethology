@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">recipesBook</string>
+    <string name="add_recipe">add_recipe</string>
+    <string name="recipe_image">recipe_image</string>
+    <string name="recipe_text" >
+    Test text. Test text. Test text. Test text. Test text. \n
+    Test text. Test text. Test text. Test text. Test text.
+    </string>
+</resources>
