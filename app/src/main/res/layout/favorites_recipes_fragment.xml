@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/common_spacing"
+    tools:context=".Main.AllRecipesFragment"> // разметка основного фрагмента, будет еще такой же с избранным
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/PostsRecycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:layout_editor_absoluteX="25dp"
+        tools:layout_editor_absoluteY="-56dp"
+        tools:listitem="@layout/recipes_list_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

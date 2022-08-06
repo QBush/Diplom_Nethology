@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/all_recipes_fragment">
+
+    <fragment
+        android:id="@+id/all_recipes_fragment"
+        android:name="ru.netology.recipiesbook.Main.AllRecipesFragment"
+        android:label="@string/all_recipes"
+        tools:layout="@layout/all_recipes_fragment" />
+
+    <fragment
+        android:id="@+id/favorites_recipes_fragment"
+        android:name="//второй фрагмент"
+        android:label="@string/favorites"
+        tools:layout="@layout/favorites_recipes_fragment" />
+
+
+</navigation>

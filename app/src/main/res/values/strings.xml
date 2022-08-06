@@ -6,4 +6,6 @@
     Test text. Test text. Test text. Test text. Test text. \n
     Test text. Test text. Test text. Test text. Test text.
     </string>
+    <string name="all_recipes">all_recipes</string>
+    <string name="favorites">favorites</string>
 </resources>
