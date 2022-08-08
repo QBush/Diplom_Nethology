@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import ru.netology.recipiesbook.Main.data.Recipe
-import ru.netology.recipiesbook.databinding.RecipesListItemBinding
+import ru.netology.recipesbook.Main.data.Recipe
+import ru.netology.recipesbook.databinding.RecipesListItemBinding
 
 internal class RecipeAdapter(
     private val interactionListener: RecipeInteractionListener

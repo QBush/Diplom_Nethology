@@ -1,9 +1,7 @@
-package ru.netology.recipiesbook.Main.data
+package ru.netology.recipesbook.Main.data
 
 import android.app.Application
 import android.content.Context
-import android.provider.SyncStateContract.Helpers.insert
-import android.provider.SyncStateContract.Helpers.update
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

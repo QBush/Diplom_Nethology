@@ -1,6 +1,6 @@
 package ru.netology.nmedia.adapter
 
-import ru.netology.recipiesbook.Main.data.Recipe
+import ru.netology.recipesbook.Main.data.Recipe
 
 
 interface RecipeInteractionListener {

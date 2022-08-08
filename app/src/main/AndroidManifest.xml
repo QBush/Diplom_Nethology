@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="ru.netology.recipiesbook">
+    package="ru.netology.recipesbook">
 
     <application
         android:allowBackup="true"
@@ -11,10 +11,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RecipiesBook"
+        android:theme="@style/Theme.RecipesBook"
         tools:targetApi="31">
         <activity
-            android:name=".Main.AppActivity"
+            android:name="ru.netology.recipesbook.Main.AppActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

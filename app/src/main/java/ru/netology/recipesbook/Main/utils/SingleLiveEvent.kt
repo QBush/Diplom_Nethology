@@ -1,4 +1,4 @@
-package ru.netology.recipiesbook.Main.utils
+package ru.netology.recipesbook.Main.utils
 
 /*
  *  Copyright 2017 Google Inc.

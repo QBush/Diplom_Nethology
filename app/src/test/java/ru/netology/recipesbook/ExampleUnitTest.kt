@@ -1,4 +1,4 @@
-package ru.netology.recipiesbook
+package ru.netology.recipesbook
 
 import org.junit.Test
 

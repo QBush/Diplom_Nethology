@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/allRecipesFragment"
-        android:name="ru.netology.recipiesbook.Main.AllRecipesFragment"
+        android:name="ru.netology.recipesbook.Main.AllRecipesFragment"
         android:label="@string/all_recipes"
         tools:layout="@layout/all_recipes_fragment">
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/recipeContentFragment"
-        android:name="ru.netology.recipiesbook.Main.RecipeContentFragment"
+        android:name="ru.netology.recipesbook.Main.RecipeContentFragment"
         android:label="RecipeContentFragment">
         <argument
             android:name="initialContent"
@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/favorites_recipes_fragment"
-        android:name="ru.netology.recipiesbook.Main.FavoriteRecipesFragment"
+        android:name="ru.netology.recipesbook.Main.FavoriteRecipesFragment"
         android:label="@string/favorites"
         tools:layout="@layout/favorites_recipes_fragment" />
 

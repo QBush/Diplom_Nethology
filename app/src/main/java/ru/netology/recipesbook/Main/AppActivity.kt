@@ -1,11 +1,11 @@
-package ru.netology.recipiesbook.Main
+package ru.netology.recipesbook.Main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import ru.netology.recipiesbook.R
+import ru.netology.recipesbook.R
 
 class AppActivity : AppCompatActivity(R.layout.app_activity) {
 

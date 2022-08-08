@@ -1,13 +1,13 @@
-package ru.netology.recipiesbook.Main.adapterAndViewmodel
+package ru.netology.recipesbook.Main.adapterAndViewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.adapter.RecipeInteractionListener
-import ru.netology.recipiesbook.Main.data.MainRepository
-import ru.netology.recipiesbook.Main.data.Recipe
-import ru.netology.recipiesbook.Main.data.Repository
-import ru.netology.recipiesbook.Main.utils.SingleLiveEvent
+import ru.netology.recipesbook.Main.data.MainRepository
+import ru.netology.recipesbook.Main.data.Recipe
+import ru.netology.recipesbook.Main.data.Repository
+import ru.netology.recipesbook.Main.utils.SingleLiveEvent
 
 class RecipesViewModel(
     application: Application

@@ -1,4 +1,4 @@
-package ru.netology.recipiesbook.Main
+package ru.netology.recipesbook.Main
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.adapter.RecipeAdapter
-import ru.netology.recipiesbook.Main.adapterAndViewmodel.RecipesViewModel
-import ru.netology.recipiesbook.Main.data.Recipe
-import ru.netology.recipiesbook.databinding.AllRecipesFragmentBinding
+import ru.netology.recipesbook.Main.adapterAndViewmodel.RecipesViewModel
+import ru.netology.recipesbook.Main.data.Recipe
+import ru.netology.recipesbook.databinding.AllRecipesFragmentBinding
 
 class FavoriteRecipesFragment: Fragment()  {
 

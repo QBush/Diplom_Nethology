@@ -1,4 +1,4 @@
-package ru.netology.recipiesbook.Main.data
+package ru.netology.recipesbook.Main.data
 
 import kotlinx.serialization.Serializable
 
