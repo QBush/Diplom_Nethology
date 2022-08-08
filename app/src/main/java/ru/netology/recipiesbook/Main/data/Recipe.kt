@@ -7,7 +7,8 @@ data class Recipe(
     val recipeId: Long,
     val author: String,
     val content: String,
-    val ImageSource: String,
+    val published: String,
+    val ImageSource: String? = null,
     var addedToFavorites: Boolean = false,
 ){
 

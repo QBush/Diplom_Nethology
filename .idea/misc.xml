@@ -4,15 +4,20 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/drawable-anydpi/ic_action_name.xml" value="0.226" />
+        <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/drawable-hdpi/ic_add_24dp.xml" value="0.101" />
+        <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/drawable-hdpi/ic_ok_24dp.xml" value="0.101" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.226" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/drawable/favorites.xml" value="0.226" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/drawable/home.xml" value="0.226" />
+        <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.1275" />
+        <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.1275" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/activity_main.xml" value="0.15374873353596757" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/all_recipes_fragment.xml" value="0.16058763931104356" />
-        <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/app_activity.xml" value="0.32303370786516855" />
+        <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/app_activity.xml" value="0.22" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/favorites_recipes_fragment.xml" value="0.16058763931104356" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/feed_fragment.xml" value="0.16058763931104356" />
+        <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/recipe_content_fragment.xml" value="0.1" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/recipes_list_item.xml" value="0.25" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
       </map>

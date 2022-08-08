@@ -6,16 +6,33 @@
     app:startDestination="@+id/all_recipes_fragment">
 
     <fragment
-        android:id="@+id/all_recipes_fragment"
+        android:id="@+id/allRecipesFragment"
         android:name="ru.netology.recipiesbook.Main.AllRecipesFragment"
         android:label="@string/all_recipes"
-        tools:layout="@layout/all_recipes_fragment" />
+        tools:layout="@layout/all_recipes_fragment">
+        <action
+            android:id="@+id/toRecipeContentFragment"
+            app:destination="@id/recipeContentFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/recipeContentFragment"
+        android:name="ru.netology.recipiesbook.Main.RecipeContentFragment"
+        android:label="RecipeContentFragment">
+        <argument
+            android:name="initialContent"
+            app:argType="String"
+            app:nullable="true"
+            android:defaultValue=""
+            />
+    </fragment>
 
     <fragment
         android:id="@+id/favorites_recipes_fragment"
-        android:name="//второй фрагмент"
+        android:name="ru.netology.recipiesbook.Main.FavoriteRecipesFragment"
         android:label="@string/favorites"
         tools:layout="@layout/favorites_recipes_fragment" />
+
 
 
 </navigation>

@@ -2,6 +2,8 @@ package ru.netology.recipiesbook.Main.data
 
 import android.app.Application
 import android.content.Context
+import android.provider.SyncStateContract.Helpers.insert
+import android.provider.SyncStateContract.Helpers.update
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -10,6 +12,8 @@ class MainRepository(private val application : Application): Repository {
 
     private val gson = Gson()
     private val type = TypeToken.getParameterized(List::class.java, Recipe::class.java).type
+
+    private var nextID: Long = 0
 
     private var recipes // значение data.value, проверенное на null
         get() = checkNotNull(data.value) {
@@ -40,10 +44,6 @@ class MainRepository(private val application : Application): Repository {
         const val FILE_NAME = "recipesList.json"
     }
 
-    override fun addNew(recipeId: Long) {
-        TODO("Not yet implemented")
-    }
-
     override fun share(recipeId: Long) {
         TODO("Not yet implemented")
     }
@@ -52,12 +52,25 @@ class MainRepository(private val application : Application): Repository {
         TODO("Not yet implemented")
     }
 
-    override fun save(recipe: Recipe) {
-        TODO("Not yet implemented")
-    }
-
     override fun addToFavorites(recipe: Recipe) {
         TODO("Not yet implemented")
     }
+
+    override fun save(recipe: Recipe) {
+        if (recipe.recipeId == Repository.NEW_RECIPE_ID) insert(recipe) else update(recipe)
+    }
+
+    private fun insert(recipe: Recipe) {
+        nextID = recipes.maxOf { it.recipeId } + 1
+        recipes = listOf(recipe.copy(recipeId = ++nextID)) + recipes
+    }
+
+    private fun update(recipe: Recipe) {
+        recipes = recipes.map {
+            if (it.recipeId == recipe.recipeId) recipe else it
+        }
+    }
+
+
 
 }

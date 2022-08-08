@@ -8,4 +8,6 @@
     </string>
     <string name="all_recipes">all_recipes</string>
     <string name="favorites">favorites</string>
+    <string name="new_recipe_hint">Start to write...</string>
+    <string name="description_recipe_save">Save_recipe</string>
 </resources>

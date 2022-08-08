@@ -8,9 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.adapter.RecipeAdapter
 import ru.netology.recipiesbook.Main.adapterAndViewmodel.RecipesViewModel
+import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.databinding.AllRecipesFragmentBinding
 
-class AllRecipesFragment: Fragment()  {
+class FavoriteRecipesFragment: Fragment()  {
 
     private val viewModel by viewModels<RecipesViewModel>()
 
@@ -29,11 +30,15 @@ class AllRecipesFragment: Fragment()  {
         savedInstanceState: Bundle?
     ) = AllRecipesFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
+        var favorites: List<Recipe>?
+
         val adapter = RecipeAdapter(viewModel)
         binding.PostsRecycleView.adapter = adapter
 
+        // здесь фильтруем список, все остальное так же
         viewModel.data.observe(viewLifecycleOwner) {
-            adapter.submitList(it) // метод вызывает обновление адаптера
+            favorites = viewModel.data.value?.filter { it.addedToFavorites }
+            adapter.submitList(favorites) // метод вызывает обновление адаптера
         }
 
         binding.fab.setOnClickListener {
