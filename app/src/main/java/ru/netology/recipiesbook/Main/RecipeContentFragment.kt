@@ -25,7 +25,7 @@ class RecipeContentFragment : Fragment() {
     ) = RecipeContentFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
         binding.editedText.requestFocus()
-        binding.editedText.setText(args.initialContent?.content)
+        binding.editedText.setText(args.initialContent)
 
         binding.ok.setOnClickListener {
             if (!binding.editedText.text.isNullOrBlank()) {
@@ -41,18 +41,5 @@ class RecipeContentFragment : Fragment() {
         const val CONTENT_KEY = "PostContent"
         const val URL_KEY = "PostUrl"
 
-//        private const val INITIAL_TEXT_KEY = "PostInitialText"
-//        private const val INITIAL_URL_KEY = "PostInitialUrl"
-
-
-        // функция, которую мы вызываем для создания Фрагмента. Потом из аргументов достаем данные (см onCreateView)
-//        fun create(initialContent: PostEditableContent?) = PostContentFragment().apply {
-//            arguments = createBundle(initialContent)
-//        }
-//
-//        fun createBundle(initialContent: PostEditableContent?) = Bundle(2).apply {
-//            putString(INITIAL_TEXT_KEY, initialContent?.content)
-//            putString(INITIAL_URL_KEY, initialContent?.videoUrl)
-//        }
     }
 }

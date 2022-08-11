@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/all_recipes_fragment">
+    app:startDestination="@+id/allRecipesFragment">
 
     <fragment
         android:id="@+id/allRecipesFragment"
@@ -21,9 +21,9 @@
         android:label="RecipeContentFragment">
         <argument
             android:name="initialContent"
-            app:argType="String"
+            app:argType="string"
             app:nullable="true"
-            android:defaultValue=""
+            android:defaultValue="@null"
             />
     </fragment>
 
@@ -32,7 +32,5 @@
         android:name="ru.netology.recipiesbook.Main.FavoriteRecipesFragment"
         android:label="@string/favorites"
         tools:layout="@layout/favorites_recipes_fragment" />
-
-
 
 </navigation>

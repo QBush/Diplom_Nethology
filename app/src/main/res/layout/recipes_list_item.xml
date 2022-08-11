@@ -26,7 +26,7 @@
         android:layout_marginTop="@dimen/common_spacing"
         android:contentDescription="@string/recipe_image"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="authorName"
+        app:layout_constraintTop_toTopOf="@+id/authorName"
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <androidx.appcompat.widget.AppCompatTextView

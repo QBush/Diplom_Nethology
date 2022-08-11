@@ -61,6 +61,7 @@ class MainRepository(private val application : Application): Repository {
     }
 
     private fun insert(recipe: Recipe) {
+        //TODO здесь вылетает
         nextID = recipes.maxOf { it.recipeId } + 1
         recipes = listOf(recipe.copy(recipeId = ++nextID)) + recipes
     }
