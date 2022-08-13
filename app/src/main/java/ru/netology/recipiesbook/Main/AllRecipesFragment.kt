@@ -26,8 +26,6 @@ class AllRecipesFragment: Fragment()  {
             val direction = AllRecipesFragmentDirections.toSingleRecipeFragment(it)
             findNavController().navigate(direction)
         }
-
-
     }
 
     override fun onCreateView(

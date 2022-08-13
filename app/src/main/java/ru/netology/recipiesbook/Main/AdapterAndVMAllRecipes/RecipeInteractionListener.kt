@@ -4,7 +4,8 @@ import ru.netology.recipiesbook.Main.data.Recipe
 
 
 interface RecipeInteractionListener {
-    fun onRemoveClick(recipe : Recipe)
+    fun onRemoveClick(recipeId : Long)
     fun onEditClick(recipe : Recipe)
     fun onContentClick(recipe : Recipe)
+    fun onAddToFavoritesClick (recipeId: Long)
 }

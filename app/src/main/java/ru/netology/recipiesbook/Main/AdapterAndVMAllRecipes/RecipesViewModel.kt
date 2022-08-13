@@ -22,7 +22,7 @@ class RecipesViewModel(
     val data by repository::data
 
     val navigateToSingleRecipeFragment = SingleLiveEvent<Long>()
-    val navigateToRecipeContentFragment = SingleLiveEvent<String>()
+    val navigateToRecipeContentFragment = SingleLiveEvent<Recipe>()
     private val currentRecipe = MutableLiveData<Recipe?>(null)
 
     fun onAddClick() {
@@ -45,15 +45,16 @@ class RecipesViewModel(
 
     override fun onEditClick(recipe: Recipe) {
         currentRecipe.value = recipe
-        navigateToRecipeContentFragment.value = recipe.content
+        navigateToRecipeContentFragment.value = recipe
     }
 
-    override fun onRemoveClick(recipe: Recipe) {
-        TODO("Not yet implemented")
-    }
+    override fun onRemoveClick(recipeId: Long) = repository.delete(recipeId)
 
     override fun onContentClick(recipe: Recipe) {
         navigateToSingleRecipeFragment.value = recipe.recipeId
     }
+
+    override fun onAddToFavoritesClick(recipeId: Long) = repository.addToFavorites(recipeId)
+
 
 }

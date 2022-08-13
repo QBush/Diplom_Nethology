@@ -3,11 +3,13 @@ package ru.netology.nmedia.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.netology.recipiesbook.Main.data.Recipe
+import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.RecipesListItemBinding
 
 internal class RecipesAdapter(
@@ -32,9 +34,31 @@ internal class RecipesAdapter(
 
         private lateinit var recipe: Recipe
 
+        private val popupMenu by lazy {
+            PopupMenu(itemView.context, binding.options).apply {
+                inflate(R.menu.options_recipe)
+                setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.remove -> {
+                            interactionListener.onRemoveClick(recipe.recipeId)
+                            true
+                        }
+                        R.id.edit -> {
+                            interactionListener.onEditClick(recipe)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+            }
+        }
+
         init {
             binding.recipeName.setOnClickListener { interactionListener.onContentClick(recipe) }
-
+            binding.addToFavorites.setOnCheckedChangeListener { _, _ ->
+                interactionListener.onAddToFavoritesClick(recipe.recipeId)
+            }
+            binding.options.setOnClickListener { popupMenu.show() }
         }
 
         fun bind(recipe: Recipe) {
@@ -44,6 +68,7 @@ internal class RecipesAdapter(
                 authorName.text = recipe.author
                 recipeName.text = recipe.recipeName
                 Picasso.get().load(recipe.imageSource).into(binding.mainRecipeImage)
+                addToFavorites.isChecked = recipe.addedToFavorites
             }
         }
     }
