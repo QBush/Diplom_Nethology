@@ -22,11 +22,12 @@
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/app_activity.xml" value="0.22" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/favorites_recipes_fragment.xml" value="0.16058763931104356" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/feed_fragment.xml" value="0.16058763931104356" />
-        <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/recipe_content_fragment.xml" value="0.1" />
+        <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/recipe_content_fragment.xml" value="0.22" />
+        <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/recipe_step_content.xml" value="0.25" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/recipes_list_item.xml" value="0.33" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/single_recipe.xml" value="0.16058763931104356" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/single_recipe_fragment.xml" value="0.22" />
-        <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/single_recipe_step.xml" value="0.16058763931104356" />
+        <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/single_recipe_step.xml" value="0.33" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/single_recipe_step_fragment.xml" value="0.25" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/layout/single_recipe_steps_fragment.xml" value="0.16" />
         <entry key="..\:/JAVA_Projects/Android_DZ/Diplom/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />

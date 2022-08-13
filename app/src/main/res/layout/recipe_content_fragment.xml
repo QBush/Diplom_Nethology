@@ -6,16 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".Main.RecipeContentFragment">
 
-    <EditText
-        android:id="@+id/editedText"
+    <include
+        layout="@layout/recipe_step_content"
+        android:id="@+id/recipeStepContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:gravity="start|top"
-        android:hint="@string/new_recipe_hint"
-        android:inputType="textMultiLine"
-        android:text="@string/recipe_text"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"

@@ -15,4 +15,5 @@
     <string name="recipe_step_image">recipe step image</string>
     <string name="remove">remove</string>
     <string name="menu_edit">edit</string>
+    <string name="new_step_image">Image URL</string>
 </resources>

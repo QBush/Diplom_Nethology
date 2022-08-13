@@ -8,13 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.squareup.picasso.Picasso
 import ru.netology.recipiesbook.Main.AdapterAndVMAllRecipes.RecipesViewModel
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 
 class RecipeContentFragment : Fragment() {
 
-    // в скобках owner
-    private val viewModel by viewModels<RecipesViewModel>()
+
+    private val viewModel by viewModels<RecipesViewModel>(ownerProducer = ::requireParentFragment)
     private val args by navArgs<RecipeContentFragmentArgs>()
 
     override fun onCreateView(
@@ -23,16 +24,28 @@ class RecipeContentFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = RecipeContentFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        binding.editedText.requestFocus()
-        binding.editedText.setText(args.initialConten.)
+        val currentId = args.recipeId
 
-        binding.ok.setOnClickListener {
-            if (!binding.editedText.text.isNullOrBlank()) {
-                val text = binding.editedText.text.toString()
-                viewModel.onSaveButtonClick(text)
+        val currentRecipe = findRecipeById(currentId, viewModel.data.value!!)
+            ?: run {
+                findNavController().popBackStack()
+                return@also
             }
-            findNavController().popBackStack() // уходим назад с этого фрагмента
-        }
+
+//TODO сделать количество полей ниже столько, сколько шагов в рецепте
+        binding.recipeStepContent.stepText.requestFocus()
+        binding.recipeStepContent.stepText.setText(currentRecipe.content[0].stepContent)
+        binding.recipeStepContent.stepImage.setText(currentRecipe.content[0].stepImageURL)
+
+
+//TODO передавать массив по кнопке ok
+//        binding.ok.setOnClickListener {
+//            if (!binding.recipeStepContent.editedText.text.isNullOrBlank()) {
+//                val text = binding.recipeStepContent.editedText.text.toString()
+//                viewModel.onSaveButtonClick(text)
+//            }
+//            findNavController().popBackStack() // уходим назад с этого фрагмента
+//        }
     }.root
 
 

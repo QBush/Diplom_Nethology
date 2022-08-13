@@ -24,8 +24,8 @@
         android:name="ru.netology.recipiesbook.Main.RecipeContentFragment"
         android:label="RecipeContentFragment">
         <argument
-            android:name="initialContent"
-            app:argType="Recipe"
+            android:name="recipeId"
+            app:argType="long"
             app:nullable="true"
             android:defaultValue="@null"
             />
