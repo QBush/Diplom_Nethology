@@ -1,13 +1,17 @@
 <resources>
     <string name="app_name">recipesBook</string>
-    <string name="add_recipe">add_recipe</string>
-    <string name="recipe_image">recipe_image</string>
+    <string name="add_recipe">add recipe</string>
+    <string name="recipe_image">recipe image</string>
     <string name="recipe_text" >
     Test text. Test text. Test text. Test text. Test text. \n
     Test text. Test text. Test text. Test text. Test text.
     </string>
-    <string name="all_recipes">all_recipes</string>
+    <string name="all_recipes">all recipes</string>
     <string name="favorites">favorites</string>
     <string name="new_recipe_hint">Start to write...</string>
-    <string name="description_recipe_save">Save_recipe</string>
+    <string name="description_recipe_save">Save recipe</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="added_to_favorites">Added to favorites</string>
+    <string name="is_not_added_to_favorites">Is not added to favorites</string>
+    <string name="recipe_step_image">recipe step image</string>
 </resources>

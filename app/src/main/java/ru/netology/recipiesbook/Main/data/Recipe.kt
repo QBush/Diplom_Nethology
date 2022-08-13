@@ -1,16 +1,29 @@
 package ru.netology.recipiesbook.Main.data
 
 import kotlinx.serialization.Serializable
+import ru.netology.recipiesbook.Main.db.RecipeEntity
 
+// ImageSourse - Общая картинка рецепта, картинка каждого шага лежит в RecipeContent
 @Serializable
 data class Recipe(
     val recipeId: Long,
+    val recipeName: String,
     val author: String,
-    val content: String,
-    val published: String,
-    val ImageSource: String? = null,
+    val category: Category,
+    val content: List<RecipeContent>,
+    val imageSource: String? = "R.id.baseRecipeImage",
     var addedToFavorites: Boolean = false,
 ){
-
-
+    fun toEntity() = RecipeEntity(
+        recipeId = recipeId,
+        recipeName = recipeName,
+        author = author,
+        category = category,
+        content = content,
+        imageSource = imageSource,
+        addedToFavorites = addedToFavorites,
+    )
+}
+enum class Category {
+    EUROPEAN, ASIAN, PANASIAN, EASTERN, AMERICAN, RUSSIAN, MEDITERRANEAN
 }

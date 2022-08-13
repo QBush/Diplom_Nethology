@@ -6,10 +6,9 @@ interface Repository {
 
     val data: LiveData<List<Recipe>>
 
-    fun share(recipeId: Long)
     fun delete(recipeId: Long)
     fun save(recipe: Recipe)
-    fun addToFavorites(recipe: Recipe)
+    fun addToFavorites(recipeId: Long)
 
 
     companion object {

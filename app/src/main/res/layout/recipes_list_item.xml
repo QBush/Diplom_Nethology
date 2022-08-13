@@ -6,36 +6,74 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/common_spacing">
 
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_options_24dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_spacing"
+        android:layout_marginTop="@dimen/min_spacing"
+        android:ellipsize="end"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="@+id/recipeName"
+        app:layout_constraintTop_toBottomOf="@+id/recipeName"
+        tools:text="Категория" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/authorName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/common_spacing"
-        android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:singleLine="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Имя автора рецепта" />
-
-    <ImageView
-        android:id="@+id/recipeImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/common_spacing"
-        android:layout_marginTop="@dimen/common_spacing"
-        android:contentDescription="@string/recipe_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/authorName"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/category"
+        tools:text="Автор рецепта" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/recipeText"
-        android:layout_width="0dp"
+        android:id="@+id/recipeName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/recipeImage"
-        app:layout_constraintTop_toBottomOf="@+id/recipeImage"
-        tools:text="@string/recipe_text" />
+        android:ellipsize="end"
+        android:textSize="@dimen/big_text_size"
+        app:layout_constraintEnd_toStartOf="@+id/options"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Название рецепта" />
+
+    <ImageView
+        android:id="@+id/mainRecipeImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/recipe_image"
+        android:src="@drawable/baseRecipeImage"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="recipeName"
+        app:layout_constraintTop_toTopOf="@+id/recipeName"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
+
+
+    <ToggleButton
+        android:id="@+id/addToFavorites"
+        style="@style/Widget.AppTheme.ToggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkable="true"
+        android:contentDescription="@string/add_to_favorites"
+        android:textOff="@string/added_to_favorites"
+        android:textOn="@string/is_not_added_to_favorites"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/authorName" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

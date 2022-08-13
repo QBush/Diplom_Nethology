@@ -13,6 +13,10 @@
         <action
             android:id="@+id/toRecipeContentFragment"
             app:destination="@id/recipeContentFragment" />
+        <action
+            android:id="@+id/toSingleRecipeFragment"
+            app:destination="@id/singleRecipeFragment" />
+
     </fragment>
 
     <fragment
@@ -24,6 +28,17 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/singleRecipeFragment"
+        android:name="ru.netology.recipiesbook.Main.SingleRecipeFragment"
+        android:label="RecipeContentFragment">
+        <argument
+            android:name="recipeId"
+            app:argType="long"
+            app:nullable="false"
             />
     </fragment>
 

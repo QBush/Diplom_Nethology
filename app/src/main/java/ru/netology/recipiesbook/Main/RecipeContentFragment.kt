@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import ru.netology.recipiesbook.Main.adapterAndViewmodel.RecipesViewModel
+import ru.netology.recipiesbook.Main.AdapterAndVMAllRecipes.RecipesViewModel
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 
 class RecipeContentFragment : Fragment() {

@@ -2,15 +2,17 @@ package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.databinding.RecipesListItemBinding
 
-internal class RecipeAdapter(
+internal class RecipesAdapter(
     private val interactionListener: RecipeInteractionListener
-) : ListAdapter<Recipe, RecipeAdapter.ViewHolder>(DiffCallback) {
+) : ListAdapter<Recipe, RecipesAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -30,11 +32,18 @@ internal class RecipeAdapter(
 
         private lateinit var recipe: Recipe
 
+        init {
+            binding.recipeName.setOnClickListener { interactionListener.onContentClick(recipe) }
+
+        }
+
         fun bind(recipe: Recipe) {
             this.recipe = recipe
             with(binding) {
-                recipeText.text = recipe.content
+                category.text = recipe.category.toString()
                 authorName.text = recipe.author
+                recipeName.text = recipe.recipeName
+                Picasso.get().load(recipe.imageSource).into(binding.mainRecipeImage)
             }
         }
     }
