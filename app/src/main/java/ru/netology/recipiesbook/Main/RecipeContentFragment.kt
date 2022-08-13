@@ -24,7 +24,7 @@ class RecipeContentFragment : Fragment() {
     ) = RecipeContentFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
         binding.editedText.requestFocus()
-        binding.editedText.setText(args.initialContent)
+        binding.editedText.setText(args.initialConten.)
 
         binding.ok.setOnClickListener {
             if (!binding.editedText.text.isNullOrBlank()) {
@@ -34,6 +34,7 @@ class RecipeContentFragment : Fragment() {
             findNavController().popBackStack() // уходим назад с этого фрагмента
         }
     }.root
+
 
     companion object {
         const val REQUEST_KEY = "RequestKey"
