@@ -16,4 +16,8 @@
     <string name="remove">remove</string>
     <string name="menu_edit">edit</string>
     <string name="new_step_image">Image URL</string>
+    <string name="new_recipe_category">Choose category...</string>
+    <string name="new_recipe_name">Write recipe name...</string>
+    <string name="edited_recipe">Create/Edit recipe</string>
+    <string name="write_steps">Write steps</string>
 </resources>

@@ -1,53 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/common_spacing">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/recipeName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/min_spacing"
-        android:ellipsize="end"
-        android:textSize="@dimen/big_text_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Название рецепта" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/category"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/common_spacing"
-        android:layout_marginTop="@dimen/min_spacing"
-        android:ellipsize="end"
-        android:singleLine="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipeName"
-        tools:text="Категория" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/authorName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/common_spacing"
-        android:ellipsize="end"
-        android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/category"
-        tools:text="Автор рецепта" />
-
-
     <include
-        android:id="@+id/singleRecipeStep"
-        layout="@layout/single_recipe_step"
-        android:layout_width="wrap_content"
+        android:id="@+id/singleListItem"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        layout="@layout/recipes_list_item"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recipeStepsContentFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/common_spacing"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/singleListItem"
+        tools:listitem="@layout/single_recipe_step" />
 
 
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

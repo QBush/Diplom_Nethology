@@ -6,11 +6,57 @@
     android:layout_height="match_parent"
     tools:context=".Main.RecipeContentFragment">
 
-    <include
-        layout="@layout/recipe_step_content"
-        android:id="@+id/recipeStepContent"
+    <TextView
+        android:id="@+id/editedRecipe"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/edited_recipe"
+        android:textSize="@dimen/big_text_size" />
+
+    <EditText
+        android:id="@+id/recipeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@android:color/transparent"
+        android:gravity="start|top"
+        android:hint="@string/new_recipe_name"
+        android:inputType="textMultiLine"
+
+        tools:text="@string/new_recipe_name" />
+
+    <EditText
+        android:id="@+id/category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:background="@android:color/transparent"
+        android:gravity="start|top"
+        android:hint="@string/new_recipe_category"
+        android:inputType="textMultiLine"
+        tools:text="@string/new_recipe_category" />
+
+    <TextView
+        android:id="@+id/editedSteps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:gravity="center"
+        android:text="@string/write_steps"
+        android:textSize="@dimen/big_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recipeStepsContentFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="108dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/category"
+        tools:listitem="@layout/recipe_step_content" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
