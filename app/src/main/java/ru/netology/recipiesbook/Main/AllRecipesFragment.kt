@@ -17,11 +17,11 @@ class AllRecipesFragment: Fragment()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.navigateToRecipeContentFragment.observe(this) {
+        viewModel.navigateToRecipeContentFragmentFromAllRecipes.observe(this) {
             val direction = AllRecipesFragmentDirections.toRecipeContentFragment(it)
             findNavController().navigate(direction)
         }
-// TODO доделать навигацию на отдельный фрагмент
+
         viewModel.navigateToSingleRecipeFragment.observe(this) {
             val direction = AllRecipesFragmentDirections.toSingleRecipeFragment(it)
             findNavController().navigate(direction)

@@ -13,7 +13,7 @@
         layout="@layout/recipes_list_item"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recipeStepsContentFragment"
+        android:id="@+id/recipeStepsContentRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/common_spacing"

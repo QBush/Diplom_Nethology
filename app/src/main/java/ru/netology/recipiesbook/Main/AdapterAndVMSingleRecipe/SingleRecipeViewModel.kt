@@ -7,15 +7,29 @@ import ru.netology.nmedia.db.AppDb
 import ru.netology.recipiesbook.Main.data.MainRepository
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.Main.data.Repository
+import ru.netology.recipiesbook.Main.utils.SingleLiveEvent
 
 class SingleRecipeViewModel(
     application: Application
-): AndroidViewModel(application){
+): AndroidViewModel(application), RecipeInteractionListener {
 
     private val repository: Repository = MainRepository(
         dao = AppDb.getInstance(context = application).postDao
     )
     val data by repository::data
 
+    val navigateToRecipeContentFragmentFromSingleRecipe = SingleLiveEvent<Long>()
+
+    override fun onEditClick(recipe: Recipe) {
+        navigateToRecipeContentFragmentFromSingleRecipe.value = recipe.recipeId
+    }
+
+    override fun onRemoveClick(recipeId: Long) = repository.delete(recipeId)
+
+    override fun onContentClick(recipe: Recipe) {
+        // nothing to do
+    }
+
+    override fun onAddToFavoritesClick(recipeId: Long) = repository.addToFavorites(recipeId)
 
 }

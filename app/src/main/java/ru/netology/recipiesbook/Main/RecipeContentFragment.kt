@@ -13,6 +13,8 @@ import ru.netology.recipiesbook.Main.AdapterAndVMAllRecipes.RecipesViewModel
 
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 
+//TODO тоже сделать через RcycleView, при нажатии "добавить" в массив шагов добавляется новый элемент,
+// что заставляет перерисовывать разметку
 class RecipeContentFragment : Fragment() {
 
     private val viewModel by viewModels<RecipesViewModel>(ownerProducer = ::requireParentFragment)
