@@ -32,5 +32,14 @@
         tools:text="@string/new_step_image"
     />
 
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/deleteStepButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_options_24dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

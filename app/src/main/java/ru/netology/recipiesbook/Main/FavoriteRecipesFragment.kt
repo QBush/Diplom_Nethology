@@ -21,7 +21,7 @@ class FavoriteRecipesFragment: Fragment()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.navigateToRecipeContentFragment.observe(this) {
+        viewModel.navigateToRecipeContentFragmentFromAllRecipes.observe(this) {
             val direction = AllRecipesFragmentDirections.toRecipeContentFragment(it)
             findNavController().navigate(direction)
         }

@@ -10,6 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import ru.netology.recipiesbook.Main.AdapterAndVMAllRecipes.RecipesViewModel
+import ru.netology.recipiesbook.Main.AdapterAndVMContentRecipe.RecipeContentAdapter
+import ru.netology.recipiesbook.Main.AdapterAndVMContentRecipe.RecipeContentViewModel
+import ru.netology.recipiesbook.Main.AdapterAndVMSingleRecipe.SingleRecipeAdapter
 
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 
@@ -17,8 +20,25 @@ import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 // что заставляет перерисовывать разметку
 class RecipeContentFragment : Fragment() {
 
-    private val viewModel by viewModels<RecipesViewModel>(ownerProducer = ::requireParentFragment)
+    private val viewModel by viewModels<RecipeContentViewModel>(ownerProducer = ::requireParentFragment)
     private val args by navArgs<RecipeContentFragmentArgs>()
+
+    private val currentId = args.recipeId
+// TODO Если рецепт ID новый, то... Посмотреть, как сделано в основном проекте.
+
+    // TODO Здесь если рецепта нет(то есть пришли через плюс), то одни действия,
+    // TODO если есть(пришли через редактирование), то другие. Посмотреть основной проект
+    private val currentRecipe = findRecipeById(currentId, viewModel.data.value!!)
+        ?: // TODO новый рецепт
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        //TODO может быть, перенести в onCreateView ?
+        viewModel.deleteStepEvent.observe(this) {
+            currentRecipe
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,26 +46,25 @@ class RecipeContentFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = RecipeContentFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        val currentId = args.recipeId
+        with(binding) {
+            recipeName.setText(currentRecipe.recipeName)
+            category.setText(currentRecipe.category.toString())
+            //TODO Сделать добавление ячейки в массиве с пустыми значениями
+            plusStepButton.setOnClickListener {
 
-        val currentRecipe = findRecipeById(currentId, viewModel.data.value!!)
-            ?: run {
-                findNavController().popBackStack()
-                return@also
             }
+        }
 
-//TODO сделать количество полей ниже столько, сколько шагов в рецепте
         binding.recipeName.setText(currentRecipe.recipeName)
+        //TODO сделать выбор из ENUM ниже
         binding.category.setText(currentRecipe.category.toString())
 
+        val adapter = RecipeContentAdapter()
+        binding.recipeStepsContentFragment.adapter = adapter
 
-        binding.stepText.setText(currentRecipe.content[0].stepContent)
-        binding.stepImage.setText(currentRecipe.content[0].stepImageURL)
-
-        //TODO как задать параметры полученному вью
-        var layout = binding.stepLayout
-        binding.plusStepButton.setOnClickListener {
-            var stepText1 = layout.addView(EditText(layout.context))
+        viewModel.data.observe(viewLifecycleOwner) {
+            adapter.submitList(findRecipeById(currentId,it)?.content)
+        // метод вызывает обновление адаптера
         }
 
 

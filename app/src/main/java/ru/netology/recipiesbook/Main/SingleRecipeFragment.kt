@@ -46,8 +46,6 @@ class SingleRecipeFragment : Fragment() {
                 return@also
             }
 
-        binding.singleListItem
-
         val popupMenu by lazy {
             PopupMenu(context, binding.singleListItem.options).apply {
                 inflate(R.menu.options_recipe)
@@ -71,17 +69,14 @@ class SingleRecipeFragment : Fragment() {
             singleListItem.recipeName.text = currentRecipe.recipeName
             singleListItem.category.text = currentRecipe.category.toString()
             singleListItem.authorName.text = currentRecipe.author
+            singleListItem.options.setOnClickListener { popupMenu.show() }
         }
 
         val adapter = SingleRecipeAdapter()
         binding.recipeStepsContentRecyclerView.adapter = adapter
 
         viewModel.data.observe(viewLifecycleOwner) {
-            adapter.submitList(
-                findRecipeById(
-                    currentId,
-                    it
-                )?.content
+            adapter.submitList(findRecipeById(currentId,it)?.content
             ) // метод вызывает обновление адаптера
         }
     }.root

@@ -13,7 +13,7 @@ import ru.netology.recipiesbook.Main.db.RecipeDao
 
 class MainRepository(private val dao: RecipeDao): Repository {
 
-
+//TODO сделать метод save Массив в стринг переделать
     override val data = dao.getAll().map{ entities ->
         entities.map { it.toModel() }
     }
@@ -30,4 +30,6 @@ class MainRepository(private val dao: RecipeDao): Repository {
 //        if (recipe.recipeId == NEW_RECIPE_ID) dao.insert(recipe.toEntity())
 //        else dao.updateContentById(recipe.recipeId, recipe.content)
     }
+
+
 }
