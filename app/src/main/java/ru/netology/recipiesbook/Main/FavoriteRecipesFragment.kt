@@ -7,10 +7,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.adapter.RecipesAdapter
+
 import ru.netology.recipiesbook.Main.AdapterAndVMAllRecipes.RecipesViewModel
+
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.databinding.AllRecipesFragmentBinding
 
+//TODO сделать фильтр только по избранному
 class FavoriteRecipesFragment: Fragment()  {
 
     private val viewModel by viewModels<RecipesViewModel>()

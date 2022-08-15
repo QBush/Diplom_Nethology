@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 import ru.netology.recipiesbook.Main.db.RecipeEntity
 
 // ImageSourse - Общая картинка рецепта, картинка каждого шага лежит в RecipeContent
+// Поля content и url
 @Serializable
 data class Recipe(
     val recipeId: Long,

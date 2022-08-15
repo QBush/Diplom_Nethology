@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.adapter.RecipeInteractionListener
 import ru.netology.nmedia.db.AppDb
-import ru.netology.recipiesbook.Main.data.Category
 import ru.netology.recipiesbook.Main.data.MainRepository
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.Main.data.Repository
@@ -29,19 +28,19 @@ class RecipesViewModel(
         navigateToRecipeContentFragment.call()
     }
 
-    fun onSaveButtonClick(content: String) {
-        if (content.isBlank()) return
-        val recipe = currentRecipe.value?.copy(
-            content = content) ?: Recipe(
-            recipeId = Repository.NEW_RECIPE_ID,
-            recipeName = "Первый",//TODO заполняемое при создании
-            author = "me",
-            category = Category.AMERICAN,//TODO заполняемое при создании
-            content = content,
-        )
-        repository.save(recipe)
-        currentRecipe.value = null
-    }
+//    fun onSaveButtonClick(content: String) {
+//        if (content.isBlank()) return
+//        val recipe = currentRecipe.value?.copy(
+//            content = content) ?: Recipe(
+//            recipeId = Repository.NEW_RECIPE_ID,
+//            recipeName = "Первый",//TODO заполняемое при создании
+//            author = "me",
+//            category = Category.AMERICAN,//TODO заполняемое при создании
+//            content = content,
+//        )
+//        repository.save(recipe)
+//        currentRecipe.value = null
+//    }
 
     override fun onEditClick(recipe: Recipe) {
         currentRecipe.value = recipe
