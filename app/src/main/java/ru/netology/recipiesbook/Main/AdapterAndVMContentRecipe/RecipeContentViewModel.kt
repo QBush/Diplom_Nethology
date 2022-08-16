@@ -21,4 +21,8 @@ class RecipeContentViewModel(
     override fun onDeleteStepClick(stepNumber: Int) {
         deleteStepEvent.value = stepNumber
     }
+
+    override fun onSaveButtonClick() {
+        TODO("Not yet implemented")
+    }
 }
