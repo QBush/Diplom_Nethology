@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import ru.netology.nmedia.db.AppDb
 import ru.netology.recipiesbook.Main.data.MainRepository
+import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.Main.data.Repository
 import ru.netology.recipiesbook.Main.utils.SingleLiveEvent
 
@@ -22,7 +23,7 @@ class RecipeContentViewModel(
         deleteStepEvent.value = stepNumber
     }
 
-    override fun onSaveButtonClick() {
-        TODO("Not yet implemented")
+    override fun onSaveButtonClick(recipe: Recipe) {
+        repository.save(recipe)
     }
 }

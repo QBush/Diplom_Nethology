@@ -2,6 +2,7 @@ package ru.netology.recipiesbook.Main.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import ru.netology.recipiesbook.Main.data.Category
 
 
 //интерфейс, для приема/отдачи данных из/в БД
@@ -13,8 +14,17 @@ interface RecipeDao {
     @Insert
     fun insert(recipe: RecipeEntity)
 
-    @Query("UPDATE recipes SET content =:content WHERE recipeId =:recipeId")
-    fun updateContentById(recipeId: Long, content: String)
+    //TODO расковырять Entity без точки
+    @Query("""
+        UPDATE recipes SET            
+            recipeName =:recipe.recipeName,
+            category =:recipe.category,
+            content =:recipe.content,
+            imageSource =:recipe.imageSource
+WHERE recipeId =:recipeId
+                """)
+    fun updateContentById(recipeId: Long, recipe: RecipeEntity)
+
 
     @Query("""
         UPDATE recipes SET

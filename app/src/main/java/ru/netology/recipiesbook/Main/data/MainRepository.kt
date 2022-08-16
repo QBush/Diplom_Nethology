@@ -27,8 +27,8 @@ class MainRepository(private val dao: RecipeDao): Repository {
     }
 
     override fun save(recipe: Recipe) {
-//        if (recipe.recipeId == NEW_RECIPE_ID) dao.insert(recipe.toEntity())
-//        else dao.updateContentById(recipe.recipeId, recipe.content)
+        if (recipe.recipeId == NEW_RECIPE_ID) dao.insert(recipe.toEntity())
+        else dao.updateContentById(recipe.recipeId, recipe.toEntity())
     }
 
 

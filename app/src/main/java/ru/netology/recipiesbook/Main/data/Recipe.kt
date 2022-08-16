@@ -1,7 +1,5 @@
 package ru.netology.recipiesbook.Main.data
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import ru.netology.recipiesbook.Main.db.RecipeEntity
 
@@ -14,16 +12,17 @@ data class Recipe(
     val author: String = "Netology",
     val category: Category,
     val content: MutableList<RecipeContent>,
-    val imageSource: String? = "R.id.baseRecipeImage",
+    val mainImageSource: String? = "R.id.baseRecipeImage",
     var addedToFavorites: Boolean = false,
 ){
+    //TODO сделать запись контента
     fun toEntity() = RecipeEntity(
         recipeId = recipeId,
         recipeName = recipeName,
         author = author,
         category = category,
         content = content,
-        imageSource = imageSource,
+        imageSource = mainImageSource,
         addedToFavorites = addedToFavorites,
     )
 }

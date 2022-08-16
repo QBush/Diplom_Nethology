@@ -1,5 +1,6 @@
 package ru.netology.recipiesbook.Main
-// Активити для редактирования и создания поста
+
+/ / Активити для редактирования и создания поста
 
 import android.content.Context
 import android.os.Bundle
@@ -57,6 +58,7 @@ class RecipeContentFragment : Fragment() {
                 recipeName.setText(currentRecipe?.recipeName ?: FREE_SPACE)
                 //TODO сделать выбор из ENUM ниже
                 category.setText(currentRecipe?.category.toString())
+                mainRecipeImage.setText(currentRecipe?.mainImageSource ?: FREE_SPACE)
 // добавляет шаг рецепта, обновляет индексы и адаптер
                 plusStepButton.setOnClickListener {
                     currentRecipe?.content?.add(
@@ -89,10 +91,21 @@ class RecipeContentFragment : Fragment() {
 //TODO передавать массив по кнопке ok
             binding.ok.setOnClickListener {
                 updateCurrentRecipe(binding)
-                viewModel.onSaveButtonClick(currentRecipe)
-                previousContent?.edit()?.clear()?.apply()
-                findNavController().popBackStack() // уходим назад с этого фрагмента
+                if (
+                    binding.recipeName.text.isBlank() ||
+                    binding.category.text.isBlank() ||
+                    currentRecipe?.content.isNullOrEmpty()
+                ) {
+                    //TODO вывести сообщение "заполните все поля"
+                }
 
+                try {
+                    viewModel.onSaveButtonClick(currentRecipe!!)
+                } catch (e: NullPointerException) {
+                    println("Текущий рецепт имеет нулевое значение")
+                }
+                previousContent?.edit()?.clear()?.apply()
+                findNavController().popBackStack()
             }
         }.root
 
@@ -108,6 +121,7 @@ class RecipeContentFragment : Fragment() {
     //TODO как установить ENUM значение
     fun updateCurrentRecipe(binding: RecipeContentFragmentBinding) {
         val currentName = binding.recipeName.text.toString()
+        val mainImageSource = binding.mainRecipeImage.text.toString()
         val currentCategory = binding.category.text.toString()
         val emptyStep = mutableListOf(
             RecipeContent(
@@ -118,6 +132,7 @@ class RecipeContentFragment : Fragment() {
             Recipe(
                 recipeId = currentId,
                 recipeName = currentName,
+                mainImageSource = mainImageSource,
                 category = Category.currentCategory,
                 content = currentRecipe?.content ?: emptyStep
             )

@@ -39,6 +39,18 @@
         app:layout_constraintTop_toBottomOf="@id/recipeName"
         tools:text="@string/new_recipe_category" />
 
+    <EditText
+        android:id="@+id/mainRecipeImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:gravity="start|top"
+        android:hint="@string/main_image"
+        android:inputType="textMultiLine"
+        android:paddingTop="@dimen/common_spacing"
+        app:layout_constraintTop_toBottomOf="@+id/category"
+        tools:text="@string/main_image" />
+
     <TextView
         android:id="@+id/editedSteps"
         android:layout_width="match_parent"
@@ -47,7 +59,7 @@
         android:paddingTop="@dimen/common_spacing"
         android:text="@string/add_steps"
         android:textSize="@dimen/big_text_size"
-        app:layout_constraintTop_toBottomOf="@id/category"
+        app:layout_constraintTop_toBottomOf="@+id/mainRecipeImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

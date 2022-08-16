@@ -14,6 +14,7 @@ import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.databinding.AllRecipesFragmentBinding
 
 //TODO сделать фильтр только по избранному
+// (прямо из XML таблицы можно доставать такой массив, а можно из вью-модели)
 class FavoriteRecipesFragment: Fragment()  {
 
     private val viewModel by viewModels<RecipesViewModel>()

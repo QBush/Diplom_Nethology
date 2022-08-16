@@ -10,10 +10,10 @@ import ru.netology.recipiesbook.Main.data.RecipeContent
 @Entity(tableName = "recipes")
 class RecipeEntity(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "recipeName")
-    val recipeName: String,
     @ColumnInfo(name = "recipeId")
     val recipeId: Long,
+    @ColumnInfo(name = "recipeName")
+    val recipeName: String,
     @ColumnInfo(name = "author")
     val author: String,
     @ColumnInfo(name = "Category")
@@ -25,13 +25,14 @@ class RecipeEntity(
     @ColumnInfo(name = "addedToFavorites")
     var addedToFavorites: Boolean = false
 ){
+    // TODO сделать извлечение контента
     fun toModel() = Recipe(
         recipeId = recipeId,
         recipeName = recipeName,
         author = author,
         category = category,
         content = content,
-        imageSource = imageSource,
+        mainImageSource = imageSource,
         addedToFavorites = addedToFavorites,
     )
 }

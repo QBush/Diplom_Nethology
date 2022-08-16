@@ -20,4 +20,5 @@
     <string name="new_recipe_name">Write recipe name...</string>
     <string name="edited_recipe">Create/Edit recipe</string>
     <string name="add_steps">Add steps:</string>
+    <string name="main_image">main image link...</string>
 </resources>
