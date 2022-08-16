@@ -13,5 +13,6 @@ interface Repository {
 
     companion object {
         const val NEW_RECIPE_ID = 0L
+
     }
 }

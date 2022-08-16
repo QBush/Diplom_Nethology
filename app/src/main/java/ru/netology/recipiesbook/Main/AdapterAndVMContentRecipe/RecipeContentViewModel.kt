@@ -18,7 +18,6 @@ class RecipeContentViewModel(
     )
     val data by repository::data
 
-
     override fun onDeleteStepClick(stepNumber: Int) {
         deleteStepEvent.value = stepNumber
     }

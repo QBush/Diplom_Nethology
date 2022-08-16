@@ -4,7 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RecipeContent(
-    val stepNumber: Int,
+    //TODO нужен метод синхронизации номера шага и номера в массиве или ...
+    val stepNumber: Int = 0,
     val stepContent: String,
     val stepImageURL: String? = null
 ) {

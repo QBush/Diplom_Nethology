@@ -9,11 +9,11 @@ import ru.netology.recipiesbook.Main.db.RecipeEntity
 // Поля content и url
 @Serializable
 data class Recipe(
-    val recipeId: Long,
+    val recipeId: Long = 0L,
     val recipeName: String,
-    val author: String,
+    val author: String = "Netology",
     val category: Category,
-    val content: List<RecipeContent>,
+    val content: MutableList<RecipeContent>,
     val imageSource: String? = "R.id.baseRecipeImage",
     var addedToFavorites: Boolean = false,
 ){
