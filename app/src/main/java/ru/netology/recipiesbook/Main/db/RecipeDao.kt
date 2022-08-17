@@ -14,23 +14,31 @@ interface RecipeDao {
     @Insert
     fun insert(recipe: RecipeEntity)
 
-    //TODO расковырять Entity без точки
-    @Query("""
+
+    @Query(
+        """
         UPDATE recipes SET            
-            recipeName =:recipe.recipeName,
-            category =:recipe.category,
-            content =:recipe.content,
-            imageSource =:recipe.imageSource
-WHERE recipeId =:recipeId
-                """)
-    fun updateContentById(recipeId: Long, recipe: RecipeEntity)
+            recipeName =:recipeName,
+            author =:author,
+            category =:category,
+            content =:content,
+            imageSource =:mainImageSource
+        WHERE recipeId =:recipeId
+                """
+    )
+    fun updateContentById(
+        recipeId: Long, recipeName: String, author: String, category: String,
+        content: String, mainImageSource: String?
+    )
 
 
-    @Query("""
+    @Query(
+        """
         UPDATE recipes SET
         addedToFavorites = CASE WHEN addedToFavorites THEN 0 ELSE 1 END
         WHERE recipeId = :recipeId
-        """)
+        """
+    )
     fun addToFavorites(recipeId: Long)
 
 

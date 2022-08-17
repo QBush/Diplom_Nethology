@@ -8,13 +8,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import ru.netology.recipiesbook.Main.data.Repository.Companion.NEW_RECIPE_ID
 import ru.netology.recipiesbook.Main.db.RecipeDao
 
-class MainRepository(private val dao: RecipeDao): Repository {
+class MainRepository(private val dao: RecipeDao) : Repository {
 
-//TODO сделать метод save Массив в стринг переделать
-    override val data = dao.getAll().map{ entities ->
+    override val data = dao.getAll().map { entities ->
         entities.map { it.toModel() }
     }
 
@@ -26,10 +27,21 @@ class MainRepository(private val dao: RecipeDao): Repository {
         dao.addToFavorites(recipeid)
     }
 
+//    override fun save(recipe: Recipe) {
+//        if (recipe.recipeId == NEW_RECIPE_ID) dao.insert(recipe.toEntity())
+//        else dao.updateContentById(recipe.recipeId, recipe.toEntity())
+//    }
+
     override fun save(recipe: Recipe) {
         if (recipe.recipeId == NEW_RECIPE_ID) dao.insert(recipe.toEntity())
-        else dao.updateContentById(recipe.recipeId, recipe.toEntity())
+        else dao.updateContentById(
+            recipe.recipeId,
+            recipe.recipeName,
+            recipe.author,
+            recipe.category.toString(),
+            Json.encodeToString(recipe.content),
+            recipe.mainImageSource
+        )
     }
-
 
 }

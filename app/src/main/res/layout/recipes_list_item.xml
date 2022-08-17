@@ -55,7 +55,7 @@
         android:layout_height="@dimen/main_image_height"
         android:contentDescription="@string/recipe_image"
         android:visibility="visible"
-        app:layout_constraintStart_toStartOf="recipeName"
+        app:layout_constraintStart_toStartOf="@+id/recipeName"
         app:layout_constraintTop_toBottomOf="@+id/category"
         app:srcCompat="@drawable/base_recipe_image" />
 

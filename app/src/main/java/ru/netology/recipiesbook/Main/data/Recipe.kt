@@ -1,6 +1,8 @@
 package ru.netology.recipiesbook.Main.data
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import ru.netology.recipiesbook.Main.db.RecipeEntity
 
 // ImageSourse - Общая картинка рецепта, картинка каждого шага лежит в RecipeContent
@@ -20,8 +22,8 @@ data class Recipe(
         recipeId = recipeId,
         recipeName = recipeName,
         author = author,
-        category = category,
-        content = content,
+        category = category.toString(),
+        content = Json.encodeToString(content),
         imageSource = mainImageSource,
         addedToFavorites = addedToFavorites,
     )

@@ -3,6 +3,8 @@ package ru.netology.recipiesbook.Main.db
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import ru.netology.recipiesbook.Main.data.Category
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.Main.data.RecipeContent
@@ -17,9 +19,9 @@ class RecipeEntity(
     @ColumnInfo(name = "author")
     val author: String,
     @ColumnInfo(name = "Category")
-    val category: Category,
+    val category: String,
     @ColumnInfo(name = "content")
-    val content: List<RecipeContent>,
+    val content: String,
     @ColumnInfo(name = "ImageSource")
     var imageSource: String?,
     @ColumnInfo(name = "addedToFavorites")
@@ -30,8 +32,8 @@ class RecipeEntity(
         recipeId = recipeId,
         recipeName = recipeName,
         author = author,
-        category = category,
-        content = content,
+        category = Category.valueOf(category),
+        content = Json.decodeFromString(content),
         mainImageSource = imageSource,
         addedToFavorites = addedToFavorites,
     )

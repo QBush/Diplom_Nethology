@@ -1,6 +1,6 @@
 package ru.netology.recipiesbook.Main
 
-/ / Активити для редактирования и создания поста
+// Фрагмент для редактирования и создания поста
 
 import android.content.Context
 import android.os.Bundle
@@ -23,7 +23,6 @@ import ru.netology.recipiesbook.Main.data.RecipeContent
 
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 
-//TODO реализовать сохранение предыдущих шагов при создании нового рецепта
 //TODO как-то умненьшить количество вопросительных знаков
 class RecipeContentFragment : Fragment() {
 
@@ -88,15 +87,20 @@ class RecipeContentFragment : Fragment() {
                 findNavController().popBackStack()
             }
 
-//TODO передавать массив по кнопке ok
             binding.ok.setOnClickListener {
                 updateCurrentRecipe(binding)
                 if (
                     binding.recipeName.text.isBlank() ||
-                    binding.category.text.isBlank() ||
-                    currentRecipe?.content.isNullOrEmpty()
+                    binding.category.text.isBlank()
                 ) {
                     //TODO вывести сообщение "заполните все поля"
+                    return@setOnClickListener
+                }
+                if(
+                    currentRecipe?.content.isNullOrEmpty()
+                ) {
+                    //TODO вывести сообщение "рецепт должен содержать как минимум 1 этап"
+                    return@setOnClickListener
                 }
 
                 try {
@@ -133,7 +137,7 @@ class RecipeContentFragment : Fragment() {
                 recipeId = currentId,
                 recipeName = currentName,
                 mainImageSource = mainImageSource,
-                category = Category.currentCategory,
+                category = Category.valueOf(currentCategory),
                 content = currentRecipe?.content ?: emptyStep
             )
     }
