@@ -37,7 +37,8 @@
         android:inputType="textMultiLine"
         android:paddingTop="@dimen/common_spacing"
         app:layout_constraintTop_toBottomOf="@id/recipeName"
-        tools:text="@string/new_recipe_category" />
+        tools:text="@string/new_recipe_category"
+        android:cursorVisible="false"/>
 
     <EditText
         android:id="@+id/mainRecipeImage"
@@ -90,8 +91,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+
         app:srcCompat="@drawable/ic_ok_24dp"
-        tools:ignore="MissingConstraints" />
+ />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

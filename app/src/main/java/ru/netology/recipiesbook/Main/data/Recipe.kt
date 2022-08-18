@@ -9,7 +9,7 @@ import ru.netology.recipiesbook.Main.db.RecipeEntity
 // Поля content и url
 @Serializable
 data class Recipe(
-    val recipeId: Long = 0L,
+    val recipeId: Long,
     val recipeName: String,
     val author: String = "Netology",
     val category: Category,

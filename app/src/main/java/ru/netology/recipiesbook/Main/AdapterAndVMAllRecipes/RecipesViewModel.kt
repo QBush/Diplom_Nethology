@@ -8,6 +8,7 @@ import ru.netology.nmedia.db.AppDb
 import ru.netology.recipiesbook.Main.data.MainRepository
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.Main.data.Repository
+import ru.netology.recipiesbook.Main.data.Repository.Companion.NEW_RECIPE_ID
 import ru.netology.recipiesbook.Main.utils.SingleLiveEvent
 
 class RecipesViewModel(
@@ -25,7 +26,7 @@ class RecipesViewModel(
     private val currentRecipe = MutableLiveData<Recipe?>(null)
 
     fun onAddClick() {
-        navigateToRecipeContentFragmentFromAllRecipes.call()
+        navigateToRecipeContentFragmentFromAllRecipes.value = NEW_RECIPE_ID
     }
 
 //    fun onSaveButtonClick(content: String) {

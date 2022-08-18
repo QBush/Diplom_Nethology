@@ -15,33 +15,27 @@ import androidx.navigation.fragment.navArgs
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromJsonElement
 import ru.netology.recipiesbook.Main.AdapterAndVMContentRecipe.RecipeContentAdapter
 import ru.netology.recipiesbook.Main.AdapterAndVMContentRecipe.RecipeContentViewModel
 import ru.netology.recipiesbook.Main.data.Category
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.Main.data.RecipeContent
+import ru.netology.recipiesbook.Main.data.Repository.Companion.NEW_RECIPE_ID
 
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 
-//TODO как-то умненьшить количество вопросительных знаков
+//TODO как-то умненьшить количество вопросительных знаков. get() checkNotNull
+//TODO убрать BottomBar
+//TODO убрать null из категории при старте
+//TODO не работает добавление шагов
 class RecipeContentFragment : Fragment() {
 
     private val viewModel by viewModels<RecipeContentViewModel>(ownerProducer = ::requireParentFragment)
     private val args by navArgs<RecipeContentFragmentArgs>()
 
-    private val previousContent = context?.getSharedPreferences(
-        "previousNewContent", Context.MODE_PRIVATE
-    )
-    private val currentId = args.recipeId
 
-    val content = previousContent?.getString(SAVED_RECIPE_KEY, null)
 
-    private val previousRecipeContent: Recipe? = if (content != null) {
-        Json.decodeFromString(content)
-    } else null
-
-    private var currentRecipe = findRecipeById(currentId, viewModel.data.value!!)
-        ?: previousRecipeContent
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +43,26 @@ class RecipeContentFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = RecipeContentFragmentBinding.inflate(layoutInflater, container, false)
         .also { binding ->
+
+            // берем переданный ID
+            val currentId = args.recipeId
+
+            //получаем сохраненный преференс
+            val previousContent = context?.getSharedPreferences(
+                "previousNewContent", Context.MODE_PRIVATE
+            )
+
+            // читаем преференс
+            val content = previousContent?.getString(SAVED_RECIPE_KEY, null)
+
+            // декодируем преференс
+            val previousRecipeContent: Recipe? = if (content != null) {
+                Json.decodeFromString(content)
+            } else null
+
+            //назначаем текущий рецепт либо старым, либо если там null, то берем сохраненный ранее
+            var currentRecipe = viewModel.data.value?.let { findRecipeById(currentId, it) }
+                ?: previousRecipeContent
 
             val adapter = RecipeContentAdapter(viewModel)
             binding.recipeStepsContentFragment.adapter = adapter
@@ -78,17 +92,17 @@ class RecipeContentFragment : Fragment() {
                 adapter.submitList(currentRecipe?.content)
             }
 
+            // при движении назад сохраняем Преф
             requireActivity().onBackPressedDispatcher.addCallback(this) {
-                updateCurrentRecipe(binding)
+                currentRecipe = updateCurrentRecipe(binding, currentRecipe, currentId)
                 previousContent?.edit {
-                    Json.encodeToString(currentRecipe)
-                    putString(SAVED_RECIPE_KEY, currentRecipe.toString())
+                    putString(SAVED_RECIPE_KEY, Json.encodeToString(currentRecipe))
                 }
                 findNavController().popBackStack()
             }
 
             binding.ok.setOnClickListener {
-                updateCurrentRecipe(binding)
+                currentRecipe = updateCurrentRecipe(binding, currentRecipe, currentId)
                 if (
                     binding.recipeName.text.isBlank() ||
                     binding.category.text.isBlank()
@@ -96,7 +110,7 @@ class RecipeContentFragment : Fragment() {
                     //TODO вывести сообщение "заполните все поля"
                     return@setOnClickListener
                 }
-                if(
+                if (
                     currentRecipe?.content.isNullOrEmpty()
                 ) {
                     //TODO вывести сообщение "рецепт должен содержать как минимум 1 этап"
@@ -111,34 +125,33 @@ class RecipeContentFragment : Fragment() {
                 previousContent?.edit()?.clear()?.apply()
                 findNavController().popBackStack()
             }
+            //TODO
+            binding.plusStepButton.setOnClickListener {
+                currentRecipe?.content?.add(RecipeContent())
+            }
+
         }.root
 
-    companion object {
-        const val REQUEST_KEY = "RequestKey"
-        const val CONTENT_KEY = "PostContent"
-        const val URL_KEY = "PostUrl"
 
-        private const val SAVED_RECIPE_KEY = "PreviousNewRecipeContent"
+    companion object {
+        private const val SAVED_RECIPE_KEY = "PreviousNewRecipeId"
         private const val FREE_SPACE = ""
     }
 
     //TODO как установить ENUM значение
-    fun updateCurrentRecipe(binding: RecipeContentFragmentBinding) {
-        val currentName = binding.recipeName.text.toString()
-        val mainImageSource = binding.mainRecipeImage.text.toString()
-        val currentCategory = binding.category.text.toString()
-        val emptyStep = mutableListOf(
-            RecipeContent(
-                stepContent = FREE_SPACE
-            )
-        )
-        currentRecipe =
-            Recipe(
+    private fun updateCurrentRecipe(
+        binding: RecipeContentFragmentBinding,
+        currentRecipe: Recipe?,
+        currentId: Long): Recipe = Recipe(
                 recipeId = currentId,
-                recipeName = currentName,
-                mainImageSource = mainImageSource,
-                category = Category.valueOf(currentCategory),
-                content = currentRecipe?.content ?: emptyStep
+                recipeName = binding.recipeName.text.toString(),
+                mainImageSource = binding.mainRecipeImage.text.toString(),
+                category = Category.valueOf(binding.category.text.toString()),
+                content = currentRecipe?.content ?: mutableListOf(
+                    RecipeContent(
+                        stepContent = FREE_SPACE
+                    )
+                )
             )
-    }
+
 }
