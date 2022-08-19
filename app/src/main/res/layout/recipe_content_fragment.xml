@@ -27,18 +27,18 @@
         app:layout_constraintTop_toBottomOf="@id/editedRecipe"
         tools:text="@string/new_recipe_name" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
+        android:cursorVisible="false"
         android:gravity="start|top"
         android:hint="@string/new_recipe_category"
         android:inputType="textMultiLine"
         android:paddingTop="@dimen/common_spacing"
         app:layout_constraintTop_toBottomOf="@id/recipeName"
-        tools:text="@string/new_recipe_category"
-        android:cursorVisible="false"/>
+        tools:text="@string/new_recipe_category" />
 
     <EditText
         android:id="@+id/mainRecipeImage"
@@ -60,9 +60,9 @@
         android:paddingTop="@dimen/common_spacing"
         android:text="@string/add_steps"
         android:textSize="@dimen/big_text_size"
-        app:layout_constraintTop_toBottomOf="@+id/mainRecipeImage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainRecipeImage" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/plusStepButton"
@@ -87,13 +87,12 @@
         android:id="@+id/ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/bottom_bar_size"
         android:contentDescription="@string/description_recipe_save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-
-        app:srcCompat="@drawable/ic_ok_24dp"
- />
+        app:srcCompat="@drawable/ic_ok_24dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

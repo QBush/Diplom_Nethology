@@ -8,6 +8,14 @@
     android:padding="@dimen/common_spacing"
     tools:context=".Main.AllRecipesFragment">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/favorites"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/PostsRecycleView"
         android:layout_width="match_parent"

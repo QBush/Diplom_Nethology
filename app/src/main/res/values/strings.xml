@@ -6,8 +6,8 @@
     Test text. Test text. Test text. Test text. Test text. \n
     Test text. Test text. Test text. Test text. Test text.
     </string>
-    <string name="all_recipes">all recipes</string>
-    <string name="favorites">favorites</string>
+    <string name="all_recipes">All recipes</string>
+    <string name="favorites">Favorites</string>
     <string name="new_recipe_hint">Start to write...</string>
     <string name="description_recipe_save">Save recipe</string>
     <string name="add_to_favorites">Add to favorites</string>
@@ -21,4 +21,7 @@
     <string name="edited_recipe">Create/Edit recipe</string>
     <string name="add_steps">Add steps:</string>
     <string name="main_image">main image link...</string>
+    <string name="fill_fields">Fill Name and Category fields first</string>
+    <string name="step_needed">Recipe must contain at least 1 step</string>
+
 </resources>

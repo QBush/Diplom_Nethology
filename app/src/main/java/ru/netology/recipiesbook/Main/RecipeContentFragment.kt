@@ -4,8 +4,15 @@ package ru.netology.recipiesbook.Main
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
@@ -22,19 +29,20 @@ import ru.netology.recipiesbook.Main.data.Category
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.Main.data.RecipeContent
 import ru.netology.recipiesbook.Main.data.Repository.Companion.NEW_RECIPE_ID
+import ru.netology.recipiesbook.Main.utils.BottomBarHideInterface
+import ru.netology.recipiesbook.R
 
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 
-//TODO как-то умненьшить количество вопросительных знаков. get() checkNotNull
-//TODO убрать BottomBar
-//TODO убрать null из категории при старте
-//TODO не работает добавление шагов
-class RecipeContentFragment : Fragment() {
+//TODO убрать BottomBar - нужно получить доступ к активити
+//TODO не работает добавление шагов 2-го и последующих
+//TODO не видно кнопки Save (см первый пункт исправлений)
+//TODO по кнопке "назад" не сохраняются шаги
+//TODO выводить сообщения о пустых полях
+class RecipeContentFragment : Fragment(), BottomBarHideInterface {
 
     private val viewModel by viewModels<RecipeContentViewModel>(ownerProducer = ::requireParentFragment)
     private val args by navArgs<RecipeContentFragmentArgs>()
-
-
 
 
     override fun onCreateView(
@@ -43,6 +51,7 @@ class RecipeContentFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = RecipeContentFragmentBinding.inflate(layoutInflater, container, false)
         .also { binding ->
+
 
             // берем переданный ID
             val currentId = args.recipeId
@@ -54,33 +63,76 @@ class RecipeContentFragment : Fragment() {
 
             // читаем преференс
             val content = previousContent?.getString(SAVED_RECIPE_KEY, null)
+            val previousName = previousContent?.getString(SAVED_JUST_NAME_KEY, null)
 
             // декодируем преференс
             val previousRecipeContent: Recipe? = if (content != null) {
                 Json.decodeFromString(content)
             } else null
 
+//TODO из edit не то приходит
             //назначаем текущий рецепт либо старым, либо если там null, то берем сохраненный ранее
             var currentRecipe = viewModel.data.value?.let { findRecipeById(currentId, it) }
                 ?: previousRecipeContent
 
             val adapter = RecipeContentAdapter(viewModel)
             binding.recipeStepsContentFragment.adapter = adapter
+            adapter.submitList(currentRecipe?.content)
 
             with(binding) {
-                recipeName.setText(currentRecipe?.recipeName ?: FREE_SPACE)
-                //TODO сделать выбор из ENUM ниже
-                category.setText(currentRecipe?.category.toString())
+                recipeName.setText(currentRecipe?.recipeName ?: previousName)
+                if (currentRecipe?.category != null) {
+                    category.setText(currentRecipe?.category.toString())
+                }
+                //убираем отображение клавиатуры
+                category.showSoftInputOnFocus = false
+                mainRecipeImage.showSoftInputOnFocus = false
+
                 mainRecipeImage.setText(currentRecipe?.mainImageSource ?: FREE_SPACE)
-// добавляет шаг рецепта, обновляет индексы и адаптер
+                // TODO не работает добавление 2-го и последующего шагов
+                //обработка добавления
                 plusStepButton.setOnClickListener {
+                    if (
+                        binding.recipeName.text.isBlank() ||
+                        binding.category.text.isBlank()
+                    ) {
+                        Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+                    currentRecipe = updateCurrentRecipe(binding, currentRecipe, currentId)
                     currentRecipe?.content?.add(
                         RecipeContent(
                             stepContent = FREE_SPACE
                         )
                     )
                     updateRecipeStepsNumbers(currentRecipe)
-                    adapter.submitList(currentRecipe?.content)
+                }
+            }
+
+            // выпадающий текст
+            val countries = resources.getStringArray(R.array.countries_array)
+            val categoryAdapter = context?.let {
+                ArrayAdapter(
+                    it,
+                    android.R.layout.simple_list_item_1,
+                    countries
+                )
+            }
+            with(binding) {
+                category.setAdapter(categoryAdapter)
+                category.onItemClickListener =
+                    AdapterView.OnItemClickListener { adapterView, _, position, _ ->
+                        val selectedItem = adapterView.getItemAtPosition(position).toString()
+                        Toast.makeText(context, "Selected: $selectedItem", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                category.setOnDismissListener {
+                    Toast.makeText(context, "_", Toast.LENGTH_SHORT).show()
+                }
+                category.onFocusChangeListener = View.OnFocusChangeListener { it, hasFocus ->
+                    if (hasFocus) {
+                        category.showDropDown()
+                    }
                 }
             }
 
@@ -89,34 +141,42 @@ class RecipeContentFragment : Fragment() {
                     recipeStep.stepNumber == it
                 }
                 updateRecipeStepsNumbers(currentRecipe)
-                adapter.submitList(currentRecipe?.content)
+//                adapter.submitList(currentRecipe?.content)
             }
 
             // при движении назад сохраняем Преф
             requireActivity().onBackPressedDispatcher.addCallback(this) {
-                currentRecipe = updateCurrentRecipe(binding, currentRecipe, currentId)
-                previousContent?.edit {
-                    putString(SAVED_RECIPE_KEY, Json.encodeToString(currentRecipe))
+                if (!binding.category.text.isNullOrEmpty()) {
+                    currentRecipe = updateCurrentRecipe(binding, currentRecipe, currentId)
+                    previousContent?.edit {
+                        putString(SAVED_RECIPE_KEY, Json.encodeToString(currentRecipe))
+                    }
+                } else {
+                    previousContent?.edit {
+                        putString(SAVED_JUST_NAME_KEY, binding.recipeName.text.toString())
+                    }
                 }
                 findNavController().popBackStack()
             }
 
             binding.ok.setOnClickListener {
-                currentRecipe = updateCurrentRecipe(binding, currentRecipe, currentId)
                 if (
                     binding.recipeName.text.isBlank() ||
                     binding.category.text.isBlank()
                 ) {
+                    Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_SHORT).show()
                     //TODO вывести сообщение "заполните все поля"
                     return@setOnClickListener
                 }
                 if (
                     currentRecipe?.content.isNullOrEmpty()
                 ) {
+                    Toast.makeText(context, R.string.step_needed, Toast.LENGTH_SHORT).show()
                     //TODO вывести сообщение "рецепт должен содержать как минимум 1 этап"
                     return@setOnClickListener
                 }
 
+                currentRecipe = updateCurrentRecipe(binding, currentRecipe, currentId)
                 try {
                     viewModel.onSaveButtonClick(currentRecipe!!)
                 } catch (e: NullPointerException) {
@@ -125,33 +185,31 @@ class RecipeContentFragment : Fragment() {
                 previousContent?.edit()?.clear()?.apply()
                 findNavController().popBackStack()
             }
-            //TODO
-            binding.plusStepButton.setOnClickListener {
-                currentRecipe?.content?.add(RecipeContent())
-            }
 
         }.root
 
 
     companion object {
         private const val SAVED_RECIPE_KEY = "PreviousNewRecipeId"
+        private const val SAVED_JUST_NAME_KEY = "PreviousNewName"
         private const val FREE_SPACE = ""
     }
 
-    //TODO как установить ENUM значение
+    //TODO КАК ЗАПОМИНАТЬ ТОЛЬКО НАЗВАНИЕ РЕЦЕПТА
     private fun updateCurrentRecipe(
         binding: RecipeContentFragmentBinding,
         currentRecipe: Recipe?,
-        currentId: Long): Recipe = Recipe(
-                recipeId = currentId,
-                recipeName = binding.recipeName.text.toString(),
-                mainImageSource = binding.mainRecipeImage.text.toString(),
-                category = Category.valueOf(binding.category.text.toString()),
-                content = currentRecipe?.content ?: mutableListOf(
-                    RecipeContent(
-                        stepContent = FREE_SPACE
-                    )
-                )
+        currentId: Long
+    ): Recipe = Recipe(
+        recipeId = currentId,
+        recipeName = binding.recipeName.text.toString(),
+        mainImageSource = binding.mainRecipeImage.text.toString(),
+        category = Category.valueOf(binding.category.text.toString()),
+        content = currentRecipe?.content ?: mutableListOf(
+            RecipeContent(
+                stepContent = FREE_SPACE
             )
+        )
+    )
 
 }

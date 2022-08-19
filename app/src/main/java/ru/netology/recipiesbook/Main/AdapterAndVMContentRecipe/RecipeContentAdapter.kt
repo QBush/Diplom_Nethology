@@ -33,12 +33,12 @@ internal class RecipeContentAdapter(
 
         private lateinit var recipeContent: RecipeContent
 
-        // TODO доделать удаление до конца - см фргмент   deleteStepEvent
-        // TODO как синхронизировать номер шага и номер в массиве - indexOf {}
+        // TODO доделать удаление шага до конца - см фргмент   deleteStepEvent
         init {
             binding.deleteStepButton.setOnClickListener {
                 interactionListener.onDeleteStepClick(recipeContent.stepNumber)
             }
+            binding.stepImage.showSoftInputOnFocus = false
         }
 
         fun bind(recipeContent: RecipeContent) {

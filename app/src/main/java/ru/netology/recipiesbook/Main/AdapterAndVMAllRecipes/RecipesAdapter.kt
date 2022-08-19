@@ -66,7 +66,9 @@ internal class RecipesAdapter(
                 category.text = recipe.category.toString()
                 authorName.text = recipe.author
                 recipeName.text = recipe.recipeName
-                Picasso.get().load(recipe.mainImageSource).into(binding.mainRecipeImage)
+                if (!recipe.mainImageSource.isNullOrBlank()) {
+                    Picasso.get().load(recipe.mainImageSource).into(binding.mainRecipeImage)
+                }
                 addToFavorites.isChecked = recipe.addedToFavorites
             }
         }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="countries_array">
+        <item>EUROPEAN</item>
+        <item>ASIAN</item>
+        <item>PANASIAN</item>
+        <item>EASTERN</item>
+        <item>AMERICAN</item>
+        <item>RUSSIAN</item>
+        <item>MEDITERRANEAN</item>
+    </string-array>
+</resources>

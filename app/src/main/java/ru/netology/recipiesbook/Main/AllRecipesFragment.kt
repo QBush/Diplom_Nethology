@@ -10,8 +10,10 @@ import ru.netology.nmedia.adapter.RecipesAdapter
 import ru.netology.recipiesbook.Main.AdapterAndVMAllRecipes.RecipesViewModel
 import ru.netology.recipiesbook.databinding.AllRecipesFragmentBinding
 
+//TODO не перерисовывает разметку  при переходе на favorites
 class AllRecipesFragment: Fragment()  {
 
+    //TODO onLongClickListener
     private val viewModel by viewModels<RecipesViewModel>(ownerProducer = ::requireParentFragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {

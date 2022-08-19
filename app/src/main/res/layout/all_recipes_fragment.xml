@@ -8,6 +8,15 @@
     android:padding="@dimen/common_spacing"
     tools:context=".Main.AllRecipesFragment">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/all_recipes"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/PostsRecycleView"
         android:layout_width="match_parent"
@@ -19,7 +28,7 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
+        android:layout_marginBottom="40dp"
         android:contentDescription="@string/add_recipe"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
