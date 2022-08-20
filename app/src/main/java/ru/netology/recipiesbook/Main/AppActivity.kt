@@ -29,8 +29,8 @@ class AppActivity : AppCompatActivity(R.layout.app_activity), BottomBarHideInter
     // метод скрытия bottomBar
     fun hideBottomBar(hide: Boolean) {
         val binding = AppActivityBinding.inflate(layoutInflater)
-        if (hide) binding.bottomNav.visibility = View.GONE
-        else binding.bottomNav.visibility = View.VISIBLE
+        if (hide) { binding.bottomNav.visibility = View.GONE }
+        else {binding.bottomNav.visibility = View.VISIBLE}
 
     }
 }

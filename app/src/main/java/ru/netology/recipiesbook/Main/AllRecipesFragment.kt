@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.adapter.RecipesAdapter
 import ru.netology.recipiesbook.Main.AdapterAndVMAllRecipes.RecipesViewModel
 import ru.netology.recipiesbook.databinding.AllRecipesFragmentBinding
+import ru.netology.recipiesbook.databinding.AppActivityBinding
 
-//TODO сделать заглушку при пустом экране
 //TODO onLongClickListener
 class AllRecipesFragment: Fragment()  {
 
@@ -33,28 +33,25 @@ class AllRecipesFragment: Fragment()  {
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = AllRecipesFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        if (viewModel.data.value.isNullOrEmpty()) {
-            binding.allRecipesFullPicture.visibility = VISIBLE
-        }
-
         val adapter = RecipesAdapter(viewModel)
         binding.PostsRecycleView.adapter = adapter
 
         viewModel.data.observe(viewLifecycleOwner) {
+            if (viewModel.data.value.isNullOrEmpty()) {
+                binding.allRecipesFullPicture.visibility = VISIBLE
+            }
             adapter.submitList(it) // метод вызывает обновление адаптера
         }
 
         binding.fab.setOnClickListener {
             viewModel.onAddClick()
         }
-
-
-
     }.root
 }

@@ -15,8 +15,6 @@ import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.databinding.AllRecipesFragmentBinding
 import ru.netology.recipiesbook.databinding.FavoritesRecipesFragmentBinding
 
-//TODO сделать фильтр только по избранному
-// (прямо из XML таблицы можно доставать такой массив, а можно из вью-модели)
 class FavoriteRecipesFragment : Fragment() {
 
     private val viewModel by viewModels<RecipesViewModel>()
@@ -36,20 +34,23 @@ class FavoriteRecipesFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = FavoritesRecipesFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        var favorites: List<Recipe>? = viewModel.data.value?.filter { it.addedToFavorites }
 
-        if (favorites.isNullOrEmpty()) {
-            binding.favoriteRecipesFullPicture.visibility = View.VISIBLE
-        }
 
         val adapter = RecipesAdapter(viewModel)
         binding.PostsRecycleView.adapter = adapter
 
         // здесь фильтруем список, все остальное так же
-        viewModel.data.observe(viewLifecycleOwner) {
-            adapter.submitList(viewModel.data.value?.filter { it.addedToFavorites })
-        }
+        viewModel.data.observe(viewLifecycleOwner) { it ->
+            val favorites = it.filter { it.addedToFavorites }
+            adapter.submitList(favorites)
 
+            if (viewModel.data.value?.firstOrNull {it.addedToFavorites} == null) {
+                binding.favoriteRecipesFullPicture.visibility = View.VISIBLE
+            } else {
+                binding.favoriteRecipesFullPicture.visibility = View.GONE
+            }
+
+        }
 
     }.root
 }

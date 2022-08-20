@@ -55,7 +55,7 @@
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/recipeName"
         app:layout_constraintTop_toBottomOf="@+id/category"
-        app:srcCompat="@drawable/base_recipe_image" />
+        />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/addToFavorites"
@@ -65,8 +65,8 @@
         android:checkable="true"
         android:contentDescription="@string/add_to_favorites"
         android:text="@string/add_to_favorites"
-        app:layout_constraintBottom_toBottomOf="@+id/mainRecipeImage"
-        app:layout_constraintEnd_toEndOf="@+id/mainRecipeImage" />
+        app:layout_constraintEnd_toEndOf="@+id/mainRecipeImage"
+        app:layout_constraintTop_toTopOf="@+id/mainRecipeImage" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -52,8 +52,9 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
     ) = RecipeContentFragmentBinding.inflate(layoutInflater, container, false)
         .also { binding ->
 
-            (requireActivity() as AppActivity).hideBottomBar(true)
-
+            //TODO не прячется Bar в самом методе - читать в интернете
+            val mainActivity = requireActivity() as AppActivity
+            mainActivity.hideBottomBar(true)
             // берем переданный ID
             val currentId = args.recipeId
 
@@ -160,6 +161,7 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
                 }
                 findNavController().popBackStack()
             }
+
 
             binding.ok.setOnClickListener {
                 if (

@@ -9,7 +9,7 @@
     <dimen name="switch_button_height">18dp</dimen>
     <dimen name="icon_button_min_size">24dp</dimen>
     <dimen name="step_image_size">48dp</dimen>
-    <dimen name="main_image_height">108dp</dimen>
+    <dimen name="main_image_height">80dp</dimen>
     <dimen name="bottom_bar_size">48dp</dimen>
 
 </resources>

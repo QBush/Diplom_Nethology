@@ -54,7 +54,7 @@ internal class RecipesAdapter(
 
         init {
             binding.recipeName.setOnClickListener { interactionListener.onContentClick(recipe) }
-            binding.addToFavorites.setOnCheckedChangeListener { _, _ ->
+            binding.addToFavorites.setOnClickListener {
                 interactionListener.onAddToFavoritesClick(recipe.recipeId)
             }
             binding.options.setOnClickListener { popupMenu.show() }
