@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/all_recipes_fragment"
+        android:id="@+id/allRecipesFragment"
         android:icon="@drawable/ic_baseline_home_24"
         android:title="@string/all_recipes" />
 
     <item
-        android:id="@+id/favorites_recipes_fragment"
+        android:id="@+id/favoritesRecipesFragment"
         android:icon="@drawable/ic_baseline_favorite_24"
         android:title="@string/favorites" />
 

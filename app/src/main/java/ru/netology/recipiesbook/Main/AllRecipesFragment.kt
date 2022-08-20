@@ -2,6 +2,8 @@ package ru.netology.recipiesbook.Main
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -10,10 +12,11 @@ import ru.netology.nmedia.adapter.RecipesAdapter
 import ru.netology.recipiesbook.Main.AdapterAndVMAllRecipes.RecipesViewModel
 import ru.netology.recipiesbook.databinding.AllRecipesFragmentBinding
 
-//TODO не перерисовывает разметку  при переходе на favorites
+//TODO сделать заглушку при пустом экране
+//TODO onLongClickListener
 class AllRecipesFragment: Fragment()  {
 
-    //TODO onLongClickListener
+
     private val viewModel by viewModels<RecipesViewModel>(ownerProducer = ::requireParentFragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +39,10 @@ class AllRecipesFragment: Fragment()  {
         savedInstanceState: Bundle?
     ) = AllRecipesFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
+        if (viewModel.data.value.isNullOrEmpty()) {
+            binding.allRecipesFullPicture.visibility = VISIBLE
+        }
+
         val adapter = RecipesAdapter(viewModel)
         binding.PostsRecycleView.adapter = adapter
 
@@ -46,6 +53,8 @@ class AllRecipesFragment: Fragment()  {
         binding.fab.setOnClickListener {
             viewModel.onAddClick()
         }
+
+
 
     }.root
 }

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/allRecipesFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,12 +10,20 @@
     tools:context=".Main.AllRecipesFragment">
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/allRecipesHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/all_recipes"
-        app:layout_constraintTop_toTopOf="parent"
         android:gravity="center"
-        />
+        android:text="@string/all_recipes"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/allRecipesFullPicture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/allRecipesHeader"
+        app:srcCompat="@drawable/all_recipes_full_picture" />
 
 
     <androidx.recyclerview.widget.RecyclerView

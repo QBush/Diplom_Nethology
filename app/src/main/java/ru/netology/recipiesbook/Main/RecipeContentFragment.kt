@@ -52,6 +52,7 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
     ) = RecipeContentFragmentBinding.inflate(layoutInflater, container, false)
         .also { binding ->
 
+            (requireActivity() as AppActivity).hideBottomBar(true)
 
             // берем переданный ID
             val currentId = args.recipeId
@@ -70,14 +71,14 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
                 Json.decodeFromString(content)
             } else null
 
-//TODO из edit не то приходит
+//TODO из edit не то приходит, currentRecipe = null почему то
             //назначаем текущий рецепт либо старым, либо если там null, то берем сохраненный ранее
             var currentRecipe = viewModel.data.value?.let { findRecipeById(currentId, it) }
                 ?: previousRecipeContent
 
             val adapter = RecipeContentAdapter(viewModel)
             binding.recipeStepsContentFragment.adapter = adapter
-            adapter.submitList(currentRecipe?.content)
+
 
             with(binding) {
                 recipeName.setText(currentRecipe?.recipeName ?: previousName)
@@ -89,7 +90,7 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
                 mainRecipeImage.showSoftInputOnFocus = false
 
                 mainRecipeImage.setText(currentRecipe?.mainImageSource ?: FREE_SPACE)
-                // TODO не работает добавление 2-го и последующего шагов
+// TODO не работает добавление 2-го и последующего шагов, не обновляет адаптер
                 //обработка добавления
                 plusStepButton.setOnClickListener {
                     if (
@@ -106,6 +107,7 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
                         )
                     )
                     updateRecipeStepsNumbers(currentRecipe)
+                    adapter.submitList(currentRecipe?.content)
                 }
             }
 
@@ -135,13 +137,13 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
                     }
                 }
             }
-
+//TODO не работает удаление, не обновляет адаптер
             viewModel.deleteStepEvent.observe(viewLifecycleOwner) {
                 currentRecipe?.content?.removeAll() { recipeStep ->
                     recipeStep.stepNumber == it
                 }
                 updateRecipeStepsNumbers(currentRecipe)
-//                adapter.submitList(currentRecipe?.content)
+                adapter.submitList(currentRecipe?.content)
             }
 
             // при движении назад сохраняем Преф
@@ -165,14 +167,12 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
                     binding.category.text.isBlank()
                 ) {
                     Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_SHORT).show()
-                    //TODO вывести сообщение "заполните все поля"
                     return@setOnClickListener
                 }
                 if (
                     currentRecipe?.content.isNullOrEmpty()
                 ) {
                     Toast.makeText(context, R.string.step_needed, Toast.LENGTH_SHORT).show()
-                    //TODO вывести сообщение "рецепт должен содержать как минимум 1 этап"
                     return@setOnClickListener
                 }
 
@@ -195,7 +195,7 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
         private const val FREE_SPACE = ""
     }
 
-    //TODO КАК ЗАПОМИНАТЬ ТОЛЬКО НАЗВАНИЕ РЕЦЕПТА
+
     private fun updateCurrentRecipe(
         binding: RecipeContentFragmentBinding,
         currentRecipe: Recipe?,

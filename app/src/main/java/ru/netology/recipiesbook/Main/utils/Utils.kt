@@ -9,7 +9,7 @@ import ru.netology.recipiesbook.Main.data.Recipe
 
 
 fun findRecipeById(recipeId: Long, recipes: List<Recipe>)
-= if (recipes == null) null else recipes.firstOrNull() { it.recipeId == recipeId}
+= if (recipes == null) null else recipes.firstOrNull { it.recipeId == recipeId}
 
 
 fun updateRecipeStepsNumbers(recipe: Recipe?) =

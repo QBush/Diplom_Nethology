@@ -20,6 +20,12 @@
     </fragment>
 
     <fragment
+        android:id="@+id/favoritesRecipesFragment"
+        android:name="ru.netology.recipiesbook.Main.FavoriteRecipesFragment"
+        android:label="@string/favorites"
+        tools:layout="@layout/favorites_recipes_fragment" />
+
+    <fragment
         android:id="@+id/recipeContentFragment"
         android:name="ru.netology.recipiesbook.Main.RecipeContentFragment"
         android:label="RecipeContentFragment">
@@ -38,10 +44,6 @@
             />
     </fragment>
 
-    <fragment
-        android:id="@+id/favorites_recipes_fragment"
-        android:name="ru.netology.recipiesbook.Main.FavoriteRecipesFragment"
-        android:label="@string/favorites"
-        tools:layout="@layout/favorites_recipes_fragment" />
+
 
 </navigation>

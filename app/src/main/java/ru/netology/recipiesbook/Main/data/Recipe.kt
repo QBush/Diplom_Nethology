@@ -14,7 +14,7 @@ data class Recipe(
     val author: String = "Netology",
     val category: Category,
     val content: MutableList<RecipeContent>,
-    val mainImageSource: String? = "R.id.baseRecipeImage",
+    val mainImageSource: String? = null,
     var addedToFavorites: Boolean = false,
 ){
     //TODO сделать запись контента

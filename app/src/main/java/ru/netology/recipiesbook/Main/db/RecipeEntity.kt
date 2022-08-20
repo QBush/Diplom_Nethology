@@ -25,7 +25,7 @@ class RecipeEntity(
     @ColumnInfo(name = "ImageSource")
     var imageSource: String?,
     @ColumnInfo(name = "addedToFavorites")
-    var addedToFavorites: Boolean = false
+    var addedToFavorites: Boolean
 ){
     // TODO сделать извлечение контента
     fun toModel() = Recipe(
