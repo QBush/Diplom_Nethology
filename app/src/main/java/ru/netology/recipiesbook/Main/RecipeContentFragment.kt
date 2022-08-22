@@ -73,7 +73,7 @@ class RecipeContentFragment : Fragment() {
             var currentRecipe = findRecipeById(currentId, currentRecipeList)
                 ?: previousRecipeContent
 
-            if (currentRecipe == null) createCurrentRecipe(binding)
+            if (currentRecipe == null) createCurrentRecipe()
 
             val adapter = RecipeContentAdapter(viewModel)
             binding.recipeStepsContentFragment.adapter = adapter
@@ -213,13 +213,11 @@ class RecipeContentFragment : Fragment() {
                 mainImageSource = binding.mainRecipeImage.text.toString(),
                 category = Category.valueOf(binding.category.text.toString()),
             )
-        } else return createCurrentRecipe(binding)
+        } else return createCurrentRecipe()
     }
 
-    private fun createCurrentRecipe(binding: RecipeContentFragmentBinding) = Recipe(
-        recipeId = NEW_RECIPE_ID,
-        recipeName = ""
+    private fun createCurrentRecipe() = Recipe(
+        recipeId = NEW_RECIPE_ID
     )
-
 
 }

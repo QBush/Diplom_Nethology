@@ -1,13 +1,6 @@
 package ru.netology.recipiesbook.Main.data
 
-import android.app.Application
-import android.content.Context
-import android.provider.SyncStateContract.Helpers.insert
-import android.provider.SyncStateContract.Helpers.update
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.netology.recipiesbook.Main.data.Repository.Companion.NEW_RECIPE_ID

@@ -24,6 +24,7 @@ class RecipeContentViewModel(
         deleteStepEvent.value = stepNumber
     }
 
+    // TODO здесь нужно будет организовать перевод из редактируемого поста в просто пост
     override fun onSaveButtonClick(recipe: Recipe) {
         repository.save(recipe)
     }
