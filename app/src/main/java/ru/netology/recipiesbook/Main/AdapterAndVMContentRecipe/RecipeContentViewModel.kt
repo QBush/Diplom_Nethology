@@ -14,6 +14,7 @@ class RecipeContentViewModel(
 
     val deleteStepEvent = SingleLiveEvent<Int>()
 
+    //TODO здесь получает null
     private val repository: Repository = MainRepository(
         dao = AppDb.getInstance(context = application).postDao
     )

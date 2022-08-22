@@ -13,6 +13,7 @@ class SingleRecipeViewModel(
     application: Application
 ): AndroidViewModel(application), RecipeInteractionListener {
 
+    //TODO здесь получает null
     private val repository: Repository = MainRepository(
         dao = AppDb.getInstance(context = application).postDao
     )

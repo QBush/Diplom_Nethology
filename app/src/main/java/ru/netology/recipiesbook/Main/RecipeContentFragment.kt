@@ -29,17 +29,14 @@ import ru.netology.recipiesbook.Main.data.Category
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.Main.data.RecipeContent
 import ru.netology.recipiesbook.Main.data.Repository.Companion.NEW_RECIPE_ID
-import ru.netology.recipiesbook.Main.utils.BottomBarHideInterface
 import ru.netology.recipiesbook.R
 
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 
-//TODO убрать BottomBar - нужно получить доступ к активити
 //TODO не работает добавление шагов 2-го и последующих
-//TODO не видно кнопки Save (см первый пункт исправлений)
 //TODO по кнопке "назад" не сохраняются шаги
 //TODO выводить сообщения о пустых полях
-class RecipeContentFragment : Fragment(), BottomBarHideInterface {
+class RecipeContentFragment : Fragment() {
 
     private val viewModel by viewModels<RecipeContentViewModel>(ownerProducer = ::requireParentFragment)
     private val args by navArgs<RecipeContentFragmentArgs>()
@@ -52,9 +49,6 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
     ) = RecipeContentFragmentBinding.inflate(layoutInflater, container, false)
         .also { binding ->
 
-            //TODO не прячется Bar в самом методе - читать в интернете
-            val mainActivity = requireActivity() as AppActivity
-            mainActivity.hideBottomBar(true)
             // берем переданный ID
             val currentId = args.recipeId
 
@@ -67,15 +61,19 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
             val content = previousContent?.getString(SAVED_RECIPE_KEY, null)
             val previousName = previousContent?.getString(SAVED_JUST_NAME_KEY, null)
 
-            // декодируем преференс
+            // декодируем преференс (сохраняется по кнопке "назад")
             val previousRecipeContent: Recipe? = if (content != null) {
                 Json.decodeFromString(content)
             } else null
 
+            val currentRecipeList = viewModel.data.value
+
 //TODO из edit не то приходит, currentRecipe = null почему то
             //назначаем текущий рецепт либо старым, либо если там null, то берем сохраненный ранее
-            var currentRecipe = viewModel.data.value?.let { findRecipeById(currentId, it) }
+            var currentRecipe = findRecipeById(currentId, currentRecipeList)
                 ?: previousRecipeContent
+
+            if (currentRecipe == null) createCurrentRecipe(binding)
 
             val adapter = RecipeContentAdapter(viewModel)
             binding.recipeStepsContentFragment.adapter = adapter
@@ -101,6 +99,7 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
                         Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
+                    // TODO currentRecipe null почему-то
                     currentRecipe = updateCurrentRecipe(binding, currentRecipe, currentId)
                     currentRecipe?.content?.add(
                         RecipeContent(
@@ -108,7 +107,9 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
                         )
                     )
                     updateRecipeStepsNumbers(currentRecipe)
-                    adapter.submitList(currentRecipe?.content)
+                    val currentStepList = mutableListOf<RecipeContent>()
+                    currentRecipe?.content?.let { it1 -> currentStepList.addAll(it1) }
+                    adapter.submitList(currentStepList)
                 }
             }
 
@@ -121,6 +122,7 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
                     countries
                 )
             }
+            //TODO если сбросить фокус один раз, то выбор не вылезает повторно на поле категория
             with(binding) {
                 category.setAdapter(categoryAdapter)
                 category.onItemClickListener =
@@ -144,7 +146,8 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
                     recipeStep.stepNumber == it
                 }
                 updateRecipeStepsNumbers(currentRecipe)
-                adapter.submitList(currentRecipe?.content)
+                val currentStepList = currentRecipe?.content
+                adapter.submitList(currentStepList)
             }
 
             // при движении назад сохраняем Преф
@@ -202,16 +205,21 @@ class RecipeContentFragment : Fragment(), BottomBarHideInterface {
         binding: RecipeContentFragmentBinding,
         currentRecipe: Recipe?,
         currentId: Long
-    ): Recipe = Recipe(
-        recipeId = currentId,
-        recipeName = binding.recipeName.text.toString(),
-        mainImageSource = binding.mainRecipeImage.text.toString(),
-        category = Category.valueOf(binding.category.text.toString()),
-        content = currentRecipe?.content ?: mutableListOf(
-            RecipeContent(
-                stepContent = FREE_SPACE
+    ): Recipe {
+        if (currentRecipe != null) {
+            return currentRecipe.copy(
+                recipeId = currentId,
+                recipeName = binding.recipeName.text.toString(),
+                mainImageSource = binding.mainRecipeImage.text.toString(),
+                category = Category.valueOf(binding.category.text.toString()),
             )
-        )
+        } else return createCurrentRecipe(binding)
+    }
+
+    private fun createCurrentRecipe(binding: RecipeContentFragmentBinding) = Recipe(
+        recipeId = NEW_RECIPE_ID,
+        recipeName = ""
     )
+
 
 }

@@ -39,8 +39,9 @@ class SingleRecipeFragment : Fragment() {
     ) = SingleRecipeFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
         val currentId = args.recipeId
+        val currentRecipeList = viewModel.data.value
 
-        var currentRecipe = findRecipeById(currentId, viewModel.data.value!!)
+        var currentRecipe = findRecipeById(currentId, currentRecipeList)
             ?: run {
                 findNavController().popBackStack()
                 return@also
@@ -76,7 +77,7 @@ class SingleRecipeFragment : Fragment() {
         binding.recipeStepsContentRecyclerView.adapter = adapter
 
         viewModel.data.observe(viewLifecycleOwner) {
-            adapter.submitList(findRecipeById(currentId,it)?.content
+            adapter.submitList(findRecipeById(currentId, it)?.content
             ) // метод вызывает обновление адаптера
         }
     }.root

@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import ru.netology.recipiesbook.Main.data.Recipe
 
 
-fun findRecipeById(recipeId: Long, recipes: List<Recipe>)
-= if (recipes == null) null else recipes.firstOrNull { it.recipeId == recipeId}
+fun findRecipeById(recipeId: Long, recipes: List<Recipe>?)
+= if (recipes.isNullOrEmpty()) null else recipes.firstOrNull { it.recipeId == recipeId}
 
 
 fun updateRecipeStepsNumbers(recipe: Recipe?) =
@@ -17,8 +17,4 @@ fun updateRecipeStepsNumbers(recipe: Recipe?) =
         recipeContent.stepNumber = index
     }
 
-fun View.hideKeyboard() {
-    val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputManager.hideSoftInputFromWindow(windowToken, 0)
-}
 

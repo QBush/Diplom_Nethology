@@ -14,6 +14,7 @@ import ru.netology.recipiesbook.databinding.AllRecipesFragmentBinding
 import ru.netology.recipiesbook.databinding.AppActivityBinding
 
 //TODO onLongClickListener
+//TODO fab уменьшить в размерах так, чтобы значок внутри не сдвигался - читать в документации
 class AllRecipesFragment: Fragment()  {
 
 

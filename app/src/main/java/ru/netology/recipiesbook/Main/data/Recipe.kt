@@ -12,8 +12,8 @@ data class Recipe(
     val recipeId: Long,
     val recipeName: String,
     val author: String = "Netology",
-    val category: Category,
-    val content: MutableList<RecipeContent>,
+    val category: Category? = null,
+    val content: MutableList<RecipeContent>? = null,
     val mainImageSource: String? = null,
     var addedToFavorites: Boolean = false,
 ){

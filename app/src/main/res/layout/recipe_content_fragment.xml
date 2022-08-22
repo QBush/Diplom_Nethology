@@ -85,13 +85,13 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/bottom_bar_size"
+        android:layout_width="@dimen/save_recipe_bottom_size"
+        android:layout_height="@dimen/save_recipe_bottom_size"
         android:contentDescription="@string/description_recipe_save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/min_spacing"
+        app:fabCustomSize="@dimen/save_recipe_bottom_size"
+        app:layout_constraintEnd_toEndOf="@+id/editedRecipe"
+        app:layout_constraintTop_toTopOf="@+id/editedRecipe"
         app:srcCompat="@drawable/ic_ok_24dp" />
 
 

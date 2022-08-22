@@ -17,7 +17,7 @@ import ru.netology.recipiesbook.databinding.FavoritesRecipesFragmentBinding
 
 class FavoriteRecipesFragment : Fragment() {
 
-    private val viewModel by viewModels<RecipesViewModel>()
+    private val viewModel by viewModels<RecipesViewModel>(ownerProducer = ::requireParentFragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +33,6 @@ class FavoriteRecipesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = FavoritesRecipesFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
-
-
 
         val adapter = RecipesAdapter(viewModel)
         binding.PostsRecycleView.adapter = adapter
