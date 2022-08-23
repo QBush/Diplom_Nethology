@@ -30,7 +30,6 @@ import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.Main.data.RecipeContent
 import ru.netology.recipiesbook.Main.data.Repository.Companion.NEW_RECIPE_ID
 import ru.netology.recipiesbook.R
-
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 
 //TODO не работает добавление шагов 2-го и последующих
@@ -67,28 +66,32 @@ class RecipeContentFragment : Fragment() {
             } else null
 
             val currentRecipeList = viewModel.data.value
-
+            val currentStepList = mutableListOf<RecipeContent>()
 //TODO из edit не то приходит, currentRecipe = null почему то
-            //назначаем текущий рецепт либо старым, либо если там null, то берем сохраненный ранее
+//назначаем текущий рецепт либо старым, либо если там null, то берем сохраненный ранее
             var currentRecipe = findRecipeById(currentId, currentRecipeList)
                 ?: previousRecipeContent
-
-            if (currentRecipe == null) createCurrentRecipe()
 
             val adapter = RecipeContentAdapter(viewModel)
             binding.recipeStepsContentFragment.adapter = adapter
 
 
             with(binding) {
-                recipeName.setText(currentRecipe?.recipeName ?: previousName)
-                if (currentRecipe?.category != null) {
-                    category.setText(currentRecipe?.category.toString())
+// если был редактируемый рецепт или был сохраненный по кнопке назад, то устанавливаем эти значения
+                if (currentRecipe != null) {
+                    recipeName.setText(currentRecipe?.recipeName ?: previousName)
+                    if (currentRecipe?.category != null) {
+                        category.setText(currentRecipe?.category.toString())
+                    }
+                    mainRecipeImage.setText(currentRecipe?.mainImageSource ?: FREE_SPACE)
+                } else {
+                    recipeName.setText(previousName)
                 }
                 //убираем отображение клавиатуры
                 category.showSoftInputOnFocus = false
                 mainRecipeImage.showSoftInputOnFocus = false
 
-                mainRecipeImage.setText(currentRecipe?.mainImageSource ?: FREE_SPACE)
+
 // TODO не работает добавление 2-го и последующего шагов, не обновляет адаптер
                 //обработка добавления
                 plusStepButton.setOnClickListener {
@@ -154,6 +157,7 @@ class RecipeContentFragment : Fragment() {
             requireActivity().onBackPressedDispatcher.addCallback(this) {
                 if (!binding.category.text.isNullOrEmpty()) {
                     currentRecipe = updateCurrentRecipe(binding, currentRecipe, currentId)
+                    // TODO добавить в currentRecipe шаги
                     previousContent?.edit {
                         putString(SAVED_RECIPE_KEY, Json.encodeToString(currentRecipe))
                     }
@@ -182,6 +186,7 @@ class RecipeContentFragment : Fragment() {
                 }
 
                 currentRecipe = updateCurrentRecipe(binding, currentRecipe, currentId)
+                // TODO добавить в currentRecipe шаги
                 try {
                     viewModel.onSaveButtonClick(currentRecipe!!)
                 } catch (e: NullPointerException) {
@@ -205,19 +210,20 @@ class RecipeContentFragment : Fragment() {
         binding: RecipeContentFragmentBinding,
         currentRecipe: Recipe?,
         currentId: Long
-    ): Recipe {
-        if (currentRecipe != null) {
-            return currentRecipe.copy(
-                recipeId = currentId,
-                recipeName = binding.recipeName.text.toString(),
-                mainImageSource = binding.mainRecipeImage.text.toString(),
-                category = Category.valueOf(binding.category.text.toString()),
-            )
-        } else return createCurrentRecipe()
+    ) = if (currentRecipe != null) {
+        currentRecipe.copy(
+            recipeId = currentId,
+            recipeName = binding.recipeName.text.toString(),
+            mainImageSource = binding.mainRecipeImage.text.toString(),
+            category = Category.valueOf(binding.category.text.toString()),
+
+        )
+    } else {
+        Recipe (
+            recipeId = currentId,
+            recipeName = binding.recipeName.text.toString(),
+            mainImageSource = binding.mainRecipeImage.text.toString(),
+            category = Category.valueOf(binding.category.text.toString()),
+                )
     }
-
-    private fun createCurrentRecipe() = Recipe(
-        recipeId = NEW_RECIPE_ID
-    )
-
 }
