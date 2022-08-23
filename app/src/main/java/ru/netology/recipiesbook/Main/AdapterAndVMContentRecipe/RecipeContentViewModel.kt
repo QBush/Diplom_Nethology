@@ -18,6 +18,9 @@ class RecipeContentViewModel(
     private val repository: Repository = MainRepository(
         dao = AppDb.getInstance(context = application).postDao
     )
+
+
+
     val data by repository::data
 
     override fun onDeleteStepClick(stepNumber: Int) {
