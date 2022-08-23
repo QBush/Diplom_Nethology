@@ -1,16 +1,14 @@
 package ru.netology.recipiesbook.Main.AdapterAndVMContentRecipe
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
-import ru.netology.nmedia.adapter.RecipeInteractionListener
-import ru.netology.recipiesbook.Main.AdapterAndVMSingleRecipe.SingleRecipeAdapter
 import ru.netology.recipiesbook.Main.data.RecipeContent
+import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.RecipeStepContentBinding
-import ru.netology.recipiesbook.databinding.SingleRecipeStepBinding
 
 internal class RecipeContentAdapter(
     private val interactionListener: RecipeContentListener
@@ -26,6 +24,7 @@ internal class RecipeContentAdapter(
         holder.bind(getItem(position))
     }
 
+
     class ViewHolder(
         private val binding: RecipeStepContentBinding,
         private val interactionListener: RecipeContentListener
@@ -33,30 +32,39 @@ internal class RecipeContentAdapter(
 
         private lateinit var recipeContent: RecipeContent
 
-        // TODO доделать удаление шага до конца - см фргмент   deleteStepEvent
         init {
             binding.deleteStepButton.setOnClickListener {
                 interactionListener.onDeleteStepClick(recipeContent.stepNumber)
             }
             binding.stepImage.showSoftInputOnFocus = false
+            binding.saveStepButton.setOnClickListener {
+                interactionListener.onSaveStepClick(recipeContent)
+            }
         }
 
+
+        @SuppressLint("ResourceAsColor")
         fun bind(recipeContent: RecipeContent) {
             this.recipeContent = recipeContent
             with(binding) {
                 stepText.setText(recipeContent.stepContent)
                 stepImage.setText(recipeContent.stepImageURL)
+                val backgroundColor = if (recipeContent.saved) R.color.teal_700
+                else R.color.transparent_white
+                binding.saveStepButton.setBackgroundColor(backgroundColor)
             }
-        }
+            //TODO вставить блокировку текста от редактирования
+
     }
+}
 
 
-    private object DiffCallback : DiffUtil.ItemCallback<RecipeContent>() {
+private object DiffCallback : DiffUtil.ItemCallback<RecipeContent>() {
 
-        override fun areItemsTheSame(oldItem: RecipeContent, newItem: RecipeContent): Boolean =
-            oldItem.stepNumber == newItem.stepNumber
+    override fun areItemsTheSame(oldItem: RecipeContent, newItem: RecipeContent): Boolean =
+        oldItem.stepNumber == newItem.stepNumber
 
-        override fun areContentsTheSame(oldItem: RecipeContent, newItem: RecipeContent): Boolean =
-            oldItem == newItem
-    }
+    override fun areContentsTheSame(oldItem: RecipeContent, newItem: RecipeContent): Boolean =
+        oldItem == newItem
+}
 }

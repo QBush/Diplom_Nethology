@@ -3,7 +3,6 @@ package ru.netology.recipiesbook.Main
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -45,9 +44,9 @@ class AllRecipesFragment: Fragment()  {
         binding.PostsRecycleView.adapter = adapter
 
         viewModel.data.observe(viewLifecycleOwner) {
-            if (viewModel.data.value.isNullOrEmpty()) {
-                binding.allRecipesFullPicture.visibility = VISIBLE
-            }
+            if (it.isNullOrEmpty()) {
+                binding.allRecipesFullPicture.visibility = View.VISIBLE
+            } else binding.allRecipesFullPicture.visibility = View.GONE
             adapter.submitList(it) // метод вызывает обновление адаптера
         }
 

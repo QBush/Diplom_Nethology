@@ -92,7 +92,7 @@
         app:fabCustomSize="@dimen/save_recipe_bottom_size"
         app:layout_constraintEnd_toEndOf="@+id/editedRecipe"
         app:layout_constraintTop_toTopOf="@+id/editedRecipe"
-        app:srcCompat="@drawable/ic_ok_24dp" />
+        app:srcCompat="@drawable/ic_ok_12dp_for_recipe" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,9 +32,7 @@ import ru.netology.recipiesbook.Main.data.Repository.Companion.NEW_RECIPE_ID
 import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 
-//TODO не работает добавление шагов 2-го и последующих
-//TODO по кнопке "назад" не сохраняются шаги
-//TODO выводить сообщения о пустых полях
+//TODO не работает сохранение и добавление шагов во всех ситуациях
 class RecipeContentFragment : Fragment() {
 
     private val viewModel by viewModels<RecipeContentViewModel>(ownerProducer = ::requireParentFragment)
@@ -66,10 +64,8 @@ class RecipeContentFragment : Fragment() {
             } else null
 
             //берем значения репозитория для поиска по id
-            //TODO приходит null
             val currentRecipeList = viewModel.data.value
-            //список с шагами, для обновления адаптера и сохранения в текущий рецепт
-            var currentStepList = mutableListOf<RecipeContent>()
+
 //назначаем текущий рецепт либо из репозитория, либо если там null, то берем сохраненный ранее
             var currentRecipe = findRecipeById(currentId, currentRecipeList)
                 ?: previousRecipeContent
@@ -106,14 +102,14 @@ class RecipeContentFragment : Fragment() {
                     }
                     // TODO currentRecipe null почему-то
                     currentRecipe =
-                        updateCurrentRecipe(binding, currentRecipe, currentStepList, currentId)
+                        updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
                     currentRecipe?.content?.add(
                         RecipeContent(
                             stepContent = FREE_SPACE
                         )
                     )
                     updateRecipeStepsNumbers(currentRecipe)
-                    currentStepList = currentRecipe?.content ?: mutableListOf()
+                    val currentStepList = currentRecipe?.content ?: mutableListOf()
                     adapter.submitList(currentStepList)
                 }
             }
@@ -145,21 +141,21 @@ class RecipeContentFragment : Fragment() {
                     }
                 }
             }
-//TODO не работает удаление, не обновляет адаптер
-            viewModel.deleteStepEvent.observe(viewLifecycleOwner) {
-                currentRecipe?.content?.removeAll() { recipeStep ->
-                    recipeStep.stepNumber == it
-                }
+
+
+            //подписываемся на любые добавления и удаления шагов и обновляем текущий рецепт
+            viewModel.stepList.observe(viewLifecycleOwner) {
+                currentRecipe = updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
                 updateRecipeStepsNumbers(currentRecipe)
-                currentStepList = currentRecipe?.content ?: mutableListOf()
+                val currentStepList = currentRecipe?.content ?: mutableListOf()
                 adapter.submitList(currentStepList)
             }
 
             // при движении назад сохраняем Преф
             requireActivity().onBackPressedDispatcher.addCallback(this) {
                 if (!binding.category.text.isNullOrEmpty()) {
-                    currentRecipe = updateCurrentRecipe(binding, currentRecipe, currentStepList, currentId)
-                    // TODO добавить в currentRecipe шаги
+                    currentRecipe = updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
+                    // TODO добавить в currentRecipe шаги - как???
                     previousContent?.edit {
                         putString(SAVED_RECIPE_KEY, Json.encodeToString(currentRecipe))
                     }
@@ -170,7 +166,6 @@ class RecipeContentFragment : Fragment() {
                 }
                 findNavController().popBackStack()
             }
-
 
             binding.ok.setOnClickListener {
                 if (
@@ -186,9 +181,7 @@ class RecipeContentFragment : Fragment() {
                     Toast.makeText(context, R.string.step_needed, Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-
-                currentRecipe = updateCurrentRecipe(binding, currentRecipe, currentStepList, currentId)
-                // TODO добавить в currentRecipe шаги
+                currentRecipe = updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
                 try {
                     viewModel.onSaveButtonClick(currentRecipe!!)
                 } catch (e: NullPointerException) {
@@ -211,7 +204,7 @@ class RecipeContentFragment : Fragment() {
     private fun updateCurrentRecipe(
         binding: RecipeContentFragmentBinding,
         currentRecipe: Recipe?,
-        currentStepList: MutableList<RecipeContent>,
+        currentStepList: MutableList<RecipeContent>?,
         currentId: Long
     ) = if (currentRecipe != null) {
         currentRecipe.copy(
