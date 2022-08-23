@@ -100,17 +100,18 @@ class RecipeContentFragment : Fragment() {
                         Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
-                    // TODO currentRecipe null почему-то
-                    currentRecipe =
-                        updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
-                    currentRecipe?.content?.add(
+                    viewModel.stepList.value?.add(
                         RecipeContent(
                             stepContent = FREE_SPACE
                         )
                     )
-                    updateRecipeStepsNumbers(currentRecipe)
-                    val currentStepList = currentRecipe?.content ?: mutableListOf()
-                    adapter.submitList(currentStepList)
+                    //не нужно, т.к. стоит слушатель на stepList
+//                    currentRecipe =
+//                        updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
+//
+//                    updateRecipeStepsNumbers(currentRecipe)
+//                    val currentStepList = currentRecipe?.content ?: mutableListOf()
+//                    adapter.submitList(currentStepList)
                 }
             }
 
@@ -155,7 +156,6 @@ class RecipeContentFragment : Fragment() {
             requireActivity().onBackPressedDispatcher.addCallback(this) {
                 if (!binding.category.text.isNullOrEmpty()) {
                     currentRecipe = updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
-                    // TODO добавить в currentRecipe шаги - как???
                     previousContent?.edit {
                         putString(SAVED_RECIPE_KEY, Json.encodeToString(currentRecipe))
                     }
@@ -219,7 +219,6 @@ class RecipeContentFragment : Fragment() {
             recipeId = currentId,
             recipeName = binding.recipeName.text.toString(),
             mainImageSource = binding.mainRecipeImage.text.toString(),
-            category = Category.valueOf(binding.category.text.toString()),
             content = currentStepList
         )
     }
