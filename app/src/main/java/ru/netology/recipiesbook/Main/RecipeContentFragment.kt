@@ -31,6 +31,7 @@ import ru.netology.recipiesbook.Main.data.RecipeContent
 import ru.netology.recipiesbook.Main.data.Repository.Companion.NEW_RECIPE_ID
 import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
+import java.util.Collections.addAll
 
 //TODO не работает сохранение и добавление шагов во всех ситуациях
 class RecipeContentFragment : Fragment() {
@@ -55,7 +56,6 @@ class RecipeContentFragment : Fragment() {
             )
             // читаем преференс
             val content = previousContent?.getString(SAVED_RECIPE_KEY, null)
-//            val previousName = previousContent?.getString(SAVED_JUST_NAME_KEY, null)
 
             // декодируем преференс (сохраняется по кнопке "назад")
             val previousRecipeContent: Recipe? = if (content != null) {
@@ -82,17 +82,16 @@ class RecipeContentFragment : Fragment() {
                         category.setText(currentRecipe?.category.toString())
                     }
                     mainRecipeImage.setText(currentRecipe?.mainImageSource ?: FREE_SPACE)
+                    //TODO шаги не обновляются адаптером
+                    adapter.submitList(currentRecipe?.content?.toMutableList())
                 } else {
-//                    recipeName.setText(previousName)
 //здесь мы обеспечиваем, что дальше текущий рецепт не будет нулевой до ухода с фрагмента
                     currentRecipe = Recipe(currentId, "")
                 }
                 //убираем отображение клавиатуры
                 category.showSoftInputOnFocus = false
                 mainRecipeImage.showSoftInputOnFocus = false
-//TODO здесь начинать F8
 
-// TODO сделать через вью модель
                 //обработка добавления
                 plusStepButton.setOnClickListener {
                     if (
@@ -107,16 +106,12 @@ class RecipeContentFragment : Fragment() {
                             stepContent = FREE_SPACE
                         )
                     )
-                    Log.d("TEG", viewModel.stepList.value?.size.toString())
-                    currentRecipe =
-                        updateCurrentRecipe(
-                            binding,
-                            currentRecipe,
-                            viewModel.stepList.value,
-                            currentId
+                    currentRecipe = updateCurrentRecipe(
+                            binding,currentRecipe,viewModel.stepList.value,currentId
                         )
                     updateRecipeStepsNumbers(currentRecipe)
-                    val currentStepList = currentRecipe?.content?.toList() ?: mutableListOf()
+                    //TODO шаги не обновляются адаптером
+                    val currentStepList = currentRecipe?.content?.toMutableList()
                     adapter.submitList(currentStepList)
                 }
             }
@@ -130,7 +125,7 @@ class RecipeContentFragment : Fragment() {
                     countries
                 )
             }
-            //TODO если сбросить фокус один раз, то выбор не вылезает повторно на поле категория
+
             with(binding) {
                 category.setAdapter(categoryAdapter)
                 category.onItemClickListener =
@@ -150,18 +145,17 @@ class RecipeContentFragment : Fragment() {
             }
 
 
-//            подписываемся на любые добавления и удаления шагов и обновляем текущий рецепт
-//            viewModel.stepList.observe(viewLifecycleOwner) {
-//                currentRecipe =
-//                    updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
-//                updateRecipeStepsNumbers(currentRecipe)
-//                val currentStepList = currentRecipe?.content?.toList() ?: mutableListOf()
-//                adapter.submitList(currentStepList)
-//            }
+//подписываемся на любые добавление, утверждение и удаление шагов и обновляем текущий рецепт
+            viewModel.stepList.observe(viewLifecycleOwner) {
+                currentRecipe =
+                    updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
+                updateRecipeStepsNumbers(currentRecipe)
+                val currentStepList = currentRecipe?.content?.toList() ?: mutableListOf()
+                adapter.submitList(currentStepList)
+            }
 
             // при движении назад сохраняем Преф
             requireActivity().onBackPressedDispatcher.addCallback(this) {
-//                if (!binding.category.text.isNullOrEmpty()) {
                     currentRecipe = updateCurrentRecipe(
                         binding,
                         currentRecipe,
@@ -171,11 +165,6 @@ class RecipeContentFragment : Fragment() {
                     previousContent?.edit {
                         putString(SAVED_RECIPE_KEY, Json.encodeToString(currentRecipe))
                     }
-//                }   else {
-//                    previousContent?.edit {
-//                        putString(SAVED_JUST_NAME_KEY, binding.recipeName.text.toString())
-//                    }
-//                }
                 findNavController().popBackStack()
             }
 

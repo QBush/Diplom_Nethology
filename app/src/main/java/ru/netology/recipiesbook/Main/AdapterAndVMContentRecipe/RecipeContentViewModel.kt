@@ -36,8 +36,6 @@ class RecipeContentViewModel(
     }
 
     override fun onSaveStepClick(recipeContent: RecipeContent) {
-        recipeContent.saved = !recipeContent.saved
-        //TODO переделать, шаг нужно менять сущствующий, а не добавлять
-        stepList.value?.add(recipeContent)
+        stepList.value?.find { it.stepNumber == recipeContent.stepNumber }?.saved = !recipeContent.saved
     }
 }
