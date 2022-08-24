@@ -13,6 +13,7 @@ import ru.netology.recipiesbook.databinding.RecipesListItemBinding
 
 internal class RecipesAdapter(
     private val interactionListener: RecipeInteractionListener
+
 ) : ListAdapter<Recipe, RecipesAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

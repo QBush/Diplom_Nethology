@@ -4,12 +4,9 @@ package ru.netology.recipiesbook.Main
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -22,13 +19,11 @@ import androidx.navigation.fragment.navArgs
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromJsonElement
 import ru.netology.recipiesbook.Main.AdapterAndVMContentRecipe.RecipeContentAdapter
 import ru.netology.recipiesbook.Main.AdapterAndVMContentRecipe.RecipeContentViewModel
 import ru.netology.recipiesbook.Main.data.Category
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.Main.data.RecipeContent
-import ru.netology.recipiesbook.Main.data.Repository.Companion.NEW_RECIPE_ID
 import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 import java.util.Collections.addAll
@@ -101,12 +96,12 @@ class RecipeContentFragment : Fragment() {
                         Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
+                    updateRecipeStepsNumbers(viewModel.stepList.value)
                     viewModel.stepList.value?.add(
                         RecipeContent(
                             stepContent = FREE_SPACE
                         )
                     )
-                    updateRecipeStepsNumbers(viewModel.stepList.value)
                     currentRecipe = updateCurrentRecipe(
                             binding,currentRecipe,viewModel.stepList.value,currentId
                         )

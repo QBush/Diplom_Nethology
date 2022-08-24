@@ -1,9 +1,7 @@
 package ru.netology.recipiesbook.Main
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -54,4 +52,8 @@ class AllRecipesFragment: Fragment()  {
             viewModel.onAddClick()
         }
     }.root
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 }
