@@ -53,7 +53,6 @@ class RecipeContentFragment : Fragment() {
             val previousContent = context?.getSharedPreferences(
                 "previousNewContent", Context.MODE_PRIVATE
             )
-
             // читаем преференс
             val content = previousContent?.getString(SAVED_RECIPE_KEY, null)
             val previousName = previousContent?.getString(SAVED_JUST_NAME_KEY, null)
@@ -84,11 +83,12 @@ class RecipeContentFragment : Fragment() {
                     mainRecipeImage.setText(currentRecipe?.mainImageSource ?: FREE_SPACE)
                 } else {
                     recipeName.setText(previousName)
+                    currentRecipe = Recipe(currentId, previousName ?: "")
                 }
                 //убираем отображение клавиатуры
                 category.showSoftInputOnFocus = false
                 mainRecipeImage.showSoftInputOnFocus = false
-
+//TODO здесь начинать F8
 
 // TODO сделать через вью модель
                 //обработка добавления
@@ -105,13 +105,18 @@ class RecipeContentFragment : Fragment() {
                             stepContent = FREE_SPACE
                         )
                     )
-                    //не нужно, т.к. стоит слушатель на stepList
-//                    currentRecipe =
-//                        updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
-//
-//                    updateRecipeStepsNumbers(currentRecipe)
-//                    val currentStepList = currentRecipe?.content ?: mutableListOf()
-//                    adapter.submitList(currentStepList)
+                    Log.d("TEG", viewModel.stepList.value?.size.toString())
+                    currentRecipe =
+                        updateCurrentRecipe(
+                            binding,
+                            currentRecipe,
+                            viewModel.stepList.value,
+                            currentId
+                        )
+                    updateRecipeStepsNumbers(currentRecipe)
+                    val currentStepList = currentRecipe?.content?.toList() ?: mutableListOf()
+                    adapter.submitList(currentStepList)
+
                 }
             }
 
@@ -144,18 +149,24 @@ class RecipeContentFragment : Fragment() {
             }
 
 
-            //подписываемся на любые добавления и удаления шагов и обновляем текущий рецепт
-            viewModel.stepList.observe(viewLifecycleOwner) {
-                currentRecipe = updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
-                updateRecipeStepsNumbers(currentRecipe)
-                val currentStepList = currentRecipe?.content ?: mutableListOf()
-                adapter.submitList(currentStepList)
-            }
+//            подписываемся на любые добавления и удаления шагов и обновляем текущий рецепт
+//            viewModel.stepList.observe(viewLifecycleOwner) {
+//                currentRecipe =
+//                    updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
+//                updateRecipeStepsNumbers(currentRecipe)
+//                val currentStepList = currentRecipe?.content?.toList() ?: mutableListOf()
+//                adapter.submitList(currentStepList)
+//            }
 
             // при движении назад сохраняем Преф
             requireActivity().onBackPressedDispatcher.addCallback(this) {
                 if (!binding.category.text.isNullOrEmpty()) {
-                    currentRecipe = updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
+                    currentRecipe = updateCurrentRecipe(
+                        binding,
+                        currentRecipe,
+                        viewModel.stepList.value,
+                        currentId
+                    )
                     previousContent?.edit {
                         putString(SAVED_RECIPE_KEY, Json.encodeToString(currentRecipe))
                     }
@@ -181,7 +192,8 @@ class RecipeContentFragment : Fragment() {
                     Toast.makeText(context, R.string.step_needed, Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                currentRecipe = updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
+                currentRecipe =
+                    updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
                 try {
                     viewModel.onSaveButtonClick(currentRecipe!!)
                 } catch (e: NullPointerException) {
@@ -206,20 +218,36 @@ class RecipeContentFragment : Fragment() {
         currentRecipe: Recipe?,
         currentStepList: MutableList<RecipeContent>?,
         currentId: Long
-    ) = if (currentRecipe != null) {
-        currentRecipe.copy(
-            recipeId = currentId,
-            recipeName = binding.recipeName.text.toString(),
-            mainImageSource = binding.mainRecipeImage.text.toString(),
-            category = Category.valueOf(binding.category.text.toString()),
-            content = currentStepList
-        )
-    } else {
-        Recipe(
-            recipeId = currentId,
-            recipeName = binding.recipeName.text.toString(),
-            mainImageSource = binding.mainRecipeImage.text.toString(),
-            content = currentStepList
-        )
+    ): Recipe? {
+        val currentCategory = binding.category.text.toString()
+        //если поле категории пустое
+        if (!Category.values().map { it.name }.contains(currentCategory)) {
+            return currentRecipe?.copy(
+                recipeId = currentId,
+                recipeName = binding.recipeName.text.toString(),
+                mainImageSource = binding.mainRecipeImage.text.toString(),
+                content = currentStepList
+            )
+        } else if (currentRecipe != null) {
+            return currentRecipe.copy(
+                recipeId = currentId,
+                recipeName = binding.recipeName.text.toString(),
+                mainImageSource = binding.mainRecipeImage.text.toString(),
+                category = Category.valueOf(binding.category.text.toString()),
+                content = currentStepList
+            )
+        }
+        return null
     }
 }
+
+//    } else null
+//    {
+//        Recipe(
+//            recipeId = currentId,
+//            recipeName = binding.recipeName.text.toString(),
+//            mainImageSource = binding.mainRecipeImage.text.toString(),
+//            content = currentStepList
+//        )
+//    }
+

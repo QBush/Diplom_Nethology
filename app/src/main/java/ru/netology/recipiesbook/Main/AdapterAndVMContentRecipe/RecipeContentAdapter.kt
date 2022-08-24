@@ -50,7 +50,7 @@ internal class RecipeContentAdapter(
                 stepText.setText(recipeContent.stepContent)
                 stepImage.setText(recipeContent.stepImageURL)
                 val backgroundColor = if (recipeContent.saved) R.color.teal_700
-                else R.color.transparent_white
+                else R.color.white
                 binding.saveStepButton.setBackgroundColor(backgroundColor)
             }
             //TODO вставить блокировку текста от редактирования
