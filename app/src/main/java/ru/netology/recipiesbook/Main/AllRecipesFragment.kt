@@ -53,7 +53,4 @@ class AllRecipesFragment: Fragment()  {
         }
     }.root
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-    }
 }

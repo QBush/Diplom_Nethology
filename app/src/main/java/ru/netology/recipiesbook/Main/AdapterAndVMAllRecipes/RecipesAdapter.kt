@@ -13,7 +13,6 @@ import ru.netology.recipiesbook.databinding.RecipesListItemBinding
 
 internal class RecipesAdapter(
     private val interactionListener: RecipeInteractionListener
-
 ) : ListAdapter<Recipe, RecipesAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -74,6 +73,12 @@ internal class RecipesAdapter(
             }
         }
     }
+
+    //для обновления списка по фильтру
+//    fun filterList(filteredList: ArrayList<Recipe>) {
+//        this.recipeList = filteredList
+//        notifyDataSetChanged()
+//    }
 
 
     // для сравнения объектов через ListAdapter
