@@ -106,10 +106,10 @@ class RecipeContentFragment : Fragment() {
                             stepContent = FREE_SPACE
                         )
                     )
+                    updateRecipeStepsNumbers(viewModel.stepList.value)
                     currentRecipe = updateCurrentRecipe(
                             binding,currentRecipe,viewModel.stepList.value,currentId
                         )
-                    updateRecipeStepsNumbers(currentRecipe)
                     //TODO шаги не обновляются адаптером
                     val currentStepList = currentRecipe?.content?.toMutableList()
                     adapter.submitList(currentStepList)
@@ -147,9 +147,9 @@ class RecipeContentFragment : Fragment() {
 
 //подписываемся на любые добавление, утверждение и удаление шагов и обновляем текущий рецепт
             viewModel.stepList.observe(viewLifecycleOwner) {
+                updateRecipeStepsNumbers(viewModel.stepList.value)
                 currentRecipe =
                     updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
-                updateRecipeStepsNumbers(currentRecipe)
                 val currentStepList = currentRecipe?.content?.toList() ?: mutableListOf()
                 adapter.submitList(currentStepList)
             }
