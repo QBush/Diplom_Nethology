@@ -55,7 +55,7 @@ class RecipeContentFragment : Fragment() {
             )
             // читаем преференс
             val content = previousContent?.getString(SAVED_RECIPE_KEY, null)
-            val previousName = previousContent?.getString(SAVED_JUST_NAME_KEY, null)
+//            val previousName = previousContent?.getString(SAVED_JUST_NAME_KEY, null)
 
             // декодируем преференс (сохраняется по кнопке "назад")
             val previousRecipeContent: Recipe? = if (content != null) {
@@ -76,14 +76,16 @@ class RecipeContentFragment : Fragment() {
             with(binding) {
 // если был редактируемый рецепт или был сохраненный по кнопке назад, то устанавливаем эти значения
                 if (currentRecipe != null) {
-                    recipeName.setText(currentRecipe?.recipeName ?: previousName)
+//                    recipeName.setText(currentRecipe?.recipeName ?: previousName)
+                    recipeName.setText(currentRecipe?.recipeName ?: FREE_SPACE)
                     if (currentRecipe?.category != null) {
                         category.setText(currentRecipe?.category.toString())
                     }
                     mainRecipeImage.setText(currentRecipe?.mainImageSource ?: FREE_SPACE)
                 } else {
-                    recipeName.setText(previousName)
-                    currentRecipe = Recipe(currentId, previousName ?: "")
+//                    recipeName.setText(previousName)
+//здесь мы обеспечиваем, что дальше текущий рецепт не будет нулевой до ухода с фрагмента
+                    currentRecipe = Recipe(currentId, "")
                 }
                 //убираем отображение клавиатуры
                 category.showSoftInputOnFocus = false
@@ -116,7 +118,6 @@ class RecipeContentFragment : Fragment() {
                     updateRecipeStepsNumbers(currentRecipe)
                     val currentStepList = currentRecipe?.content?.toList() ?: mutableListOf()
                     adapter.submitList(currentStepList)
-
                 }
             }
 
@@ -160,7 +161,7 @@ class RecipeContentFragment : Fragment() {
 
             // при движении назад сохраняем Преф
             requireActivity().onBackPressedDispatcher.addCallback(this) {
-                if (!binding.category.text.isNullOrEmpty()) {
+//                if (!binding.category.text.isNullOrEmpty()) {
                     currentRecipe = updateCurrentRecipe(
                         binding,
                         currentRecipe,
@@ -170,11 +171,11 @@ class RecipeContentFragment : Fragment() {
                     previousContent?.edit {
                         putString(SAVED_RECIPE_KEY, Json.encodeToString(currentRecipe))
                     }
-                } else {
-                    previousContent?.edit {
-                        putString(SAVED_JUST_NAME_KEY, binding.recipeName.text.toString())
-                    }
-                }
+//                }   else {
+//                    previousContent?.edit {
+//                        putString(SAVED_JUST_NAME_KEY, binding.recipeName.text.toString())
+//                    }
+//                }
                 findNavController().popBackStack()
             }
 
