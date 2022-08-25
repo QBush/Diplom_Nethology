@@ -1,6 +1,7 @@
 package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -67,6 +68,8 @@ internal class RecipesAdapter(
                 authorName.text = recipe.author
                 recipeName.text = recipe.recipeName
                 if (!recipe.mainImageSource.isNullOrBlank()) {
+                    //TODO картинка по ссылке не отображается
+                    binding.mainRecipeImage.visibility = View.VISIBLE
                     Picasso.get().load(recipe.mainImageSource).into(binding.mainRecipeImage)
                 }
                 addToFavorites.isChecked = recipe.addedToFavorites

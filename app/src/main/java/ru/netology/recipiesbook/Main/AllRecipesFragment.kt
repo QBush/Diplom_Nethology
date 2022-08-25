@@ -2,7 +2,9 @@ package ru.netology.recipiesbook.Main
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.ThemedSpinnerAdapter
+import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,8 +15,6 @@ import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.databinding.AllRecipesFragmentBinding
 import ru.netology.recipiesbook.databinding.AppActivityBinding
 
-//TODO onLongClickListener
-//TODO fab уменьшить в размерах так, чтобы значок внутри не сдвигался - читать в документации
 class AllRecipesFragment: Fragment()  {
 
 
@@ -48,28 +48,39 @@ class AllRecipesFragment: Fragment()  {
             if (it.isNullOrEmpty()) {
                 binding.allRecipesFullPicture.visibility = View.VISIBLE
             } else binding.allRecipesFullPicture.visibility = View.GONE
-            //TODO сюда поместить условие, фильтрованный список или нет и вставить функцию filter
-            adapter.submitList(it) // метод вызывает обновление адаптера
+            if (binding.search.isEmpty()) {
+                adapter.submitList(it)
+            }
         }
 
         binding.fab.setOnClickListener {
             viewModel.onAddClick()
         }
 
-        fun filter(text: String, data: MutableList<Recipe>) {
-            if (text.isEmpty()) return
-            val filteredRecipes = mutableListOf<Recipe>()
-            for (recipe in data) {
-                if (recipe.recipeName.toLowerCase().contains(text.toLowerCase())
-                ) {
-                    filteredRecipes.add(recipe)
-                }
+//TODO не могу нажать на search
+        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(text: String?): Boolean {
+                if (text.isNullOrBlank()) return false
+                adapter.submitList(filter(text))
+                return false
             }
-            adapter.submitList(filteredRecipes)
-        }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrBlank()) return false
+                adapter.submitList(filter(newText))
+                return false
+            }
+        })
 
     }.root
 
-
-
+    fun filter(text: String): MutableList<Recipe>? {
+        val filteredRecipes = viewModel.data.value?.toMutableList() ?: return null
+        for (recipe in filteredRecipes) {
+            if (recipe.recipeName.toLowerCase().contains(text.toLowerCase())
+            ) {
+                filteredRecipes.add(recipe)
+            }
+        }
+        return filteredRecipes
+    }
 }

@@ -23,28 +23,12 @@ class RecipesViewModel(
 
     val navigateToSingleRecipeFragment = SingleLiveEvent<Long>()
     val navigateToRecipeContentFragmentFromAllRecipes = SingleLiveEvent<Long>()
-//    private val currentRecipe = MutableLiveData<Recipe?>(null)
 
     fun onAddClick() {
         navigateToRecipeContentFragmentFromAllRecipes.value = NEW_RECIPE_ID
     }
 
-//    fun onSaveButtonClick(recipe: Recipe) {
-//        currentRecipe.value = recipe
-//        val addedRecipe = currentRecipe.value?.copy(
-//            content = content) ?: Recipe(
-//            recipeId = Repository.NEW_RECIPE_ID,
-//            recipeName = "Первый",//TODO заполняемое при создании
-//            author = "me",
-//            category = Category.AMERICAN,//TODO заполняемое при создании
-//            content = content,
-//        )
-//        repository.save(recipe)
-//        currentRecipe.value = null
-//    }
-
     override fun onEditClick(recipe: Recipe) {
-//        currentRecipe.value = recipe
         navigateToRecipeContentFragmentFromAllRecipes.value = recipe.recipeId
     }
 
