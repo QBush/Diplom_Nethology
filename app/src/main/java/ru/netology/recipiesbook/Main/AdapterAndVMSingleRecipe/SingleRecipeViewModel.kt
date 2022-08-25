@@ -2,23 +2,29 @@ package ru.netology.recipiesbook.Main.AdapterAndVMSingleRecipe
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.adapter.RecipeInteractionListener
 import ru.netology.nmedia.db.AppDb
 import ru.netology.recipiesbook.Main.data.MainRepository
 import ru.netology.recipiesbook.Main.data.Recipe
+import ru.netology.recipiesbook.Main.data.RecipeContent
 import ru.netology.recipiesbook.Main.data.Repository
+import ru.netology.recipiesbook.Main.findRecipeById
 import ru.netology.recipiesbook.Main.utils.SingleLiveEvent
 
 class SingleRecipeViewModel(
     application: Application
-): AndroidViewModel(application), RecipeInteractionListener {
+) : AndroidViewModel(application), RecipeInteractionListener {
 
     //TODO здесь получает null
     private val repository: Repository = MainRepository(
         dao = AppDb.getInstance(context = application).postDao
     )
+
     //TODO здесь получает null
     val data by repository::data
+
+    var currentRecipe = MutableLiveData<Recipe>(null)
 
     val navigateToRecipeContentFragmentFromSingleRecipe = SingleLiveEvent<Long>()
 

@@ -46,6 +46,7 @@ class SingleRecipeFragment : Fragment() {
                 findNavController().popBackStack()
                 return@also
             }
+        viewModel.currentRecipe.value = currentRecipe
 
         val popupMenu by lazy {
             PopupMenu(context, binding.singleListItem.options).apply {
@@ -76,9 +77,9 @@ class SingleRecipeFragment : Fragment() {
         val adapter = SingleRecipeAdapter()
         binding.recipeStepsContentRecyclerView.adapter = adapter
 
-        viewModel.data.observe(viewLifecycleOwner) {
-            adapter.submitList(findRecipeById(currentId, it)?.content
-            ) // метод вызывает обновление адаптера
+        viewModel.currentRecipe.observe(viewLifecycleOwner) {
+            val recipe = it
+            adapter.submitList(recipe.content)
         }
     }.root
 

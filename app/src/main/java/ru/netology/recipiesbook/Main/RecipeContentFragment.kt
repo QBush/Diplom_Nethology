@@ -137,9 +137,8 @@ class RecipeContentFragment : Fragment() {
                 }
             }
 
-
-//TODO план был, чтобы эта конструкция вызывалась каждый раз при изменении данных в stepList
-// Но она не реагирует ни на что, кроме самого первого обращения к viewModel
+//TODO план был, чтобы эта конструкция вызывалась каждый раз при изменении данных в stepList,
+// чтобы не повторять код, но она не реагирует ни на что, кроме самого первого обращения к viewModel
             viewModel.stepList.observe(viewLifecycleOwner) {
                 updateRecipeStepsNumbers(viewModel.stepList.value)
                 currentRecipe =
@@ -150,8 +149,6 @@ class RecipeContentFragment : Fragment() {
 
 // при движении назад сохраняем Преф
             requireActivity().onBackPressedDispatcher.addCallback(this) {
-//TODO в этом месте считывать в stepList данные всех заполненных шагов. Как это сделать?
-// Сейчас по коду это происходит только у сохраненных шагов через saveStepButton (в адаптере обсервер)
                     currentRecipe = updateCurrentRecipe(
                         binding,
                         currentRecipe,
@@ -179,8 +176,6 @@ class RecipeContentFragment : Fragment() {
                     Toast.makeText(context, R.string.step_needed, Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-//TODO в этом месте считывать в stepList данные всех заполненных шагов. Как это сделать?
-// Сейчас по коду это происходит только у сохраненных шагов через saveStepButton (в адаптере обсервер)
                 updateRecipeStepsNumbers(viewModel.stepList.value)
                 currentRecipe =
                     updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)

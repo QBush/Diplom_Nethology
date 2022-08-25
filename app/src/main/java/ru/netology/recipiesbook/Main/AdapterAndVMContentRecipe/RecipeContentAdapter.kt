@@ -53,7 +53,7 @@ internal class RecipeContentAdapter(
                 stepText.setText(recipeContent.stepContent)
                 stepImage.setText(recipeContent.stepImageURL)
 //TODO ниже установка цвета фона и блокировка редактирования, если шаг сохранен.
-// Не работают. Но причина в том же: адаптер не обновляется и обсервер на
+// Не работают. Но причина в том же, вероятно, в то же: адаптер не обновляется и обсервер на
 // viewModel.stepList не работает во фрагменте
                 val backgroundColor = if (recipeContent.saved) R.color.teal_700
                 else R.color.white
@@ -69,20 +69,17 @@ internal class RecipeContentAdapter(
                     stepText.isLongClickable = true
                     stepImage.isLongClickable = true
                 }
-
             }
-
-
+        }
     }
-}
 
 
-private object DiffCallback : DiffUtil.ItemCallback<RecipeContent>() {
+    private object DiffCallback : DiffUtil.ItemCallback<RecipeContent>() {
 
-    override fun areItemsTheSame(oldItem: RecipeContent, newItem: RecipeContent): Boolean =
-        oldItem.stepNumber == newItem.stepNumber
+        override fun areItemsTheSame(oldItem: RecipeContent, newItem: RecipeContent): Boolean =
+            oldItem.stepNumber == newItem.stepNumber
 
-    override fun areContentsTheSame(oldItem: RecipeContent, newItem: RecipeContent): Boolean =
-        oldItem == newItem
-}
+        override fun areContentsTheSame(oldItem: RecipeContent, newItem: RecipeContent): Boolean =
+            oldItem == newItem
+    }
 }
