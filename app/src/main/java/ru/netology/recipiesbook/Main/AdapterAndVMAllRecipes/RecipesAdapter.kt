@@ -74,13 +74,6 @@ internal class RecipesAdapter(
         }
     }
 
-    //для обновления списка по фильтру
-//    fun filterList(filteredList: ArrayList<Recipe>) {
-//        this.recipeList = filteredList
-//        notifyDataSetChanged()
-//    }
-
-
     // для сравнения объектов через ListAdapter
     private object DiffCallback : DiffUtil.ItemCallback<Recipe>() {
 

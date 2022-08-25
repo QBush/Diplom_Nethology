@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RecipeContent(
     var stepNumber: Int = 0,
-    val stepContent: String = "",
-    val stepImageURL: String? = null,
+    var stepContent: String = "",
+    var stepImageURL: String? = null,
     var saved: Boolean = false
 ) {
 

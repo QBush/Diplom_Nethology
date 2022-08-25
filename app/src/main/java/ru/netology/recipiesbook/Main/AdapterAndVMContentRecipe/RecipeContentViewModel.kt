@@ -8,6 +8,7 @@ import ru.netology.recipiesbook.Main.data.MainRepository
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.Main.data.RecipeContent
 import ru.netology.recipiesbook.Main.data.Repository
+import ru.netology.recipiesbook.Main.updateRecipeStepsNumbers
 import ru.netology.recipiesbook.Main.utils.SingleLiveEvent
 
 class RecipeContentViewModel(
@@ -18,24 +19,38 @@ class RecipeContentViewModel(
     private val repository: Repository = MainRepository(
         dao = AppDb.getInstance(context = application).postDao
     )
+    //TODO здесь получает null
+    val data by repository::data
 
     // список с шагами, которые мы временно храним здесь
     val stepList = MutableLiveData<MutableList<RecipeContent>>(mutableListOf())
 
-    val data by repository::data
 
     override fun onDeleteStepClick(stepNumber: Int) {
         stepList.value?.removeAll() { recipeStep ->
             recipeStep.stepNumber == stepNumber
         }
+        updateRecipeStepsNumbers(stepList.value)
     }
 
-    // TODO здесь нужно будет организовать добавление шагов перед сохранением в репо
     override fun onSaveButtonClick(recipe: Recipe) {
         repository.save(recipe)
     }
 
+//TODO работает, но так как слушатель во фрагменте не реагирует, то адаптер не обновляется
+// и данные тоже не обновляются. И при следующем сохранении шага опять шаг не сохранен
     override fun onSaveStepClick(recipeContent: RecipeContent) {
-        stepList.value?.find { it.stepNumber == recipeContent.stepNumber }?.saved = !recipeContent.saved
+        stepList.value?.replaceAll {
+            when (it.stepNumber) {
+                recipeContent.stepNumber -> {
+                    recipeContent.copy(saved = !recipeContent.saved)
+                }
+                else -> {
+                    it
+                }
+            }
+        }
+
+
     }
 }

@@ -17,6 +17,7 @@ class SingleRecipeViewModel(
     private val repository: Repository = MainRepository(
         dao = AppDb.getInstance(context = application).postDao
     )
+    //TODO здесь получает null
     val data by repository::data
 
     val navigateToRecipeContentFragmentFromSingleRecipe = SingleLiveEvent<Long>()

@@ -10,7 +10,7 @@
     <dimen name="icon_button_min_size">24dp</dimen>
     <dimen name="step_image_size">48dp</dimen>
     <dimen name="main_image_height">80dp</dimen>
-    <dimen name="bar_size">48dp</dimen>
+    <dimen name="bar_size">60dp</dimen>
     <dimen name="save_recipe_bottom_size">24dp</dimen>
 
 </resources>

@@ -16,6 +16,7 @@ fun findRecipeById(recipeId: Long, recipes: List<Recipe>?)
 fun updateRecipeStepsNumbers(recipeList: MutableList<RecipeContent>?) =
     recipeList?.forEachIndexed { index, recipeContent ->
         recipeContent.stepNumber = index
+        recipeList.sortBy {recipeContent.stepNumber}
     }
 
 

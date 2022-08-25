@@ -42,22 +42,22 @@ class RecipeContentFragment : Fragment() {
     ) = RecipeContentFragmentBinding.inflate(layoutInflater, container, false)
         .also { binding ->
 
-            // берем переданный ID
+// берем переданный ID
             val currentId = args.recipeId
 
-            //получаем сохраненный преференс
+//получаем сохраненный преференс
             val previousContent = context?.getSharedPreferences(
                 "previousNewContent", Context.MODE_PRIVATE
             )
-            // читаем преференс
+// читаем преференс
             val content = previousContent?.getString(SAVED_RECIPE_KEY, null)
 
-            // декодируем преференс (сохраняется по кнопке "назад")
+// декодируем преференс (сохраняется по кнопке "назад")
             val previousRecipeContent: Recipe? = if (content != null) {
                 Json.decodeFromString(content)
             } else null
 
-            //берем значения репозитория для поиска по id
+//берем значения репозитория для поиска по id
             val currentRecipeList = viewModel.data.value
 
 //назначаем текущий рецепт либо из репозитория, либо если там null, то берем сохраненный ранее
@@ -71,7 +71,6 @@ class RecipeContentFragment : Fragment() {
             with(binding) {
 // если был редактируемый рецепт или был сохраненный по кнопке назад, то устанавливаем эти значения
                 if (currentRecipe != null) {
-//                    recipeName.setText(currentRecipe?.recipeName ?: previousName)
                     recipeName.setText(currentRecipe?.recipeName ?: FREE_SPACE)
                     if (currentRecipe?.category != null) {
                         category.setText(currentRecipe?.category.toString())
@@ -83,11 +82,11 @@ class RecipeContentFragment : Fragment() {
 //здесь мы обеспечиваем, что дальше текущий рецепт не будет нулевой до ухода с фрагмента
                     currentRecipe = Recipe(currentId, "")
                 }
-                //убираем отображение клавиатуры
+//убираем отображение клавиатуры
                 category.showSoftInputOnFocus = false
                 mainRecipeImage.showSoftInputOnFocus = false
 
-                //обработка добавления
+//обработка добавления шага
                 plusStepButton.setOnClickListener {
                     if (
                         binding.recipeName.text.isBlank() ||
@@ -96,12 +95,12 @@ class RecipeContentFragment : Fragment() {
                         Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
-                    updateRecipeStepsNumbers(viewModel.stepList.value)
                     viewModel.stepList.value?.add(
                         RecipeContent(
                             stepContent = FREE_SPACE
                         )
                     )
+                    updateRecipeStepsNumbers(viewModel.stepList.value)
                     currentRecipe = updateCurrentRecipe(
                             binding,currentRecipe,viewModel.stepList.value,currentId
                         )
@@ -111,7 +110,7 @@ class RecipeContentFragment : Fragment() {
                 }
             }
 
-            // выпадающий текст
+// Конструкция для выпадающего списка
             val countries = resources.getStringArray(R.array.countries_array)
             val categoryAdapter = context?.let {
                 ArrayAdapter(
@@ -120,7 +119,6 @@ class RecipeContentFragment : Fragment() {
                     countries
                 )
             }
-
             with(binding) {
                 category.setAdapter(categoryAdapter)
                 category.onItemClickListener =
@@ -140,7 +138,8 @@ class RecipeContentFragment : Fragment() {
             }
 
 
-//подписываемся на любые добавление, утверждение и удаление шагов и обновляем текущий рецепт
+//TODO план был, чтобы эта конструкция вызывалась каждый раз при изменении данных в stepList
+// Но она не реагирует ни на что, кроме самого первого обращения к viewModel
             viewModel.stepList.observe(viewLifecycleOwner) {
                 updateRecipeStepsNumbers(viewModel.stepList.value)
                 currentRecipe =
@@ -149,8 +148,10 @@ class RecipeContentFragment : Fragment() {
                 adapter.submitList(currentStepList)
             }
 
-            // при движении назад сохраняем Преф
+// при движении назад сохраняем Преф
             requireActivity().onBackPressedDispatcher.addCallback(this) {
+//TODO в этом месте считывать в stepList данные всех заполненных шагов. Как это сделать?
+// Сейчас по коду это происходит только у сохраненных шагов через saveStepButton (в адаптере обсервер)
                     currentRecipe = updateCurrentRecipe(
                         binding,
                         currentRecipe,
@@ -163,6 +164,7 @@ class RecipeContentFragment : Fragment() {
                 findNavController().popBackStack()
             }
 
+// сохранение рецепта
             binding.ok.setOnClickListener {
                 if (
                     binding.recipeName.text.isBlank() ||
@@ -177,6 +179,9 @@ class RecipeContentFragment : Fragment() {
                     Toast.makeText(context, R.string.step_needed, Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
+//TODO в этом месте считывать в stepList данные всех заполненных шагов. Как это сделать?
+// Сейчас по коду это происходит только у сохраненных шагов через saveStepButton (в адаптере обсервер)
+                updateRecipeStepsNumbers(viewModel.stepList.value)
                 currentRecipe =
                     updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
                 try {
@@ -193,7 +198,6 @@ class RecipeContentFragment : Fragment() {
 
     companion object {
         private const val SAVED_RECIPE_KEY = "PreviousNewRecipeId"
-        private const val SAVED_JUST_NAME_KEY = "PreviousNewName"
         private const val FREE_SPACE = ""
     }
 

@@ -37,7 +37,10 @@ internal class RecipeContentAdapter(
                 interactionListener.onDeleteStepClick(recipeContent.stepNumber)
             }
             binding.stepImage.showSoftInputOnFocus = false
+//сохранение шага при нажатии на галочку возле шага
             binding.saveStepButton.setOnClickListener {
+                recipeContent.stepContent = binding.stepText.toString()
+                recipeContent.stepImageURL = binding.stepImage.toString()
                 interactionListener.onSaveStepClick(recipeContent)
             }
         }
@@ -49,11 +52,26 @@ internal class RecipeContentAdapter(
             with(binding) {
                 stepText.setText(recipeContent.stepContent)
                 stepImage.setText(recipeContent.stepImageURL)
+//TODO ниже установка цвета фона и блокировка редактирования, если шаг сохранен.
+// Не работают. Но причина в том же: адаптер не обновляется и обсервер на
+// viewModel.stepList не работает во фрагменте
                 val backgroundColor = if (recipeContent.saved) R.color.teal_700
                 else R.color.white
                 binding.saveStepButton.setBackgroundColor(backgroundColor)
+                if (recipeContent.saved) {
+                    stepText.isFocusable = false
+                    stepImage.isFocusable = false
+                    stepText.isLongClickable = false
+                    stepImage.isLongClickable = false
+                } else {
+                    stepText.isFocusable = true
+                    stepImage.isFocusable = true
+                    stepText.isLongClickable = true
+                    stepImage.isLongClickable = true
+                }
+
             }
-            //TODO вставить блокировку текста от редактирования
+
 
     }
 }
