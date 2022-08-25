@@ -3,6 +3,7 @@ package ru.netology.recipiesbook.Main.AdapterAndVMContentRecipe
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -39,9 +40,11 @@ internal class RecipeContentAdapter(
             binding.stepImage.showSoftInputOnFocus = false
 //сохранение шага при нажатии на галочку возле шага
             binding.saveStepButton.setOnClickListener {
-                recipeContent.stepContent = binding.stepText.toString()
-                recipeContent.stepImageURL = binding.stepImage.toString()
-                interactionListener.onSaveStepClick(recipeContent)
+                if (binding.stepText.toString().isNotBlank()) {
+                    recipeContent.stepContent = binding.stepText.toString()
+                    recipeContent.stepImageURL = binding.stepImage.toString()
+                    interactionListener.onSaveStepClick(recipeContent)
+                }
             }
         }
 

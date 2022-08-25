@@ -48,16 +48,15 @@ class AllRecipesFragment: Fragment()  {
             if (it.isNullOrEmpty()) {
                 binding.allRecipesFullPicture.visibility = View.VISIBLE
             } else binding.allRecipesFullPicture.visibility = View.GONE
-            if (binding.search.isEmpty()) {
                 adapter.submitList(it)
-            }
         }
 
         binding.fab.setOnClickListener {
             viewModel.onAddClick()
         }
 
-//TODO не могу нажать на search
+//TODO searchView не кликабельно
+
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(text: String?): Boolean {
                 if (text.isNullOrBlank()) return false

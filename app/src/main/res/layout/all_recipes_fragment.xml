@@ -36,7 +36,7 @@
         android:paddingTop="@dimen/bar_size"
         android:paddingBottom="@dimen/bar_size"
         app:layout_constraintTop_toBottomOf="@+id/search"
-        app:layout_constraintBottom_toTopOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
