@@ -7,7 +7,7 @@ import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.squareup.picasso.*
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.RecipesListItemBinding
@@ -68,8 +68,8 @@ internal class RecipesAdapter(
                 authorName.text = recipe.author
                 recipeName.text = recipe.recipeName
                 if (!recipe.mainImageSource.isNullOrBlank()) {
-                    //TODO картинка по ссылке не отображается
                     binding.mainRecipeImage.visibility = View.VISIBLE
+                    //TODO картинка по ссылке не отображается
                     Picasso.get().load(recipe.mainImageSource).into(binding.mainRecipeImage)
                 }
                 addToFavorites.isChecked = recipe.addedToFavorites

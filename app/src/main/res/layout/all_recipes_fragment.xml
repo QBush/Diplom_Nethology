@@ -24,7 +24,8 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/search"
-        app:srcCompat="@drawable/all_recipes_full_picture" />
+        app:srcCompat="@drawable/all_recipes_full_picture"
+        android:contentDescription="@string/mainImageForEmptyData" />
 
 
     <androidx.recyclerview.widget.RecyclerView

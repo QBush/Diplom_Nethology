@@ -39,6 +39,7 @@ class SingleRecipeFragment : Fragment() {
     ) = SingleRecipeFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
         val currentId = args.recipeId
+        //TODO здесь мы получаем null
         val currentRecipeList = viewModel.data.value
 
         var currentRecipe = findRecipeById(currentId, currentRecipeList)

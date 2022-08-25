@@ -28,7 +28,7 @@ import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 import java.util.Collections.addAll
 
-//TODO не работает сохранение и добавление шагов во всех ситуациях
+//TODO не отображается удаление, утверждение(сохранение) и добавление шагов во всех ситуациях
 class RecipeContentFragment : Fragment() {
 
     private val viewModel by viewModels<RecipeContentViewModel>(ownerProducer = ::requireParentFragment)
