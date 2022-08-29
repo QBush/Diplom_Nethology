@@ -12,7 +12,7 @@ import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.RecipesListItemBinding
 
-internal class RecipesAdapter(
+class RecipesAdapter(
     private val interactionListener: RecipeInteractionListener
 ) : ListAdapter<Recipe, RecipesAdapter.ViewHolder>(DiffCallback) {
 
@@ -25,7 +25,6 @@ internal class RecipesAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
 
     class ViewHolder(
         private val binding: RecipesListItemBinding,
@@ -75,6 +74,10 @@ internal class RecipesAdapter(
                 addToFavorites.isChecked = recipe.addedToFavorites
             }
         }
+
+//        fun filter(recipeList: ArrayList<Recipe>) {
+//        }
+
     }
 
     // для сравнения объектов через ListAdapter

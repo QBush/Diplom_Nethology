@@ -158,6 +158,7 @@ class RecipeContentFragment : Fragment() {
                     previousContent?.edit {
                         putString(SAVED_RECIPE_KEY, Json.encodeToString(currentRecipe))
                     }
+                viewModel.stepList.value?.clear()
                 findNavController().popBackStack()
             }
 

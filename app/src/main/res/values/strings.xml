@@ -25,5 +25,6 @@
     <string name="step_needed">Recipe must contain at least 1 step</string>
     <string name="search">Search</string>
     <string name="mainImageForEmptyData">Main image for empty data</string>
+    <string name="search_hint">start searching...</string>
 
 </resources>
