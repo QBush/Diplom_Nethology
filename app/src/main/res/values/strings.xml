@@ -26,5 +26,13 @@
     <string name="search">Search</string>
     <string name="mainImageForEmptyData">Main image for empty data</string>
     <string name="search_hint">start searching...</string>
+    <string name="choose_category">Choose categories</string>
+    <string name="category_EUROPEAN">EUROPEAN</string>
+    <string name="category_ASIAN">ASIAN</string>
+    <string name="category_PANASIAN">PANASIAN</string>
+    <string name="category_EASTERN">EASTERN</string>
+    <string name="category_AMERICAN">AMERICAN</string>
+    <string name="category_RUSSIAN">RUSSIAN</string>
+    <string name="category_MEDITERRANEAN">MEDITERRANEAN</string>
 
 </resources>

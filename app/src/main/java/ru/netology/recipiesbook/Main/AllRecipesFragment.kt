@@ -1,9 +1,13 @@
 package ru.netology.recipiesbook.Main
 
+import android.app.SearchManager
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.ThemedSpinnerAdapter
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -35,8 +39,6 @@ class AllRecipesFragment : Fragment() {
             val direction = AllRecipesFragmentDirections.toSingleRecipeFragment(it)
             findNavController().navigate(direction)
         }
-
-
     }
 
 
@@ -59,6 +61,7 @@ class AllRecipesFragment : Fragment() {
         binding.fab.setOnClickListener {
             viewModel.onAddClick()
         }
+
 
 //TODO searchView не кликабельно
 
