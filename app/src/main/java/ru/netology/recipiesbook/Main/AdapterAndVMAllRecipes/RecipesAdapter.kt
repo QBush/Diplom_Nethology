@@ -3,6 +3,8 @@ package ru.netology.nmedia.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -14,7 +16,7 @@ import ru.netology.recipiesbook.databinding.RecipesListItemBinding
 
 class RecipesAdapter(
     private val interactionListener: RecipeInteractionListener
-) : ListAdapter<Recipe, RecipesAdapter.ViewHolder>(DiffCallback) {
+) : ListAdapter<Recipe, RecipesAdapter.ViewHolder>(DiffCallback), Filterable {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -74,10 +76,6 @@ class RecipesAdapter(
                 addToFavorites.isChecked = recipe.addedToFavorites
             }
         }
-
-//        fun filter(recipeList: ArrayList<Recipe>) {
-//        }
-
     }
 
     // для сравнения объектов через ListAdapter
@@ -89,5 +87,9 @@ class RecipesAdapter(
 
         override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean =
             oldItem == newItem
+    }
+
+    override fun getFilter(): Filter {
+        TODO("Not yet implemented")
     }
 }

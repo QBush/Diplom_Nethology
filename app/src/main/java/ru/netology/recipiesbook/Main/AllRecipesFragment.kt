@@ -35,6 +35,8 @@ class AllRecipesFragment : Fragment() {
             val direction = AllRecipesFragmentDirections.toSingleRecipeFragment(it)
             findNavController().navigate(direction)
         }
+
+
     }
 
 
@@ -72,7 +74,6 @@ class AllRecipesFragment : Fragment() {
                 return false
             }
         })
-
     }.root
 
     //TODO поиск не отображается
@@ -94,6 +95,7 @@ class AllRecipesFragment : Fragment() {
                 return false
             }
         })
+        return super.onCreateOptionsMenu(menu, inflater)
     }
 
     fun filter(text: String): MutableList<Recipe>? {
