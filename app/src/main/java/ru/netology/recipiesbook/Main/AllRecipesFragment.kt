@@ -63,23 +63,23 @@ class AllRecipesFragment : Fragment() {
         }
 
 
-//TODO searchView не кликабельно
+//TODO searchView не кликабельно, если делать отдельным полем (ниже)
 
-        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(text: String?): Boolean {
-                if (text.isNullOrBlank()) return false
-                adapter.submitList(filter(text))
-                return false
-            }
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.isNullOrBlank()) return false
-                adapter.submitList(filter(newText))
-                return false
-            }
-        })
+//        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(text: String?): Boolean {
+//                if (text.isNullOrBlank()) return false
+//                adapter.submitList(filter(text))
+//                return false
+//            }
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                if (newText.isNullOrBlank()) return false
+//                adapter.submitList(filter(newText))
+//                return false
+//            }
+//        })
     }.root
 
-    //TODO поиск не отображается
+    //TODO лупа поиска не отображается, если делать в панели инструментов (ниже)
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.search_menu, menu)
         val searchItem: MenuItem = menu.findItem(R.id.actionSearch)
