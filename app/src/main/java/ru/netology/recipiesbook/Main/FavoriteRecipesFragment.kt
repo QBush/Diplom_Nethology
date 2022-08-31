@@ -1,17 +1,19 @@
 package ru.netology.recipiesbook.Main
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.adapter.RecipesAdapter
 
 import ru.netology.recipiesbook.Main.AdapterAndVMAllRecipes.RecipesViewModel
 
 import ru.netology.recipiesbook.Main.data.Recipe
+import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.AllRecipesFragmentBinding
 import ru.netology.recipiesbook.databinding.FavoritesRecipesFragmentBinding
 
@@ -26,6 +28,20 @@ class FavoriteRecipesFragment : Fragment() {
             val direction = AllRecipesFragmentDirections.toRecipeContentFragment(it)
             findNavController().navigate(direction)
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.toolbar_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                //TODO сделать код из AllRecipesFragment, когда он будет готов
+                return false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     override fun onCreateView(

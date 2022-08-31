@@ -27,6 +27,7 @@ class AppActivity : AppCompatActivity(R.layout.app_activity) {
         super.onCreate(savedInstanceState)
         val binding = AppActivityBinding.inflate(layoutInflater)
 
+        //устанавливаем нижнюю навигацию
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
@@ -34,16 +35,19 @@ class AppActivity : AppCompatActivity(R.layout.app_activity) {
             .setupWithNavController(navController)
 
         val toolbarBinding = findViewById<BottomNavigationView>(R.id.bottom_nav)
-
+        //ToolBar сверху
+        setSupportActionBar(findViewById(R.id.topAppBar))
 
         navController.addOnDestinationChangedListener { _, nd: NavDestination, _ ->
             if (nd.id == R.id.allRecipesFragment || nd.id == R.id.favoritesRecipesFragment) {
                 toolbarBinding.visibility = View.VISIBLE
+                binding.topAppBar.visibility = View.VISIBLE
             } else {
                 toolbarBinding.visibility = View.GONE
+                binding.topAppBar.visibility = View.GONE
             }
-
         }
+
 
     }
 

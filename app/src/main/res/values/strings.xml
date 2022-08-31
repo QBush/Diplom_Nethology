@@ -34,5 +34,8 @@
     <string name="category_AMERICAN">AMERICAN</string>
     <string name="category_RUSSIAN">RUSSIAN</string>
     <string name="category_MEDITERRANEAN">MEDITERRANEAN</string>
+    <string name="category_filter">category filter</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancel</string>
 
 </resources>

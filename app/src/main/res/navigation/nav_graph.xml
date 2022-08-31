@@ -16,14 +16,31 @@
         <action
             android:id="@+id/toSingleRecipeFragment"
             app:destination="@id/singleRecipeFragment" />
-
+        <action
+            android:id="@+id/toFilterDialog"
+            app:destination="@+id/filterDialogFragment" />
+        <argument
+            android:name="categoriesArray"
+            app:argType="string"
+            />
     </fragment>
 
     <fragment
         android:id="@+id/favoritesRecipesFragment"
         android:name="ru.netology.recipiesbook.Main.FavoriteRecipesFragment"
         android:label="@string/favorites"
-        tools:layout="@layout/favorites_recipes_fragment" />
+        tools:layout="@layout/favorites_recipes_fragment">
+        <action
+            android:id="@+id/toRecipeContentFragment"
+            app:destination="@id/recipeContentFragment" />
+        <action
+            android:id="@+id/toSingleRecipeFragment"
+            app:destination="@id/singleRecipeFragment" />
+        <action
+            android:id="@+id/toFilterDialog"
+            app:destination="@+id/FilterDialogFragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/recipeContentFragment"
@@ -37,13 +54,20 @@
     <fragment
         android:id="@+id/singleRecipeFragment"
         android:name="ru.netology.recipiesbook.Main.SingleRecipeFragment"
-        android:label="RecipeContentFragment">
+        android:label="SingleRecipeFragment">
         <argument
             android:name="recipeId"
-            app:argType="long"
-            />
+            app:argType="long" />
     </fragment>
 
+    <fragment
+        android:id="@+id/filterDialogFragment"
+        android:name="ru.netology.recipiesbook.Main.FilterDialogFragment"
+        android:label="FilterDialogFragment">
+        <action
+            android:id="@+id/toAllRecipesFragment"
+            app:destination="@+id/allRecipesFragment" />
+    </fragment>
 
 
 </navigation>

@@ -111,7 +111,7 @@ class RecipeContentFragment : Fragment() {
             }
 
 // Конструкция для выпадающего списка
-            val countries = resources.getStringArray(R.array.countries_array)
+            val countries = resources.getStringArray(R.array.categories_array)
             val categoryAdapter = context?.let {
                 ArrayAdapter(
                     it,
@@ -226,13 +226,5 @@ class RecipeContentFragment : Fragment() {
     }
 }
 
-//    } else null
-//    {
-//        Recipe(
-//            recipeId = currentId,
-//            recipeName = binding.recipeName.text.toString(),
-//            mainImageSource = binding.mainRecipeImage.text.toString(),
-//            content = currentStepList
-//        )
-//    }
+
 

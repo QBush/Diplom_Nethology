@@ -8,23 +8,23 @@
     android:orientation="vertical"
     tools:context=".Main.AllRecipesFragment">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/teal_200"
-        android:textCursorDrawable="@null"
-        app:iconifiedByDefault="false"
-        app:layout_constraintTop_toTopOf="parent"
-        app:queryHint="@string/search_hint"
-/>
+<!--    <androidx.appcompat.widget.SearchView-->
+<!--        android:id="@+id/search"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/teal_200"-->
+<!--        android:textCursorDrawable="@null"-->
+<!--        app:iconifiedByDefault="false"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:queryHint="@string/search_hint"-->
+<!--/>-->
 
     <ImageView
         android:id="@+id/allRecipesFullPicture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/search"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/all_recipes_full_picture"
         android:contentDescription="@string/mainImageForEmptyData" />
 
@@ -36,7 +36,7 @@
         tools:listitem="@layout/recipes_list_item"
         android:paddingTop="@dimen/bar_size"
         android:paddingBottom="@dimen/bar_size"
-        app:layout_constraintTop_toBottomOf="@+id/search"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

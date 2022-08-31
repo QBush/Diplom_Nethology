@@ -2,6 +2,7 @@ package ru.netology.recipiesbook.Main.AdapterAndVMAllRecipes
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.adapter.RecipeInteractionListener
 import ru.netology.nmedia.db.AppDb
@@ -23,6 +24,8 @@ class RecipesViewModel(
 
     val navigateToSingleRecipeFragment = SingleLiveEvent<Long>()
     val navigateToRecipeContentFragmentFromAllRecipes = SingleLiveEvent<Long>()
+
+    var filteredRecipeList = MutableLiveData<List<Recipe>?>()
 
     fun onAddClick() {
         navigateToRecipeContentFragmentFromAllRecipes.value = NEW_RECIPE_ID

@@ -9,21 +9,13 @@
     tools:context=".Main.AllRecipesFragment"
     android:id="@+id/favoritesRecipesFragment">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/favoriteRecipesHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/favorites"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center"
-        />
 
     <ImageView
         android:id="@+id/favoriteRecipesFullPicture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/favoriteRecipesHeader"
+        app:layout_constraintTop_toBottomOf="parent"
         app:srcCompat="@drawable/favorites_full_picture" />
 
     <androidx.recyclerview.widget.RecyclerView
