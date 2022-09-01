@@ -23,19 +23,20 @@ class FilterDialogFragment : DialogFragment() {
         const val SAVED_CATEGORIES_KEY = "categories"
     }
 
-    // достаем значение чекбоксов предыдущее
-    private val previousContent = context?.getSharedPreferences(
-        "previousNewContent", Context.MODE_PRIVATE
-    )
-    val content = previousContent?.getString(SAVED_CHECKBOXES, null)
-    val checkedItems: BooleanArray = if (content != null) {
-        Json.decodeFromString(content)
-    } else booleanArrayOf(true, true, true, true, true, true, true)
-
-    private val categories = resources.getStringArray(R.array.categories_array)
-    private val chosenCategories = arrayListOf<String>()
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        // достаем значение чекбоксов предыдущее
+        val previousContent = context?.getSharedPreferences(
+            "previousNewContent", Context.MODE_PRIVATE
+        )
+        val content = previousContent?.getString(SAVED_CHECKBOXES, null)
+        val checkedItems: BooleanArray = if (content != null) {
+            Json.decodeFromString(content)
+        } else booleanArrayOf(true, true, true, true, true, true, true)
+
+        val categories = resources.getStringArray(R.array.categories_array)
+        val chosenCategories = arrayListOf<String>()
+        chosenCategories.addAll(categories)
+
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.setTitle("Choose categories")
@@ -43,17 +44,19 @@ class FilterDialogFragment : DialogFragment() {
                     checkedItems[which] = isChecked
                     if (isChecked) {
                         chosenCategories.add(categories[which])
-                    }
+                    } else chosenCategories.remove(categories[which])
                 }
                 .setPositiveButton(R.string.ok)
                 { dialog, id ->
-                    setFragmentResult(SAVED_CATEGORIES_KEY, bundleOf("bundle" to chosenCategories))
-                    Json.encodeToString(checkedItems)
+                    previousContent?.edit {
+                        putString(SAVED_CHECKBOXES, Json.encodeToString(checkedItems))
+                    }
+                    setFragmentResult(FILTER_DIALOG_RESULT, bundleOf(SAVED_CATEGORIES_KEY to chosenCategories))
 //                    val direction = FilterDialogFragmentDirections.toAllRecipesFragment(Json.encodeToString(choosenCategories))
 //                    findNavController().navigate(direction)
                 }
                 .setNegativeButton(R.string.cancel) { dialog, _ ->
-                    setFragmentResult(FILTER_DIALOG_RESULT, bundleOf(SAVED_CATEGORIES_KEY to categories))
+//                    setFragmentResult(FILTER_DIALOG_RESULT, bundleOf(SAVED_CATEGORIES_KEY to categories))
 //                    val direction = FilterDialogFragmentDirections.toAllRecipesFragment(Json.encodeToString(categories))
 //                    findNavController().navigate(direction)
                 }

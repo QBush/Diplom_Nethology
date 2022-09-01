@@ -41,9 +41,11 @@ class AllRecipesFragment : Fragment() {
         }
 
         setFragmentResultListener(FILTER_DIALOG_RESULT) { _, bundle ->
-            val filterResult = bundle.get(SAVED_CATEGORIES_KEY) as Array<String>
-            viewModel.filteredRecipeList.value = viewModel.data.value?.filter {
-                filterResult.contains(it.category.toString())
+            val filterResult = bundle.getStringArrayList(SAVED_CATEGORIES_KEY)
+            if (filterResult != null) {
+                viewModel.filteredRecipeList.value = viewModel.data.value?.filter {
+                    filterResult.contains(it.category.toString())
+                }
             }
         }
     }
@@ -74,7 +76,6 @@ class AllRecipesFragment : Fragment() {
                 adapter.submitList(it)
             }
         }
-
     }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,29 +83,30 @@ class AllRecipesFragment : Fragment() {
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.toolbar_menu, menu)
+//                val search = menu.findItem(R.id.actionSearch)
+//                val searchView: SearchView = search.actionView as SearchView
             }
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
+                    // TODO код не заходит по нажатию ниже
                     R.id.actionSearch -> {
-                        // TODO фильтрации не происходит, вообще в код не заходит при клике на поиск
                         val searchView: SearchView = menuItem.actionView as SearchView
                         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
                             android.widget.SearchView.OnQueryTextListener {
                             override fun onQueryTextSubmit(text: String?): Boolean {
                                 if (text.isNullOrBlank()) return false
-                                adapter.submitList(filter(text))
+                                viewModel.filteredRecipeList.value = viewModel.filter(text)
                                 return false
                             }
 
                             override fun onQueryTextChange(newText: String): Boolean {
-                                adapter.submitList(filter(newText))
+                                viewModel.filteredRecipeList.value = viewModel.filter(newText)
                                 return false
                             }
                         })
                         true
                     }
                     R.id.filterDialogFragment -> {
-                        //TODO при переходе на диалог обваливается
                         val dialogFragment = FilterDialogFragment()
                         val manager = getFragmentManager()
                         if (manager != null) {
@@ -118,71 +120,20 @@ class AllRecipesFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-// TODO ниже другая попытка реанимировать меню в ToolBar - не отображаются кнопки меню
-
-//    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-//        R.id.actionSearch -> {
-//            val searchView: SearchView = item.actionView as SearchView
-//
-//            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-//                android.widget.SearchView.OnQueryTextListener {
-//                override fun onQueryTextSubmit(text: String?): Boolean {
-//                    if (text.isNullOrBlank()) return false
-//                    adapter.submitList(filter(text))
-//                    return false
-//                }
-//
-//                override fun onQueryTextChange(newText: String): Boolean {
-//                    adapter.submitList(filter(newText))
-//                    return false
-//                }
-//            })
-//            true
-//        }
-//        R.id.filterDialogFragment -> {
-//            val dialogFragment = FilterDialogFragment()
-//            val manager = getFragmentManager()
-//            if (manager != null) {
-//                dialogFragment.show(manager, "filterDialog")
-//            }
-//            true
-//        }
-//        else -> {
-//            super.onOptionsItemSelected(item)
-//        }
-//    }
-
-    //TODO Еще одна попытка: кнопки меню не отображаются во фрагменте, если делать в Action Bar
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.toolbar_menu, menu)
-//        val searchItem: MenuItem = menu.findItem(R.id.actionSearch)
-//        val searchView: SearchView = searchItem.actionView as SearchView
-//
-//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-//            android.widget.SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(text: String?): Boolean {
-//                if (text.isNullOrBlank()) return false
-//                adapter.submitList(filter(text))
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String): Boolean {
-//                adapter.submitList(filter(newText))
-//                return false
-//            }
-//        })
-//        return super.onCreateOptionsMenu(menu, inflater)
-//    }
 
     // метод для фильтра по поисковому запросу
-    fun filter(text: String): MutableList<Recipe>? {
-        val filteredRecipes = viewModel.data.value?.toMutableList() ?: return null
-        for (recipe in filteredRecipes) {
-            if (recipe.recipeName.toLowerCase().contains(text.toLowerCase())
-            ) {
-                filteredRecipes.add(recipe)
-            }
-        }
-        return filteredRecipes
-    }
+//    fun filter(text: String): MutableList<Recipe>? {
+//        val filteredRecipes = viewModel.filteredRecipeList.value?.toMutableList() ?:
+//        viewModel.data.value?.toMutableList() ?:
+//        return null
+//
+//        for (recipe in filteredRecipes) {
+//            if (recipe.recipeName.toLowerCase().contains(text.toLowerCase())
+//            ) {
+//                filteredRecipes.add(recipe)
+//            }
+//        }
+//        viewModel.filteredRecipeList.value = filteredRecipes
+//        return filteredRecipes
+//    }
 }

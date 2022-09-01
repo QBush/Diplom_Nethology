@@ -26,6 +26,7 @@ class RecipesViewModel(
     val navigateToRecipeContentFragmentFromAllRecipes = SingleLiveEvent<Long>()
 
     var filteredRecipeList = MutableLiveData<List<Recipe>?>()
+    var filteredFavoriteRecipeList = MutableLiveData<List<Recipe>?>()
 
     fun onAddClick() {
         navigateToRecipeContentFragmentFromAllRecipes.value = NEW_RECIPE_ID
@@ -43,5 +44,26 @@ class RecipesViewModel(
 
     override fun onAddToFavoritesClick(recipeId: Long) = repository.addToFavorites(recipeId)
 
+    fun filter(text: String): MutableList<Recipe>? {
+        val filteredRecipes = filteredRecipeList.value?.toMutableList() ?: data.value?.toMutableList() ?: return null
+        for (recipe in filteredRecipes) {
+            if (recipe.recipeName.toLowerCase().contains(text.toLowerCase())
+            ) {
+                filteredRecipes.add(recipe)
+            }
+        }
+        return filteredRecipes
+    }
+
+    fun filterFavorite(text: String): MutableList<Recipe>? {
+        val filteredRecipes = filteredFavoriteRecipeList.value?.toMutableList() ?: data.value?.toMutableList() ?: return null
+        for (recipe in filteredRecipes) {
+            if (recipe.recipeName.toLowerCase().contains(text.toLowerCase())
+            ) {
+                filteredRecipes.add(recipe)
+            }
+        }
+        return filteredRecipes
+    }
 
 }

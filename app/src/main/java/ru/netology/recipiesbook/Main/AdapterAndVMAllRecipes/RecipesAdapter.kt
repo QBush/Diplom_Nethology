@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.PopupMenu
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -71,6 +72,7 @@ class RecipesAdapter(
                 if (!recipe.mainImageSource.isNullOrBlank()) {
                     binding.mainRecipeImage.visibility = View.VISIBLE
                     //TODO картинка по ссылке не отображается
+//                    mainRecipeImage.setImageURI(recipe.mainImageSource.toUri())
                     Picasso.get().load(recipe.mainImageSource).into(binding.mainRecipeImage)
                 }
                 addToFavorites.isChecked = recipe.addedToFavorites

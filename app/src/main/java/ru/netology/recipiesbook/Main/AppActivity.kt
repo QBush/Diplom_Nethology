@@ -35,7 +35,7 @@ class AppActivity : AppCompatActivity(R.layout.app_activity) {
             .setupWithNavController(navController)
 
         val toolbarBinding = findViewById<BottomNavigationView>(R.id.bottom_nav)
-        //ToolBar сверху
+        //ToolBar
         setSupportActionBar(findViewById(R.id.topAppBar))
 
         navController.addOnDestinationChangedListener { _, nd: NavDestination, _ ->
