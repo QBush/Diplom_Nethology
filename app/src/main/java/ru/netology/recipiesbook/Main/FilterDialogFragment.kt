@@ -16,6 +16,7 @@ import kotlinx.serialization.json.Json
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.R
 
+//фрагмент для фильтрации по категориям
 class FilterDialogFragment : DialogFragment() {
     companion object {
         const val SAVED_CHECKBOXES = "checkboxes"

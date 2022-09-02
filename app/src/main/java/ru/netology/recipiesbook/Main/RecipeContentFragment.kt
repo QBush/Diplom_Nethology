@@ -28,6 +28,7 @@ import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 import java.util.Collections.addAll
 
+//Фрагмент для редактирования и добавления рецептов. Добавление картинок происходит через указание ссылок
 //TODO не отображается удаление, утверждение(сохранение) и добавление шагов во всех ситуациях
 class RecipeContentFragment : Fragment() {
 

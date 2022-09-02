@@ -20,6 +20,7 @@ import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.AllRecipesFragmentBinding
 import ru.netology.recipiesbook.databinding.FavoritesRecipesFragmentBinding
 
+//Фрагмент для избранных рецептов. Почти аналогичен фрагменту всех рецептов
 class FavoriteRecipesFragment : Fragment() {
 
     private val viewModel by viewModels<RecipesViewModel>(ownerProducer = ::requireParentFragment)

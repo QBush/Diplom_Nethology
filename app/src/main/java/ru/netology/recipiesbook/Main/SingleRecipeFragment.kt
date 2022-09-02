@@ -16,6 +16,7 @@ import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.SingleRecipeFragmentBinding
 
+//Фрагмент отдельного рецепта. Не было возможности проверить из-за ошибки с нулевым репозиторием (см вопросы)
 class SingleRecipeFragment : Fragment() {
 
     private val viewModel by viewModels<SingleRecipeViewModel>(ownerProducer = ::requireParentFragment)

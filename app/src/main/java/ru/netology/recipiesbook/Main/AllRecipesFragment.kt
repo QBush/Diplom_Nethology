@@ -20,6 +20,7 @@ import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.AllRecipesFragmentBinding
 
+//Фрагмент для всех рецептов
 class AllRecipesFragment : Fragment() {
 
 
