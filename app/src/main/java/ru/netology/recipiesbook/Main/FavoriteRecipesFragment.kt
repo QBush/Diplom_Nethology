@@ -56,19 +56,18 @@ class FavoriteRecipesFragment : Fragment() {
         // здесь фильтруем список, все остальное так же
         viewModel.data.observe(viewLifecycleOwner) { it ->
             val favorites = it.filter { it.addedToFavorites }
-            adapter.submitList(favorites)
-
-            if (viewModel.data.value?.firstOrNull { it.addedToFavorites } == null) {
+            if (favorites.isEmpty()) {
                 binding.favoriteRecipesFullPicture.visibility = View.VISIBLE
             } else {
                 binding.favoriteRecipesFullPicture.visibility = View.GONE
             }
+            adapter.submitList(favorites)
+
+
         }
 
         viewModel.filteredFavoriteRecipeList.observe(viewLifecycleOwner) {
-            if(!it.isNullOrEmpty()) {
                 adapter.submitList(it)
-            }
         }
     }.root
 

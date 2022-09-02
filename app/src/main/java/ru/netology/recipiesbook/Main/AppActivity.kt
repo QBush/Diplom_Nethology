@@ -41,10 +41,8 @@ class AppActivity : AppCompatActivity(R.layout.app_activity) {
         navController.addOnDestinationChangedListener { _, nd: NavDestination, _ ->
             if (nd.id == R.id.allRecipesFragment || nd.id == R.id.favoritesRecipesFragment) {
                 toolbarBinding.visibility = View.VISIBLE
-                binding.topAppBar.visibility = View.VISIBLE
             } else {
                 toolbarBinding.visibility = View.GONE
-                binding.topAppBar.visibility = View.GONE
             }
         }
 

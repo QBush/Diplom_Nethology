@@ -72,9 +72,8 @@ class AllRecipesFragment : Fragment() {
         }
 
         viewModel.filteredRecipeList.observe(viewLifecycleOwner) {
-            if(!it.isNullOrEmpty()) {
                 adapter.submitList(it)
-            }
+
         }
     }.root
 

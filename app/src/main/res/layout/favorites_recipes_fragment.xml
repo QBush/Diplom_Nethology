@@ -7,7 +7,8 @@
     android:orientation="vertical"
     android:padding="@dimen/common_spacing"
     tools:context=".Main.AllRecipesFragment"
-    android:id="@+id/favoritesRecipesFragment">
+    android:id="@+id/favoritesRecipesFragment"
+    android:paddingTop="96dp">
 
 
     <ImageView
@@ -15,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/favorites_full_picture" />
 
     <androidx.recyclerview.widget.RecyclerView

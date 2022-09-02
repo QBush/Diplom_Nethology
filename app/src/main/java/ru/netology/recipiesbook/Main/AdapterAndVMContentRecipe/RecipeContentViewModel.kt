@@ -37,8 +37,9 @@ class RecipeContentViewModel(
         repository.save(recipe)
     }
 
-//TODO работает, но так как слушатель во фрагменте не реагирует, то адаптер не обновляется
-// и данные тоже не обновляются.
+//TODO метод сохранения (утверждения)шага. Работает, но так как слушатель во фрагменте не реагирует,
+// то адаптер не обновляется и данные тоже не обновляются.
+
     override fun onSaveStepClick(recipeContent: RecipeContent) {
         stepList.value?.replaceAll {
             when (it.stepNumber) {

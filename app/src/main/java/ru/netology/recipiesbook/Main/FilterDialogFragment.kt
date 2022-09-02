@@ -35,8 +35,13 @@ class FilterDialogFragment : DialogFragment() {
 
         val categories = resources.getStringArray(R.array.categories_array)
         val chosenCategories = arrayListOf<String>()
-        chosenCategories.addAll(categories)
 
+        //получаем предыдущее состояние чекбоксов
+        for (i in categories.indices) {
+            if (checkedItems[i]) {
+                chosenCategories.add(categories[i])
+            }
+        }
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.setTitle("Choose categories")

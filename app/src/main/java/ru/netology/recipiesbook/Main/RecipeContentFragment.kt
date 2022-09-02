@@ -143,7 +143,7 @@ class RecipeContentFragment : Fragment() {
                 updateRecipeStepsNumbers(viewModel.stepList.value)
                 currentRecipe =
                     updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
-                val currentStepList = currentRecipe?.content?.toList() ?: mutableListOf()
+                val currentStepList = currentRecipe?.content?.toMutableList() ?: mutableListOf()
                 adapter.submitList(currentStepList)
             }
 

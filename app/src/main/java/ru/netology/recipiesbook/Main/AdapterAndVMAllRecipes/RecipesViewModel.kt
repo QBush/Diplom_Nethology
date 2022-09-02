@@ -21,11 +21,14 @@ class RecipesViewModel(
     )
 
     val data by repository::data
-
+// событие перехода на одиночный фрагмент
     val navigateToSingleRecipeFragment = SingleLiveEvent<Long>()
+// событие перехода на фрагмент редактирования
     val navigateToRecipeContentFragmentFromAllRecipes = SingleLiveEvent<Long>()
 
+//Отфильтрованный список во фрагменте со всеми рецептами
     var filteredRecipeList = MutableLiveData<List<Recipe>?>()
+//Отфильтрованный список во фрагменте с избранными рецептами
     var filteredFavoriteRecipeList = MutableLiveData<List<Recipe>?>()
 
     fun onAddClick() {
@@ -43,6 +46,7 @@ class RecipesViewModel(
     }
 
     override fun onAddToFavoritesClick(recipeId: Long) = repository.addToFavorites(recipeId)
+
 
     fun filter(text: String): MutableList<Recipe>? {
         val filteredRecipes = filteredRecipeList.value?.toMutableList() ?: data.value?.toMutableList() ?: return null
