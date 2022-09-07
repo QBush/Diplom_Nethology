@@ -28,9 +28,10 @@ internal class SingleRecipeAdapter(
         private val binding: SingleRecipeStepBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var recipeContent: RecipeContent
+//        private lateinit var recipeContent: RecipeContent
+
         fun bind(recipeContent: RecipeContent) {
-            this.recipeContent = recipeContent
+//            this.recipeContent = recipeContent
             with(binding) {
                 stepText.text = recipeContent.stepContent
                 Picasso.get().load(recipeContent.stepImageURL).into(binding.stepImage)

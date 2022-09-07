@@ -49,7 +49,7 @@ class RecipesViewModel(
 
 
     fun filter(text: String): MutableList<Recipe>? {
-        val filteredRecipes = filteredRecipeList.value?.toMutableList() ?: data.value?.toMutableList() ?: return null
+        val filteredRecipes = data.value?.toMutableList() ?: return null
         for (recipe in filteredRecipes) {
             if (recipe.recipeName.toLowerCase().contains(text.toLowerCase())
             ) {

@@ -40,7 +40,7 @@ internal class RecipeContentAdapter(
             binding.stepImage.showSoftInputOnFocus = false
 //сохранение шага при нажатии на галочку возле шага
             binding.saveStepButton.setOnClickListener {
-                if (binding.stepText.toString().isNotBlank()) {
+                if (binding.stepText.toString().isNotEmpty()) {
                     recipeContent.stepContent = binding.stepText.toString()
                     recipeContent.stepImageURL = binding.stepImage.toString()
                     interactionListener.onSaveStepClick(recipeContent)

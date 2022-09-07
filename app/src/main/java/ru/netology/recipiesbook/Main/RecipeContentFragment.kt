@@ -62,6 +62,7 @@ class RecipeContentFragment : Fragment() {
             val currentRecipeList = viewModel.data.value
 
 //назначаем текущий рецепт либо из репозитория, либо если там null, то берем сохраненный ранее
+
             var currentRecipe = findRecipeById(currentId, currentRecipeList)
                 ?: previousRecipeContent
 
@@ -77,15 +78,9 @@ class RecipeContentFragment : Fragment() {
                         category.setText(currentRecipe?.category.toString())
                     }
                     mainRecipeImage.setText(currentRecipe?.mainImageSource ?: FREE_SPACE)
-                    //TODO шаги не обновляются адаптером
                     viewModel.stepList.value = currentRecipe?.content?.toMutableList()
-//                    adapter.submitList(currentRecipe?.content?.toMutableList())
                 }
-//                else {
-//здесь мы обеспечиваем, что дальше текущий рецепт не будет нулевой до ухода с фрагмента
 
-//                    currentRecipe = Recipe(currentId, "")
-//                }
 //убираем отображение клавиатуры
                 category.showSoftInputOnFocus = false
                 mainRecipeImage.showSoftInputOnFocus = false
@@ -99,19 +94,12 @@ class RecipeContentFragment : Fragment() {
                         Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
-                    //TODO 12
                     viewModel.stepList.value?.add(
                         RecipeContent(
                             stepContent = FREE_SPACE
                         )
                     )
                     viewModel.stepList.value = viewModel.stepList.value?.toMutableList()
-                    currentRecipe = updateCurrentRecipe(
-                            binding,currentRecipe,viewModel.stepList.value,currentId
-                        )
-                    //TODO шаги не обновляются адаптером
-//                    val currentStepList = currentRecipe?.content?.toMutableList()
-//                    adapter.submitList(currentStepList)
                 }
             }
 
@@ -142,14 +130,12 @@ class RecipeContentFragment : Fragment() {
                 }
             }
 
-//TODO план был, чтобы эта конструкция вызывалась каждый раз при изменении данных в stepList,
-// чтобы не повторять код, но она не реагирует ни на что, кроме самого первого обращения к viewModel
+//TODO шаги все равно не обновляются адаптером
             viewModel.stepList.observe(viewLifecycleOwner) {
                 updateRecipeStepsNumbers(viewModel.stepList.value)
                 currentRecipe =
                     updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
-                val currentStepList = currentRecipe?.content?.toMutableList() ?: mutableListOf()
-                adapter.submitList(currentStepList)
+                adapter.submitList(it)
             }
 
 // при движении назад сохраняем Преф
@@ -227,7 +213,13 @@ class RecipeContentFragment : Fragment() {
                 content = currentStepList
             )
         }
-        return null
+        return Recipe(
+            recipeId = currentId,
+            recipeName = binding.recipeName.text.toString(),
+            mainImageSource = binding.mainRecipeImage.text.toString(),
+            category = Category.valueOf(binding.category.text.toString()),
+            content = currentStepList
+        )
     }
 }
 

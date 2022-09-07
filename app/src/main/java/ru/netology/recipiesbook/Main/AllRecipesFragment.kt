@@ -74,7 +74,6 @@ class AllRecipesFragment : Fragment() {
 
         viewModel.filteredRecipeList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
-
         }
     }.root
 
@@ -83,8 +82,21 @@ class AllRecipesFragment : Fragment() {
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.toolbar_menu, menu)
-//                val search = menu.findItem(R.id.actionSearch)
-//                val searchView: SearchView = search.actionView as SearchView
+                val search = menu.findItem(R.id.actionSearch)
+                val searchView: SearchView = search.actionView as SearchView
+                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+                    android.widget.SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(text: String?): Boolean {
+                        if (text.isNullOrBlank()) return false
+                        viewModel.filteredRecipeList.value = viewModel.filter(text)
+                        return false
+                    }
+
+                    override fun onQueryTextChange(newText: String): Boolean {
+                        viewModel.filteredRecipeList.value = viewModel.filter(newText)
+                        return false
+                    }
+                })
             }
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
@@ -106,6 +118,7 @@ class AllRecipesFragment : Fragment() {
                         })
                         true
                     }
+
                     R.id.filterDialogFragment -> {
                         val dialogFragment = FilterDialogFragment()
                         val manager = getFragmentManager()
@@ -119,21 +132,4 @@ class AllRecipesFragment : Fragment() {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
-
-
-    // метод для фильтра по поисковому запросу
-//    fun filter(text: String): MutableList<Recipe>? {
-//        val filteredRecipes = viewModel.filteredRecipeList.value?.toMutableList() ?:
-//        viewModel.data.value?.toMutableList() ?:
-//        return null
-//
-//        for (recipe in filteredRecipes) {
-//            if (recipe.recipeName.toLowerCase().contains(text.toLowerCase())
-//            ) {
-//                filteredRecipes.add(recipe)
-//            }
-//        }
-//        viewModel.filteredRecipeList.value = filteredRecipes
-//        return filteredRecipes
-//    }
 }

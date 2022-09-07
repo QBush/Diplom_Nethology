@@ -40,48 +40,47 @@ class SingleRecipeFragment : Fragment() {
     ) = SingleRecipeFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
         val currentId = args.recipeId
-        //TODO здесь мы получаем null
-        val currentRecipeList = viewModel.data.value
-
-        var currentRecipe = findRecipeById(currentId, currentRecipeList)
-            ?: run {
-                findNavController().popBackStack()
-                return@also
-            }
-        viewModel.currentRecipe.value = currentRecipe
-
-        val popupMenu by lazy {
-            PopupMenu(context, binding.singleListItem.options).apply {
-                inflate(R.menu.options_recipe)
-                setOnMenuItemClickListener { menuItem ->
-                    when (menuItem.itemId) {
-                        R.id.remove -> {
-                            viewModel.onRemoveClick(currentRecipe.recipeId)
-                            true
-                        }
-                        R.id.edit -> {
-                            viewModel.onEditClick(currentRecipe)
-                            true
-                        }
-                        else -> false
-                    }
-                }
-            }
-        }
-
-        with(binding) {
-            singleListItem.recipeName.text = currentRecipe.recipeName
-            singleListItem.category.text = currentRecipe.category.toString()
-            singleListItem.authorName.text = currentRecipe.author
-            singleListItem.options.setOnClickListener { popupMenu.show() }
-        }
-
         val adapter = SingleRecipeAdapter()
         binding.recipeStepsContentRecyclerView.adapter = adapter
 
-        viewModel.currentRecipe.observe(viewLifecycleOwner) {
-            val recipe = it
-            adapter.submitList(recipe.content)
+        //TODO здесь мы получаем null
+        viewModel.data.observe(viewLifecycleOwner) { recipes ->
+            var currentRecipe = findRecipeById(currentId, recipes)
+                ?: run {
+                    findNavController().popBackStack()
+                    return@observe
+                }
+
+            viewModel.currentRecipe.value = currentRecipe
+
+            val popupMenu by lazy {
+                PopupMenu(context, binding.singleListItem.options).apply {
+                    inflate(R.menu.options_recipe)
+                    setOnMenuItemClickListener { menuItem ->
+                        when (menuItem.itemId) {
+                            R.id.remove -> {
+                                viewModel.onRemoveClick(currentRecipe.recipeId)
+                                true
+                            }
+                            R.id.edit -> {
+                                viewModel.onEditClick(currentRecipe)
+                                true
+                            }
+                            else -> false
+                        }
+                    }
+                }
+            }
+
+            with(binding) {
+                singleListItem.recipeName.text = currentRecipe.recipeName
+                singleListItem.category.text = currentRecipe.category.toString()
+                singleListItem.authorName.text = currentRecipe.author
+                Picasso.get().load(currentRecipe.mainImageSource).into(binding.singleListItem.mainRecipeImage)
+                singleListItem.options.setOnClickListener { popupMenu.show() }
+            }
+
+            adapter.submitList(currentRecipe.content?.toList())
         }
     }.root
 
