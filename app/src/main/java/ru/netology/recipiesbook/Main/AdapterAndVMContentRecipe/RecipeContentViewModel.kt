@@ -27,10 +27,14 @@ class RecipeContentViewModel(
 
 
     override fun onDeleteStepClick(stepNumber: Int) {
-        stepList.value?.removeAll() { recipeStep ->
+
+
+//TODO 12
+        stepList.value?.removeAll { recipeStep ->
             recipeStep.stepNumber == stepNumber
         }
         updateRecipeStepsNumbers(stepList.value)
+        stepList.value = stepList.value?.toMutableList()
     }
 
     override fun onSaveButtonClick(recipe: Recipe) {
@@ -41,6 +45,7 @@ class RecipeContentViewModel(
 // то адаптер не обновляется и данные тоже не обновляются.
 
     override fun onSaveStepClick(recipeContent: RecipeContent) {
+//TODO 12
         stepList.value?.replaceAll {
             when (it.stepNumber) {
                 recipeContent.stepNumber -> {
@@ -51,7 +56,6 @@ class RecipeContentViewModel(
                 }
             }
         }
-
-
+        stepList.value = stepList.value?.toMutableList()
     }
 }

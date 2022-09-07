@@ -14,6 +14,7 @@ fun findRecipeById(recipeId: Long, recipes: List<Recipe>?)
 
 //для обновления номеров шагов в случае удаления шага
 fun updateRecipeStepsNumbers(recipeList: MutableList<RecipeContent>?) =
+    //TODO 12
     recipeList?.forEachIndexed { index, recipeContent ->
         recipeContent.stepNumber = index
 //        recipeList.sortBy {recipeContent.stepNumber}

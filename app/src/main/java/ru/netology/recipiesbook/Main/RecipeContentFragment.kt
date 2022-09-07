@@ -78,11 +78,14 @@ class RecipeContentFragment : Fragment() {
                     }
                     mainRecipeImage.setText(currentRecipe?.mainImageSource ?: FREE_SPACE)
                     //TODO шаги не обновляются адаптером
-                    adapter.submitList(currentRecipe?.content?.toMutableList())
-                } else {
-//здесь мы обеспечиваем, что дальше текущий рецепт не будет нулевой до ухода с фрагмента
-                    currentRecipe = Recipe(currentId, "")
+                    viewModel.stepList.value = currentRecipe?.content?.toMutableList()
+//                    adapter.submitList(currentRecipe?.content?.toMutableList())
                 }
+//                else {
+//здесь мы обеспечиваем, что дальше текущий рецепт не будет нулевой до ухода с фрагмента
+
+//                    currentRecipe = Recipe(currentId, "")
+//                }
 //убираем отображение клавиатуры
                 category.showSoftInputOnFocus = false
                 mainRecipeImage.showSoftInputOnFocus = false
@@ -96,18 +99,19 @@ class RecipeContentFragment : Fragment() {
                         Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
+                    //TODO 12
                     viewModel.stepList.value?.add(
                         RecipeContent(
                             stepContent = FREE_SPACE
                         )
                     )
-                    updateRecipeStepsNumbers(viewModel.stepList.value)
+                    viewModel.stepList.value = viewModel.stepList.value?.toMutableList()
                     currentRecipe = updateCurrentRecipe(
                             binding,currentRecipe,viewModel.stepList.value,currentId
                         )
                     //TODO шаги не обновляются адаптером
-                    val currentStepList = currentRecipe?.content?.toMutableList()
-                    adapter.submitList(currentStepList)
+//                    val currentStepList = currentRecipe?.content?.toMutableList()
+//                    adapter.submitList(currentStepList)
                 }
             }
 
