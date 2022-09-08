@@ -16,11 +16,15 @@ import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.RecipesListItemBinding
 
 class RecipesAdapter(
-    private val interactionListener: RecipeInteractionListener
+    private val interactionListener: RecipeInteractionListener,
+    private var recipeList: ArrayList<Recipe>
 ) : ListAdapter<Recipe, RecipesAdapter.ViewHolder>(DiffCallback), Filterable {
 
+    var recipeFilterList = ArrayList<Recipe>()
 
-
+    init {
+        recipeFilterList = recipeList
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = RecipesListItemBinding.inflate(inflater, parent, false)
@@ -28,7 +32,7 @@ class RecipesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(recipeFilterList[position])
     }
 
     class ViewHolder(
@@ -94,6 +98,29 @@ class RecipesAdapter(
     }
 
     override fun getFilter(): Filter {
-        TODO("Not yet implemented")
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                if (charSearch.isEmpty()) {
+                    recipeFilterList = recipeList
+                } else {
+                    val resultList = ArrayList<Recipe>()
+                    for (recipe in recipeList) {
+                        if (recipe.recipeName.toLowerCase().contains(charSearch.toLowerCase())) {
+                            resultList.add(recipe)
+                        }
+                    }
+                    recipeFilterList = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = recipeFilterList
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                recipeFilterList = results?.values as ArrayList<Recipe>
+                notifyDataSetChanged()
+            }
+        }
     }
 }

@@ -58,7 +58,7 @@ class AllRecipesFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = AllRecipesFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        adapter = RecipesAdapter(viewModel, viewModel.data.value)
+        adapter = RecipesAdapter(viewModel, viewModel.data.value as ArrayList<Recipe>)
         binding.PostsRecycleView.adapter = adapter
 
         viewModel.data.observe(viewLifecycleOwner) {
@@ -73,7 +73,7 @@ class AllRecipesFragment : Fragment() {
         }
 
         viewModel.filteredRecipeList.observe(viewLifecycleOwner) {
-                adapter.submitList(it)
+            adapter.submitList(it)
         }
     }.root
 
@@ -88,19 +88,22 @@ class AllRecipesFragment : Fragment() {
                     android.widget.SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(text: String?): Boolean {
                         if (text.isNullOrBlank()) return false
-                        viewModel.filteredRecipeList.value = viewModel.filter(text)
+
+//                        viewModel.filteredRecipeList.value = viewModel.filter(text)
                         return false
                     }
 
                     override fun onQueryTextChange(newText: String): Boolean {
-                        viewModel.filteredRecipeList.value = viewModel.filter(newText)
+                        //TODO почему не находит filter ?
+//                        adapter.filter.filter
+//                        viewModel.filteredRecipeList.value = viewModel.filter(newText)
                         return false
                     }
                 })
             }
+
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    // TODO код не заходит по нажатию ниже
 //                    R.id.actionSearch -> {
 //                        val searchView: SearchView = menuItem.actionView as SearchView
 //                        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
@@ -131,5 +134,22 @@ class AllRecipesFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+//        fun filter(text: String) {
+//            val data: MutableList<Recipe> = viewModel.data.value?.toMutableList() ?: return
+//            val filteredlist: ArrayList<Recipe> = ArrayList()
+//
+//            for (item in data) {
+//                if (item.recipeName.toLowerCase().contains(text.toLowerCase())) {
+//                    filteredlist.add(item)
+//                }
+//            }
+//            if (filteredlist.isEmpty()) {
+//                return
+//            } else {
+//                adapter.submitList(filteredlist)
+//            }
+//        }
     }
 }
+

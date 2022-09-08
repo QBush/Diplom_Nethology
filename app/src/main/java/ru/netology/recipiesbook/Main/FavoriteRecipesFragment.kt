@@ -10,6 +10,7 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ListAdapter
 import ru.netology.nmedia.adapter.RecipesAdapter
 
 import ru.netology.recipiesbook.Main.AdapterAndVMAllRecipes.RecipesViewModel
@@ -24,6 +25,7 @@ import ru.netology.recipiesbook.databinding.FavoritesRecipesFragmentBinding
 class FavoriteRecipesFragment : Fragment() {
 
     private val viewModel by viewModels<RecipesViewModel>(ownerProducer = ::requireParentFragment)
+    lateinit var adapter: ListAdapter<Recipe, RecipesAdapter.ViewHolder>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +53,7 @@ class FavoriteRecipesFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = FavoritesRecipesFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        adapter = RecipesAdapter(viewModel, viewModel.data.value)
+        adapter = RecipesAdapter(viewModel, viewModel.data.value as ArrayList<Recipe>)
         binding.PostsRecycleView.adapter = adapter
 
         // здесь фильтруем список, все остальное так же
