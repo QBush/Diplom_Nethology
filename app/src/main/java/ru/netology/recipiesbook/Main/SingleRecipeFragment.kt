@@ -2,6 +2,7 @@ package ru.netology.recipiesbook.Main
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
@@ -27,7 +28,7 @@ class SingleRecipeFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         viewModel.navigateToRecipeContentFragmentFromSingleRecipe.observe(this) {
-            val direction = AllRecipesFragmentDirections.toRecipeContentFragment(it)
+            val direction = SingleRecipeFragmentDirections.toRecipeContentFragment(it)
             findNavController().navigate(direction)
         }
 
@@ -76,7 +77,11 @@ class SingleRecipeFragment : Fragment() {
                 singleListItem.recipeName.text = currentRecipe.recipeName
                 singleListItem.category.text = currentRecipe.category.toString()
                 singleListItem.authorName.text = currentRecipe.author
-                Picasso.get().load(currentRecipe.mainImageSource).into(binding.singleListItem.mainRecipeImage)
+                if (!currentRecipe.mainImageSource.isNullOrBlank()) {
+                    binding.singleListItem.mainRecipeImage.visibility = View.VISIBLE
+                    Picasso.get().load(currentRecipe.mainImageSource)
+                        .into(binding.singleListItem.mainRecipeImage)
+                }
                 singleListItem.options.setOnClickListener { popupMenu.show() }
             }
 

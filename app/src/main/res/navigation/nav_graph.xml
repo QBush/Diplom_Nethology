@@ -55,9 +55,13 @@
         android:id="@+id/singleRecipeFragment"
         android:name="ru.netology.recipiesbook.Main.SingleRecipeFragment"
         android:label="SingleRecipeFragment">
+        <action
+            android:id="@+id/toRecipeContentFragment"
+            app:destination="@id/recipeContentFragment" />
         <argument
             android:name="recipeId"
             app:argType="long" />
+
     </fragment>
 
     <fragment

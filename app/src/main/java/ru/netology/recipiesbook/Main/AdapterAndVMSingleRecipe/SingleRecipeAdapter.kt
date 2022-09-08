@@ -34,7 +34,9 @@ internal class SingleRecipeAdapter(
 //            this.recipeContent = recipeContent
             with(binding) {
                 stepText.text = recipeContent.stepContent
-                Picasso.get().load(recipeContent.stepImageURL).into(binding.stepImage)
+                if(!recipeContent.stepImageURL.isNullOrBlank()) {
+                    Picasso.get().load(recipeContent.stepImageURL).into(binding.stepImage)
+                }
             }
         }
     }
