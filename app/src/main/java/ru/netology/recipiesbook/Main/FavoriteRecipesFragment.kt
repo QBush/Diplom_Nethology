@@ -51,7 +51,7 @@ class FavoriteRecipesFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = FavoritesRecipesFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        val adapter = RecipesAdapter(viewModel)
+        adapter = RecipesAdapter(viewModel, viewModel.data.value)
         binding.PostsRecycleView.adapter = adapter
 
         // здесь фильтруем список, все остальное так же

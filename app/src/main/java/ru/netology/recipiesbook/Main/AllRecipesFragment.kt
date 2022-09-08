@@ -58,7 +58,7 @@ class AllRecipesFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = AllRecipesFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        adapter = RecipesAdapter(viewModel)
+        adapter = RecipesAdapter(viewModel, viewModel.data.value)
         binding.PostsRecycleView.adapter = adapter
 
         viewModel.data.observe(viewLifecycleOwner) {
@@ -101,23 +101,23 @@ class AllRecipesFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     // TODO код не заходит по нажатию ниже
-                    R.id.actionSearch -> {
-                        val searchView: SearchView = menuItem.actionView as SearchView
-                        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-                            android.widget.SearchView.OnQueryTextListener {
-                            override fun onQueryTextSubmit(text: String?): Boolean {
-                                if (text.isNullOrBlank()) return false
-                                viewModel.filteredRecipeList.value = viewModel.filter(text)
-                                return false
-                            }
-
-                            override fun onQueryTextChange(newText: String): Boolean {
-                                viewModel.filteredRecipeList.value = viewModel.filter(newText)
-                                return false
-                            }
-                        })
-                        true
-                    }
+//                    R.id.actionSearch -> {
+//                        val searchView: SearchView = menuItem.actionView as SearchView
+//                        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+//                            android.widget.SearchView.OnQueryTextListener {
+//                            override fun onQueryTextSubmit(text: String?): Boolean {
+//                                if (text.isNullOrBlank()) return false
+//                                viewModel.filteredRecipeList.value = viewModel.filter(text)
+//                                return false
+//                            }
+//
+//                            override fun onQueryTextChange(newText: String): Boolean {
+//                                viewModel.filteredRecipeList.value = viewModel.filter(newText)
+//                                return false
+//                            }
+//                        })
+//                        true
+//                    }
 
                     R.id.filterDialogFragment -> {
                         val dialogFragment = FilterDialogFragment()

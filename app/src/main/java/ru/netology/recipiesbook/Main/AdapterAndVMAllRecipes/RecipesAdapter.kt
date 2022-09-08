@@ -19,6 +19,8 @@ class RecipesAdapter(
     private val interactionListener: RecipeInteractionListener
 ) : ListAdapter<Recipe, RecipesAdapter.ViewHolder>(DiffCallback), Filterable {
 
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = RecipesListItemBinding.inflate(inflater, parent, false)
