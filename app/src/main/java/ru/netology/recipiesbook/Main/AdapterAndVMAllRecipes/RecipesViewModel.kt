@@ -47,16 +47,16 @@ class RecipesViewModel(
 
     override fun onAddToFavoritesClick(recipeId: Long) = repository.addToFavorites(recipeId)
 
-
     fun filter(text: String): MutableList<Recipe>? {
-        val filteredRecipes = data.value?.toMutableList() ?: return null
+        val filteredRecipes = filteredRecipeList.value?.toMutableList() ?: data.value?.toMutableList() ?: return null
+        val resultList = ArrayList<Recipe>()
         for (recipe in filteredRecipes) {
             if (recipe.recipeName.toLowerCase().contains(text.toLowerCase())
             ) {
-                filteredRecipes.add(recipe)
+                resultList.add(recipe)
             }
         }
-        return filteredRecipes
+        return resultList
     }
 
     fun filterFavorite(text: String): MutableList<Recipe>? {

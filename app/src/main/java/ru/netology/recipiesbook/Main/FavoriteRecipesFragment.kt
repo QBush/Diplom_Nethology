@@ -53,7 +53,7 @@ class FavoriteRecipesFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = FavoritesRecipesFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        adapter = RecipesAdapter(viewModel, viewModel.data.value as ArrayList<Recipe>)
+        adapter = RecipesAdapter(viewModel, viewModel.data.value as ArrayList<Recipe>?)
         binding.PostsRecycleView.adapter = adapter
 
         // здесь фильтруем список, все остальное так же
@@ -65,8 +65,6 @@ class FavoriteRecipesFragment : Fragment() {
                 binding.favoriteRecipesFullPicture.visibility = View.GONE
             }
             adapter.submitList(favorites)
-
-
         }
 
         viewModel.filteredFavoriteRecipeList.observe(viewLifecycleOwner) {

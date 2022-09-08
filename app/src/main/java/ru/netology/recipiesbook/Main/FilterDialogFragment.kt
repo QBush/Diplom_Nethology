@@ -58,13 +58,10 @@ class FilterDialogFragment : DialogFragment() {
                         putString(SAVED_CHECKBOXES, Json.encodeToString(checkedItems))
                     }
                     setFragmentResult(FILTER_DIALOG_RESULT, bundleOf(SAVED_CATEGORIES_KEY to chosenCategories))
-//                    val direction = FilterDialogFragmentDirections.toAllRecipesFragment(Json.encodeToString(choosenCategories))
-//                    findNavController().navigate(direction)
+
                 }
                 .setNegativeButton(R.string.cancel) { dialog, _ ->
-//                    setFragmentResult(FILTER_DIALOG_RESULT, bundleOf(SAVED_CATEGORIES_KEY to categories))
-//                    val direction = FilterDialogFragmentDirections.toAllRecipesFragment(Json.encodeToString(categories))
-//                    findNavController().navigate(direction)
+                    setFragmentResult(FILTER_DIALOG_RESULT, bundleOf(SAVED_CATEGORIES_KEY to categories))
                 }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
