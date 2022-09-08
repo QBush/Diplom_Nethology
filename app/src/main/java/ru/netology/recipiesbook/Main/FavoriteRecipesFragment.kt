@@ -38,10 +38,12 @@ class FavoriteRecipesFragment : Fragment() {
         setFragmentResultListener(FilterDialogFragment.FILTER_DIALOG_RESULT) { _, bundle ->
             val filterResult = bundle.getStringArrayList(SAVED_CATEGORIES_KEY)
             if (filterResult != null) {
-                viewModel.filteredFavoriteRecipeList.value = viewModel.data.value?.filter {
+                viewModel.filteredFavoriteRecipeList.value = viewModel.data.value
+                    ?.filter {
                     filterResult.contains(it.category.toString()) &&
                             it.addedToFavorites
                 }
+                    ?.filter { it.addedToFavorites }
             }
         }
 
@@ -77,31 +79,27 @@ class FavoriteRecipesFragment : Fragment() {
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.toolbar_menu, menu)
-//                val search = menu.findItem(R.id.actionSearch)
-//                val searchView: SearchView = search.actionView as SearchView
+                val search = menu.findItem(R.id.actionSearch)
+                val searchView: SearchView = search.actionView as SearchView
+                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+                    android.widget.SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(text: String?): Boolean {
+                        if (text.isNullOrBlank()) return false
+                        return false
+                    }
+
+                    override fun onQueryTextChange(newText: String): Boolean {
+                        viewModel.filteredFavoriteRecipeList.value =
+                            viewModel.filterFavorite(newText)?.filter {
+                                it.addedToFavorites
+                            }
+                        return false
+                    }
+                })
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    // TODO код не заходит по нажатию ниже
-                    R.id.actionSearch -> {
-                        val searchView: SearchView = menuItem.actionView as SearchView
-                        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-                            android.widget.SearchView.OnQueryTextListener {
-                            override fun onQueryTextSubmit(text: String?): Boolean {
-                                if (text.isNullOrBlank()) return false
-                                viewModel.filteredFavoriteRecipeList.value = viewModel.filterFavorite(text)
-                                return false
-                            }
-
-                            override fun onQueryTextChange(newText: String): Boolean {
-                                viewModel.filteredFavoriteRecipeList.value =
-                                    viewModel.filterFavorite(newText)
-                                return false
-                            }
-                        })
-                        true
-                    }
                     R.id.filterDialogFragment -> {
                         val dialogFragment = FilterDialogFragment()
                         val manager = getFragmentManager()

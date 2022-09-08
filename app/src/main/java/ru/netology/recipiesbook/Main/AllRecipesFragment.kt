@@ -89,7 +89,6 @@ class AllRecipesFragment : Fragment() {
                     android.widget.SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(text: String?): Boolean {
                         if (text.isNullOrBlank()) return false
-//                        viewModel.filteredRecipeList.value = viewModel.filter(text)
                         return false
                     }
 
