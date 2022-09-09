@@ -15,11 +15,10 @@ class RecipeContentViewModel(
     application: Application
 ) : AndroidViewModel(application), RecipeContentListener {
 
-    //TODO здесь получает null
     private val repository: Repository = MainRepository(
         dao = AppDb.getInstance(context = application).postDao
     )
-    //TODO здесь получает null
+
     val data by repository::data
 
     // список с шагами, которые мы временно храним здесь
@@ -28,8 +27,6 @@ class RecipeContentViewModel(
 
     override fun onDeleteStepClick(stepNumber: Int) {
 
-
-//TODO 12
         stepList.value?.removeAll { recipeStep ->
             recipeStep.stepNumber == stepNumber
         }
@@ -41,11 +38,8 @@ class RecipeContentViewModel(
         repository.save(recipe)
     }
 
-//TODO метод сохранения (утверждения)шага. Работает, но так как слушатель во фрагменте не реагирует,
-// то адаптер не обновляется и данные тоже не обновляются.
-
+//TODO метод сохранения (утверждения)шага. Работает, адаптер не обновляется
     override fun onSaveStepClick(recipeContent: RecipeContent) {
-//TODO 12
         stepList.value?.replaceAll {
             when (it.stepNumber) {
                 recipeContent.stepNumber -> {

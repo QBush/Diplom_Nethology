@@ -16,12 +16,10 @@ class SingleRecipeViewModel(
     application: Application
 ) : AndroidViewModel(application), RecipeInteractionListener {
 
-    //TODO здесь получает null
     private val repository: Repository = MainRepository(
         dao = AppDb.getInstance(context = application).postDao
     )
 
-    //TODO здесь получает null
     val data by repository::data
 
     var currentRecipe = MutableLiveData<Recipe>(null)

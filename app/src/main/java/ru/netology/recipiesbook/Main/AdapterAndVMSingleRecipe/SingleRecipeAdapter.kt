@@ -28,10 +28,8 @@ internal class SingleRecipeAdapter(
         private val binding: SingleRecipeStepBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-//        private lateinit var recipeContent: RecipeContent
-
+        //TODO код сюда даже не доходит при adapter.submit
         fun bind(recipeContent: RecipeContent) {
-//            this.recipeContent = recipeContent
             with(binding) {
                 stepText.text = recipeContent.stepContent
                 if(!recipeContent.stepImageURL.isNullOrBlank()) {

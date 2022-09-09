@@ -17,7 +17,7 @@ data class Recipe(
     val mainImageSource: String? = null,
     var addedToFavorites: Boolean = false,
 ){
-    //TODO сделать запись контента
+
     fun toEntity() = RecipeEntity(
         recipeId = recipeId,
         recipeName = recipeName,

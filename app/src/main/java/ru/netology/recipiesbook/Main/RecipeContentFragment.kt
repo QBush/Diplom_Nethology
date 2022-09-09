@@ -46,6 +46,8 @@ class RecipeContentFragment : Fragment() {
 // берем переданный ID
             val currentId = args.recipeId
 
+            val adapter = RecipeContentAdapter(viewModel)
+            binding.recipeStepsContentFragment.adapter = adapter
 //получаем сохраненный преференс
             val previousContent = context?.getSharedPreferences(
                 "previousNewContent", Context.MODE_PRIVATE
@@ -58,88 +60,88 @@ class RecipeContentFragment : Fragment() {
                 Json.decodeFromString(content)
             } else null
 
-//берем значения репозитория для поиска по id
-            val currentRecipeList = viewModel.data.value
 
 //назначаем текущий рецепт либо из репозитория, либо если там null, то берем сохраненный ранее
-
-            var currentRecipe = findRecipeById(currentId, currentRecipeList)
-                ?: previousRecipeContent
-
-            val adapter = RecipeContentAdapter(viewModel)
-            binding.recipeStepsContentFragment.adapter = adapter
+            viewModel.data.observe(viewLifecycleOwner) { recipe ->
+                var currentRecipe = findRecipeById(currentId, recipe)
+                    ?: previousRecipeContent
 
 
-            with(binding) {
+                with(binding) {
 // если был редактируемый рецепт или был сохраненный по кнопке назад, то устанавливаем эти значения
-                if (currentRecipe != null) {
-                    recipeName.setText(currentRecipe?.recipeName ?: FREE_SPACE)
-                    if (currentRecipe?.category != null) {
-                        category.setText(currentRecipe?.category.toString())
+                    if (currentRecipe != null) {
+                        recipeName.setText(currentRecipe?.recipeName ?: FREE_SPACE)
+                        if (currentRecipe?.category != null) {
+                            category.setText(currentRecipe?.category.toString())
+                        }
+                        mainRecipeImage.setText(currentRecipe?.mainImageSource ?: FREE_SPACE)
+                        viewModel.stepList.value = currentRecipe?.content?.toMutableList()
                     }
-                    mainRecipeImage.setText(currentRecipe?.mainImageSource ?: FREE_SPACE)
-                    viewModel.stepList.value = currentRecipe?.content?.toMutableList()
-                }
 
 //убираем отображение клавиатуры
-                category.showSoftInputOnFocus = false
-                mainRecipeImage.showSoftInputOnFocus = false
+                    category.showSoftInputOnFocus = false
+                    mainRecipeImage.showSoftInputOnFocus = false
 
 //обработка добавления шага
-                plusStepButton.setOnClickListener {
-                    if (
-                        binding.recipeName.text.isBlank() ||
-                        binding.category.text.isBlank()
-                    ) {
-                        Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_SHORT).show()
-                        return@setOnClickListener
-                    }
-                    viewModel.stepList.value?.add(
-                        RecipeContent(
-                            stepContent = FREE_SPACE
+                    plusStepButton.setOnClickListener {
+                        if (
+                            binding.recipeName.text.isBlank() ||
+                            binding.category.text.isBlank()
+                        ) {
+                            Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_SHORT).show()
+                            return@setOnClickListener
+                        }
+                        viewModel.stepList.value?.add(
+                            RecipeContent(
+                                stepContent = FREE_SPACE
+                            )
                         )
-                    )
-                    viewModel.stepList.value = viewModel.stepList.value?.toMutableList()
+                        viewModel.stepList.value = viewModel.stepList.value?.toMutableList()
+                    }
                 }
-            }
 
 // Конструкция для выпадающего списка
-            val countries = resources.getStringArray(R.array.categories_array)
-            val categoryAdapter = context?.let {
-                ArrayAdapter(
-                    it,
-                    android.R.layout.simple_list_item_1,
-                    countries
-                )
-            }
-            with(binding) {
-                category.setAdapter(categoryAdapter)
-                category.onItemClickListener =
-                    AdapterView.OnItemClickListener { adapterView, _, position, _ ->
-                        val selectedItem = adapterView.getItemAtPosition(position).toString()
-                        Toast.makeText(context, "Selected: $selectedItem", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                category.setOnDismissListener {
-                    Toast.makeText(context, "_", Toast.LENGTH_SHORT).show()
+                val countries = resources.getStringArray(R.array.categories_array)
+                val categoryAdapter = context?.let {
+                    ArrayAdapter(
+                        it,
+                        android.R.layout.simple_list_item_1,
+                        countries
+                    )
                 }
-                category.onFocusChangeListener = View.OnFocusChangeListener { it, hasFocus ->
-                    if (hasFocus) {
-                        category.showDropDown()
+                with(binding) {
+                    category.setAdapter(categoryAdapter)
+                    category.onItemClickListener =
+                        AdapterView.OnItemClickListener { adapterView, _, position, _ ->
+                            val selectedItem = adapterView.getItemAtPosition(position).toString()
+                            Toast.makeText(context, "Selected: $selectedItem", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    category.setOnDismissListener {
+                        Toast.makeText(context, "_", Toast.LENGTH_SHORT).show()
+                    }
+                    category.onFocusChangeListener = View.OnFocusChangeListener { it, hasFocus ->
+                        if (hasFocus) {
+                            category.showDropDown()
+                        }
                     }
                 }
-            }
 
 //TODO шаги все равно не обновляются адаптером
-            viewModel.stepList.observe(viewLifecycleOwner) {
-                updateRecipeStepsNumbers(viewModel.stepList.value)
-                currentRecipe =
-                    updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
-                adapter.submitList(it)
-            }
+                viewModel.stepList.observe(viewLifecycleOwner) {
+                    updateRecipeStepsNumbers(viewModel.stepList.value)
+                    currentRecipe =
+                        updateCurrentRecipe(
+                            binding,
+                            currentRecipe,
+                            viewModel.stepList.value,
+                            currentId
+                        )
+                    adapter.submitList(it)
+                }
 
 // при движении назад сохраняем Преф
-            requireActivity().onBackPressedDispatcher.addCallback(this) {
+                requireActivity().onBackPressedDispatcher.addCallback(this) {
                     currentRecipe = updateCurrentRecipe(
                         binding,
                         currentRecipe,
@@ -149,37 +151,42 @@ class RecipeContentFragment : Fragment() {
                     previousContent?.edit {
                         putString(SAVED_RECIPE_KEY, Json.encodeToString(currentRecipe))
                     }
-                viewModel.stepList.value?.clear()
-                findNavController().popBackStack()
-            }
+                    viewModel.stepList.value?.clear()
+                    findNavController().popBackStack()
+                }
 
 // сохранение рецепта
-            binding.ok.setOnClickListener {
-                if (
-                    binding.recipeName.text.isBlank() ||
-                    binding.category.text.isBlank()
-                ) {
-                    Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
+                binding.ok.setOnClickListener {
+                    if (
+                        binding.recipeName.text.isBlank() ||
+                        binding.category.text.isBlank()
+                    ) {
+                        Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+                    if (
+                        currentRecipe?.content.isNullOrEmpty()
+                    ) {
+                        Toast.makeText(context, R.string.step_needed, Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+                    updateRecipeStepsNumbers(viewModel.stepList.value)
+                    currentRecipe =
+                        updateCurrentRecipe(
+                            binding,
+                            currentRecipe,
+                            viewModel.stepList.value,
+                            currentId
+                        )
+                    try {
+                        viewModel.onSaveButtonClick(currentRecipe!!)
+                    } catch (e: NullPointerException) {
+                        println("Текущий рецепт имеет нулевое значение")
+                    }
+                    previousContent?.edit()?.clear()?.apply()
+                    findNavController().popBackStack()
                 }
-                if (
-                    currentRecipe?.content.isNullOrEmpty()
-                ) {
-                    Toast.makeText(context, R.string.step_needed, Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-                updateRecipeStepsNumbers(viewModel.stepList.value)
-                currentRecipe =
-                    updateCurrentRecipe(binding, currentRecipe, viewModel.stepList.value, currentId)
-                try {
-                    viewModel.onSaveButtonClick(currentRecipe!!)
-                } catch (e: NullPointerException) {
-                    println("Текущий рецепт имеет нулевое значение")
-                }
-                previousContent?.edit()?.clear()?.apply()
-                findNavController().popBackStack()
             }
-
         }.root
 
 

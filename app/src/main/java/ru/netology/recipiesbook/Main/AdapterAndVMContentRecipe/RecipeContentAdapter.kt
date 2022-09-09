@@ -49,14 +49,13 @@ internal class RecipeContentAdapter(
         }
 
 
+        //TODO код сюда даже не доходит при adapter.submit
         @SuppressLint("ResourceAsColor")
         fun bind(recipeContent: RecipeContent) {
             this.recipeContent = recipeContent
             with(binding) {
                 stepText.setText(recipeContent.stepContent)
                 stepImage.setText(recipeContent.stepImageURL)
-//TODO ниже установка цвета фона и блокировка редактирования, если шаг сохранен.
-// Не работают. Но причина в том же, вероятно, в то же: адаптер не обновляется
                 val backgroundColor = if (recipeContent.saved) R.color.teal_700
                 else R.color.white
                 binding.saveStepButton.setBackgroundColor(backgroundColor)

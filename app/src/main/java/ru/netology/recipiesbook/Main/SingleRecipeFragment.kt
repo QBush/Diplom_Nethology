@@ -44,7 +44,6 @@ class SingleRecipeFragment : Fragment() {
         val adapter = SingleRecipeAdapter()
         binding.recipeStepsContentRecyclerView.adapter = adapter
 
-        //TODO здесь мы получаем null
         viewModel.data.observe(viewLifecycleOwner) { recipes ->
             var currentRecipe = findRecipeById(currentId, recipes)
                 ?: run {
@@ -84,7 +83,7 @@ class SingleRecipeFragment : Fragment() {
                 }
                 singleListItem.options.setOnClickListener { popupMenu.show() }
             }
-
+// TODO здесь тоже не происходит обновления адаптера
             adapter.submitList(currentRecipe.content?.toList())
         }
     }.root

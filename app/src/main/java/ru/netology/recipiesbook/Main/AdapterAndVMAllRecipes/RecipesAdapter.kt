@@ -72,8 +72,6 @@ class RecipesAdapter(
                 recipeName.text = recipe.recipeName
                 if (!recipe.mainImageSource.isNullOrBlank()) {
                     binding.mainRecipeImage.visibility = View.VISIBLE
-                    //TODO картинка по ссылке не отображается
-//                    mainRecipeImage.setImageURI(recipe.mainImageSource.toUri())
                     Picasso.get().load(recipe.mainImageSource).into(binding.mainRecipeImage)
                 }
                 addToFavorites.isChecked = recipe.addedToFavorites
