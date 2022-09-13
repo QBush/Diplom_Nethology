@@ -41,8 +41,8 @@ internal class RecipeContentAdapter(
 //сохранение шага при нажатии на галочку возле шага
             binding.saveStepButton.setOnClickListener {
                 if (binding.stepText.toString().isNotEmpty()) {
-                    recipeContent.stepContent = binding.stepText.toString()
-                    recipeContent.stepImageURL = binding.stepImage.toString()
+                    recipeContent.stepContent = binding.stepText.text.toString()
+                    recipeContent.stepImageURL = binding.stepImage.text.toString()
                     interactionListener.onSaveStepClick(recipeContent)
                 }
             }

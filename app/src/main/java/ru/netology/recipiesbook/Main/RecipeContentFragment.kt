@@ -91,22 +91,20 @@ class RecipeContentFragment : Fragment() {
                             Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_SHORT).show()
                             return@setOnClickListener
                         }
-                        viewModel.stepList.value?.add(
-                            RecipeContent(
-                                stepContent = FREE_SPACE
-                            )
-                        )
-                        viewModel.stepList.value = viewModel.stepList.value?.toMutableList()
+                        viewModel.stepList.value = (viewModel.stepList.value.orEmpty() +
+                                RecipeContent(
+                                    stepContent = FREE_SPACE
+                                )).toMutableList()
                     }
                 }
 
 // Конструкция для выпадающего списка
-                val countries = resources.getStringArray(R.array.categories_array)
+                val categories = resources.getStringArray(R.array.categories_array)
                 val categoryAdapter = context?.let {
                     ArrayAdapter(
                         it,
                         android.R.layout.simple_list_item_1,
-                        countries
+                        categories
                     )
                 }
                 with(binding) {

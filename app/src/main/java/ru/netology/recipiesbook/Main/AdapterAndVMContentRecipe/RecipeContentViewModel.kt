@@ -27,29 +27,29 @@ class RecipeContentViewModel(
 
     override fun onDeleteStepClick(stepNumber: Int) {
 
-        stepList.value?.removeAll { recipeStep ->
-            recipeStep.stepNumber == stepNumber
-        }
-        updateRecipeStepsNumbers(stepList.value)
-        stepList.value = stepList.value?.toMutableList()
+        stepList.value = (stepList.value?.filter { recipeStep ->
+            recipeStep.stepNumber != stepNumber
+        })?.toMutableList()
     }
 
     override fun onSaveButtonClick(recipe: Recipe) {
         repository.save(recipe)
     }
 
-//TODO метод сохранения (утверждения)шага. Работает, адаптер не обновляется
+    //TODO не вызывает перебиндинга
     override fun onSaveStepClick(recipeContent: RecipeContent) {
-        stepList.value?.replaceAll {
+        var result: MutableList<RecipeContent>? = (stepList.value?.map {
             when (it.stepNumber) {
                 recipeContent.stepNumber -> {
-                    recipeContent.copy(saved = !recipeContent.saved)
+                    recipeContent.copy(saved = !it.saved)
                 }
                 else -> {
                     it
                 }
             }
-        }
-        stepList.value = stepList.value?.toMutableList()
+        })?.toMutableList()
+
+        stepList.value = result?.toMutableList()
+
     }
 }
