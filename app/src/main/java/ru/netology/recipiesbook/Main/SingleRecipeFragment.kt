@@ -82,6 +82,10 @@ class SingleRecipeFragment : Fragment() {
                         .into(binding.singleListItem.mainRecipeImage)
                 }
                 singleListItem.options.setOnClickListener { popupMenu.show() }
+                singleListItem.addToFavorites.setOnClickListener {
+                    viewModel.onAddToFavoritesClick(currentId)
+                }
+
             }
 // TODO здесь тоже не происходит обновления адаптера
             adapter.submitList(currentRecipe.content?.toList())

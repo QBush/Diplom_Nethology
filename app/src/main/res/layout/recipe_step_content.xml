@@ -23,7 +23,7 @@
     <EditText
         android:id="@+id/stepImage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:background="@android:color/transparent"
         android:gravity="start|top"
         android:hint="@string/new_step_image"

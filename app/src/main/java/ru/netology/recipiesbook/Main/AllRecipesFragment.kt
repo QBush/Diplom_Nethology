@@ -73,6 +73,7 @@ class AllRecipesFragment : Fragment() {
             viewModel.onAddClick()
         }
 
+        //обработка поиска
         viewModel.filteredRecipeList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }

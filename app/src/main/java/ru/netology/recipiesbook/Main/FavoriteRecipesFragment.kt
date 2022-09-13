@@ -40,9 +40,9 @@ class FavoriteRecipesFragment : Fragment() {
             if (filterResult != null) {
                 viewModel.filteredFavoriteRecipeList.value = viewModel.data.value
                     ?.filter {
-                    filterResult.contains(it.category.toString()) &&
-                            it.addedToFavorites
-                }
+                        filterResult.contains(it.category.toString()) &&
+                                it.addedToFavorites
+                    }
                     ?.filter { it.addedToFavorites }
             }
         }
@@ -68,9 +68,9 @@ class FavoriteRecipesFragment : Fragment() {
             }
             adapter.submitList(favorites)
         }
-
+//обработка поиска
         viewModel.filteredFavoriteRecipeList.observe(viewLifecycleOwner) {
-                adapter.submitList(it)
+            adapter.submitList(it)
         }
     }.root
 

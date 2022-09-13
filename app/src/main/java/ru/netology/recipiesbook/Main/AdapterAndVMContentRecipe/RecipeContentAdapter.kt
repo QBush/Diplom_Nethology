@@ -56,6 +56,7 @@ internal class RecipeContentAdapter(
             with(binding) {
                 stepText.setText(recipeContent.stepContent)
                 stepImage.setText(recipeContent.stepImageURL)
+                //TODO не происходит окрашивание заднего фона
                 val backgroundColor = if (recipeContent.saved) R.color.teal_700
                 else R.color.white
                 binding.saveStepButton.setBackgroundColor(backgroundColor)

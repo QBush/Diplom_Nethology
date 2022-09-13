@@ -1,7 +1,5 @@
 package ru.netology.recipiesbook.Main
 
-// Фрагмент для редактирования и создания поста
-
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -29,7 +27,6 @@ import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
 import java.util.Collections.addAll
 
 //Фрагмент для редактирования и добавления рецептов. Добавление картинок происходит через указание ссылок
-//TODO не отображается удаление, утверждение(сохранение) и добавление шагов во всех ситуациях
 class RecipeContentFragment : Fragment() {
 
     private val viewModel by viewModels<RecipeContentViewModel>(ownerProducer = ::requireParentFragment)
@@ -125,7 +122,6 @@ class RecipeContentFragment : Fragment() {
                     }
                 }
 
-//TODO шаги все равно не обновляются адаптером
                 viewModel.stepList.observe(viewLifecycleOwner) {
                     updateRecipeStepsNumbers(viewModel.stepList.value)
                     currentRecipe =
@@ -176,6 +172,14 @@ class RecipeContentFragment : Fragment() {
                             viewModel.stepList.value,
                             currentId
                         )
+                    //проверка на наличие неутвержденных шагов
+                    currentRecipe?.content?.map {
+                        if (!it.saved) {
+                                Toast.makeText(context, R.string.steps_must_be_saved, Toast.LENGTH_SHORT).show()
+                                return@setOnClickListener
+                            }
+                        }
+
                     try {
                         viewModel.onSaveButtonClick(currentRecipe!!)
                     } catch (e: NullPointerException) {

@@ -37,5 +37,6 @@
     <string name="category_filter">category filter</string>
     <string name="ok">ok</string>
     <string name="cancel">cancel</string>
+    <string name="steps_must_be_saved">Every steps must be approved</string>
 
 </resources>
