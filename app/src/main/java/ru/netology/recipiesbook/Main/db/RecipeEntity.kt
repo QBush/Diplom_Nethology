@@ -7,7 +7,6 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import ru.netology.recipiesbook.Main.data.Category
 import ru.netology.recipiesbook.Main.data.Recipe
-import ru.netology.recipiesbook.Main.data.RecipeContent
 
 @Entity(tableName = "recipes")
 class RecipeEntity(
@@ -26,8 +25,8 @@ class RecipeEntity(
     var imageSource: String?,
     @ColumnInfo(name = "addedToFavorites")
     var addedToFavorites: Boolean
-){
-    // TODO сделать извлечение контента
+) {
+
     fun toModel() = Recipe(
         recipeId = recipeId,
         recipeName = recipeName,

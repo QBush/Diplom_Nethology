@@ -16,7 +16,6 @@
         android:id="@+id/recipeStepsContentRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingTop="@dimen/common_spacing"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/singleListItem"
         app:layout_constraintBottom_toBottomOf="parent"

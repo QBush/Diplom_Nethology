@@ -2,19 +2,16 @@ package ru.netology.recipiesbook.Main.AdapterAndVMSingleRecipe
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.Main.data.RecipeContent
-import ru.netology.recipiesbook.R
-import ru.netology.recipiesbook.databinding.RecipesListItemBinding
 import ru.netology.recipiesbook.databinding.SingleRecipeStepBinding
+
 internal class SingleRecipeAdapter(
 ) : ListAdapter<RecipeContent, SingleRecipeAdapter.ViewHolder>(DiffCallback) {
-    override fun onCreateViewHolder(parent: ViewGroup,viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = SingleRecipeStepBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
@@ -28,12 +25,14 @@ internal class SingleRecipeAdapter(
         private val binding: SingleRecipeStepBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        //TODO код сюда даже не доходит при adapter.submit
         fun bind(recipeContent: RecipeContent) {
             with(binding) {
                 stepText.text = recipeContent.stepContent
-                if(!recipeContent.stepImageURL.isNullOrBlank()) {
-                    Picasso.get().load(recipeContent.stepImageURL).into(binding.stepImage)
+                if (!recipeContent.stepImageURL.isNullOrBlank()) {
+                    Picasso.get().load(recipeContent.stepImageURL)
+                        .fit()
+                        .into(binding.stepImage)
+
                 }
             }
         }

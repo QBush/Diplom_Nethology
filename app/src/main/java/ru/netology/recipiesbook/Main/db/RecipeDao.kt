@@ -1,7 +1,9 @@
 package ru.netology.recipiesbook.Main.db
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
 
 
 //интерфейс, для приема/отдачи данных из/в БД

@@ -12,13 +12,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import ru.netology.nmedia.adapter.RecipesAdapter
-
 import ru.netology.recipiesbook.Main.AdapterAndVMAllRecipes.RecipesViewModel
 import ru.netology.recipiesbook.Main.FilterDialogFragment.Companion.SAVED_CATEGORIES_KEY
-
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.R
-import ru.netology.recipiesbook.databinding.AllRecipesFragmentBinding
 import ru.netology.recipiesbook.databinding.FavoritesRecipesFragmentBinding
 
 //Фрагмент для избранных рецептов. Почти аналогичен фрагменту всех рецептов
@@ -31,7 +28,12 @@ class FavoriteRecipesFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         viewModel.navigateToRecipeContentFragmentFromAllRecipes.observe(this) {
-            val direction = AllRecipesFragmentDirections.toRecipeContentFragment(it)
+            val direction = FavoriteRecipesFragmentDirections.toRecipeContentFragment(it)
+            findNavController().navigate(direction)
+        }
+
+        viewModel.navigateToSingleRecipeFragment.observe(this) {
+            val direction = FavoriteRecipesFragmentDirections.toSingleRecipeFragment(it)
             findNavController().navigate(direction)
         }
 
@@ -55,7 +57,7 @@ class FavoriteRecipesFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = FavoritesRecipesFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        adapter = RecipesAdapter(viewModel, viewModel.data.value as ArrayList<Recipe>?)
+        adapter = RecipesAdapter(viewModel)
         binding.PostsRecycleView.adapter = adapter
 
         // здесь фильтруем список, все остальное так же

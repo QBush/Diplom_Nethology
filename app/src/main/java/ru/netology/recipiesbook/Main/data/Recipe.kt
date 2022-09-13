@@ -16,7 +16,7 @@ data class Recipe(
     val content: MutableList<RecipeContent>? = null,
     val mainImageSource: String? = null,
     var addedToFavorites: Boolean = false,
-){
+) {
 
     fun toEntity() = RecipeEntity(
         recipeId = recipeId,
@@ -28,6 +28,7 @@ data class Recipe(
         addedToFavorites = addedToFavorites,
     )
 }
+
 enum class Category {
     EUROPEAN, ASIAN, PANASIAN, EASTERN, AMERICAN, RUSSIAN, MEDITERRANEAN
 }

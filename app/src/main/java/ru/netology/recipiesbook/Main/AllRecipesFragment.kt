@@ -6,7 +6,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -59,7 +58,7 @@ class AllRecipesFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = AllRecipesFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        adapter = RecipesAdapter(viewModel, viewModel.data.value as ArrayList<Recipe>?)
+        adapter = RecipesAdapter(viewModel)
         binding.PostsRecycleView.adapter = adapter
 
         viewModel.data.observe(viewLifecycleOwner) {

@@ -10,10 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.squareup.picasso.Picasso
-import ru.netology.nmedia.adapter.RecipesAdapter
 import ru.netology.recipiesbook.Main.AdapterAndVMSingleRecipe.SingleRecipeAdapter
 import ru.netology.recipiesbook.Main.AdapterAndVMSingleRecipe.SingleRecipeViewModel
-import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.SingleRecipeFragmentBinding
 
@@ -79,15 +77,14 @@ class SingleRecipeFragment : Fragment() {
                 if (!currentRecipe.mainImageSource.isNullOrBlank()) {
                     binding.singleListItem.mainRecipeImage.visibility = View.VISIBLE
                     Picasso.get().load(currentRecipe.mainImageSource)
-                        .into(binding.singleListItem.mainRecipeImage)
+                        .fit()
+                        .into(singleListItem.mainRecipeImage)
                 }
                 singleListItem.options.setOnClickListener { popupMenu.show() }
                 singleListItem.addToFavorites.setOnClickListener {
                     viewModel.onAddToFavoritesClick(currentId)
                 }
-
             }
-// TODO здесь тоже не происходит обновления адаптера
             adapter.submitList(currentRecipe.content?.toList())
         }
     }.root

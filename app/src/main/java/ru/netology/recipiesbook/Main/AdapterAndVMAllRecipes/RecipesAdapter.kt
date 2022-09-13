@@ -3,22 +3,18 @@ package ru.netology.nmedia.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import android.widget.PopupMenu
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.*
+import com.squareup.picasso.Picasso
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.RecipesListItemBinding
 
 class RecipesAdapter(
-    private val interactionListener: RecipeInteractionListener,
-    private var recipeList: ArrayList<Recipe>?
-) : ListAdapter<Recipe, RecipesAdapter.ViewHolder>(DiffCallback), Filterable {
+    private val interactionListener: RecipeInteractionListener
+) : ListAdapter<Recipe, RecipesAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -72,14 +68,16 @@ class RecipesAdapter(
                 recipeName.text = recipe.recipeName
                 if (!recipe.mainImageSource.isNullOrBlank()) {
                     binding.mainRecipeImage.visibility = View.VISIBLE
-                    Picasso.get().load(recipe.mainImageSource).into(binding.mainRecipeImage)
+                    Picasso.get().load(recipe.mainImageSource)
+                        .fit()
+                        .into(binding.mainRecipeImage)
                 }
                 addToFavorites.isChecked = recipe.addedToFavorites
             }
         }
     }
 
-    // для сравнения объектов через ListAdapter
+
     private object DiffCallback : DiffUtil.ItemCallback<Recipe>() {
 
         override fun areItemsTheSame(oldItem: Recipe, newItem: Recipe): Boolean =
@@ -88,10 +86,6 @@ class RecipesAdapter(
 
         override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean =
             oldItem == newItem
-    }
-
-    override fun getFilter(): Filter {
-    TODO("Not yet implemented")
     }
 
 }

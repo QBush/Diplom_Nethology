@@ -7,9 +7,7 @@ import ru.netology.nmedia.adapter.RecipeInteractionListener
 import ru.netology.nmedia.db.AppDb
 import ru.netology.recipiesbook.Main.data.MainRepository
 import ru.netology.recipiesbook.Main.data.Recipe
-import ru.netology.recipiesbook.Main.data.RecipeContent
 import ru.netology.recipiesbook.Main.data.Repository
-import ru.netology.recipiesbook.Main.findRecipeById
 import ru.netology.recipiesbook.Main.utils.SingleLiveEvent
 
 class SingleRecipeViewModel(

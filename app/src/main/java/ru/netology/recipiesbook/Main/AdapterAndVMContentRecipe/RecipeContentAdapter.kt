@@ -3,7 +3,6 @@ package ru.netology.recipiesbook.Main.AdapterAndVMContentRecipe
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +24,6 @@ internal class RecipeContentAdapter(
         holder.bind(getItem(position))
     }
 
-
     class ViewHolder(
         private val binding: RecipeStepContentBinding,
         private val interactionListener: RecipeContentListener
@@ -40,7 +38,7 @@ internal class RecipeContentAdapter(
             binding.stepImage.showSoftInputOnFocus = false
 //сохранение шага при нажатии на галочку возле шага
             binding.saveStepButton.setOnClickListener {
-                if (binding.stepText.toString().isNotEmpty()) {
+                if (binding.stepText.text.toString().isNotBlank()) {
                     recipeContent.stepContent = binding.stepText.text.toString()
                     recipeContent.stepImageURL = binding.stepImage.text.toString()
                     interactionListener.onSaveStepClick(recipeContent)
@@ -48,8 +46,6 @@ internal class RecipeContentAdapter(
             }
         }
 
-
-        //TODO код сюда даже не доходит при adapter.submit
         @SuppressLint("ResourceAsColor")
         fun bind(recipeContent: RecipeContent) {
             this.recipeContent = recipeContent

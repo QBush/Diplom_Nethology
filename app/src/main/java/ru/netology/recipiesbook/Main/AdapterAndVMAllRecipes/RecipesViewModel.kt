@@ -2,7 +2,6 @@ package ru.netology.recipiesbook.Main.AdapterAndVMAllRecipes
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.adapter.RecipeInteractionListener
 import ru.netology.nmedia.db.AppDb
@@ -21,14 +20,17 @@ class RecipesViewModel(
     )
 
     val data by repository::data
-// событие перехода на одиночный фрагмент
+
+    // событие перехода на одиночный фрагмент
     val navigateToSingleRecipeFragment = SingleLiveEvent<Long>()
-// событие перехода на фрагмент редактирования
+
+    // событие перехода на фрагмент редактирования
     val navigateToRecipeContentFragmentFromAllRecipes = SingleLiveEvent<Long>()
 
-//Отфильтрованный список во фрагменте со всеми рецептами
+    //Отфильтрованный список во фрагменте со всеми рецептами
     var filteredRecipeList = MutableLiveData<List<Recipe>?>()
-//Отфильтрованный список во фрагменте с избранными рецептами
+
+    //Отфильтрованный список во фрагменте с избранными рецептами
     var filteredFavoriteRecipeList = MutableLiveData<List<Recipe>?>()
 
     fun onAddClick() {

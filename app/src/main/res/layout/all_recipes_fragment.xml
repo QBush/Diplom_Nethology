@@ -8,17 +8,6 @@
     android:orientation="vertical"
     tools:context=".Main.AllRecipesFragment">
 
-<!--    <androidx.appcompat.widget.SearchView-->
-<!--        android:id="@+id/search"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/teal_200"-->
-<!--        android:textCursorDrawable="@null"-->
-<!--        app:iconifiedByDefault="false"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:queryHint="@string/search_hint"-->
-<!--/>-->
-
     <ImageView
         android:id="@+id/allRecipesFullPicture"
         android:layout_width="match_parent"

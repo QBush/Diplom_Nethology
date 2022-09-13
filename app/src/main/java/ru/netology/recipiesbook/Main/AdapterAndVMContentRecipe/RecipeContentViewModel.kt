@@ -8,8 +8,6 @@ import ru.netology.recipiesbook.Main.data.MainRepository
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.Main.data.RecipeContent
 import ru.netology.recipiesbook.Main.data.Repository
-import ru.netology.recipiesbook.Main.updateRecipeStepsNumbers
-import ru.netology.recipiesbook.Main.utils.SingleLiveEvent
 
 class RecipeContentViewModel(
     application: Application
@@ -36,7 +34,6 @@ class RecipeContentViewModel(
         repository.save(recipe)
     }
 
-    //TODO не вызывает перебиндинга
     override fun onSaveStepClick(recipeContent: RecipeContent) {
         var result: MutableList<RecipeContent>? = (stepList.value?.map {
             when (it.stepNumber) {

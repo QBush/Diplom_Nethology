@@ -22,9 +22,9 @@ import ru.netology.recipiesbook.Main.AdapterAndVMContentRecipe.RecipeContentView
 import ru.netology.recipiesbook.Main.data.Category
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.Main.data.RecipeContent
+import ru.netology.recipiesbook.Main.data.Repository.Companion.NEW_RECIPE_ID
 import ru.netology.recipiesbook.R
 import ru.netology.recipiesbook.databinding.RecipeContentFragmentBinding
-import java.util.Collections.addAll
 
 //Фрагмент для редактирования и добавления рецептов. Добавление картинок происходит через указание ссылок
 class RecipeContentFragment : Fragment() {
@@ -136,17 +136,21 @@ class RecipeContentFragment : Fragment() {
 
 // при движении назад сохраняем Преф
                 requireActivity().onBackPressedDispatcher.addCallback(this) {
-                    currentRecipe = updateCurrentRecipe(
-                        binding,
-                        currentRecipe,
-                        viewModel.stepList.value,
-                        currentId
-                    )
-                    previousContent?.edit {
-                        putString(SAVED_RECIPE_KEY, Json.encodeToString(currentRecipe))
-                    }
-                    viewModel.stepList.value?.clear()
-                    findNavController().popBackStack()
+                    if (currentId == NEW_RECIPE_ID) {
+                        currentRecipe = updateCurrentRecipe(
+                            binding,
+                            currentRecipe,
+                            viewModel.stepList.value,
+                            currentId
+                        )
+
+                        previousContent?.edit {
+                            putString(SAVED_RECIPE_KEY, Json.encodeToString(currentRecipe))
+
+                            viewModel.stepList.value?.clear()
+                            findNavController().popBackStack()
+                        }
+                    } else findNavController().popBackStack()
                 }
 
 // сохранение рецепта
@@ -175,10 +179,14 @@ class RecipeContentFragment : Fragment() {
                     //проверка на наличие неутвержденных шагов
                     currentRecipe?.content?.map {
                         if (!it.saved) {
-                                Toast.makeText(context, R.string.steps_must_be_saved, Toast.LENGTH_SHORT).show()
-                                return@setOnClickListener
-                            }
+                            Toast.makeText(
+                                context,
+                                R.string.steps_must_be_saved,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@setOnClickListener
                         }
+                    }
 
                     try {
                         viewModel.onSaveButtonClick(currentRecipe!!)
