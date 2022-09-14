@@ -39,13 +39,13 @@ class FavoriteRecipesFragment : Fragment() {
 
         setFragmentResultListener(FilterDialogFragment.FILTER_DIALOG_RESULT) { _, bundle ->
             val filterResult = bundle.getStringArrayList(SAVED_CATEGORIES_KEY)
+            viewModel.choosenFilteredCategories.value = filterResult
             if (filterResult != null) {
                 viewModel.filteredFavoriteRecipeList.value = viewModel.data.value
                     ?.filter {
                         filterResult.contains(it.category.toString()) &&
                                 it.addedToFavorites
                     }
-
             }
         }
 
@@ -60,15 +60,22 @@ class FavoriteRecipesFragment : Fragment() {
         adapter = RecipesAdapter(viewModel)
         binding.PostsRecycleView.adapter = adapter
 
-        // здесь фильтруем список, все остальное так же
+        // здесь фильтруем список, если с предыдущего фрагмента была фильтрация
         viewModel.data.observe(viewLifecycleOwner) { it ->
-            val favorites = it.filter { it.addedToFavorites }
+            var favorites = it.filter { it.addedToFavorites }
             if (favorites.isEmpty()) {
                 binding.favoriteRecipesFullPicture.visibility = View.VISIBLE
             } else {
                 binding.favoriteRecipesFullPicture.visibility = View.GONE
             }
-            adapter.submitList(favorites)
+
+            if (!viewModel.choosenFilteredCategories.value.isNullOrEmpty()) {
+                viewModel.filteredFavoriteRecipeList.value = viewModel.data.value
+                    ?.filter {
+                        viewModel.choosenFilteredCategories.value!!.contains(it.category.toString()) &&
+                                it.addedToFavorites
+                    }
+            } else adapter.submitList(favorites)
         }
 //обработка поиска
         viewModel.filteredFavoriteRecipeList.observe(viewLifecycleOwner) {

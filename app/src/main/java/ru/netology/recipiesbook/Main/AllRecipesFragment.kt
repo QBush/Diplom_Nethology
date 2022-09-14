@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import ru.netology.nmedia.adapter.RecipesAdapter
 import ru.netology.recipiesbook.Main.AdapterAndVMAllRecipes.RecipesViewModel
-import ru.netology.recipiesbook.Main.FilterDialogFragment.Companion.FILTER_DIALOG_RESULT
 import ru.netology.recipiesbook.Main.FilterDialogFragment.Companion.SAVED_CATEGORIES_KEY
 import ru.netology.recipiesbook.Main.data.Recipe
 import ru.netology.recipiesbook.R
@@ -40,11 +39,11 @@ class AllRecipesFragment : Fragment() {
         }
 
         //слушатель для фильтрации
-        setFragmentResultListener(FILTER_DIALOG_RESULT) { _, bundle ->
+        setFragmentResultListener(FilterDialogFragment.FILTER_DIALOG_RESULT) { _, bundle ->
             val filterResult = bundle.getStringArrayList(SAVED_CATEGORIES_KEY)
             viewModel.choosenFilteredCategories.value = filterResult
             if (filterResult != null) {
-                viewModel.filteredFavoriteRecipeList.value = viewModel.data.value
+                viewModel.filteredRecipeList.value = viewModel.data.value
                     ?.filter {
                         filterResult.contains(it.category.toString())
                     }
@@ -62,19 +61,18 @@ class AllRecipesFragment : Fragment() {
         adapter = RecipesAdapter(viewModel)
         binding.PostsRecycleView.adapter = adapter
 
+        // здесь фильтруем список, если с предыдущего фрагмента была фильтрация
         viewModel.data.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
                 binding.allRecipesFullPicture.visibility = View.VISIBLE
             } else binding.allRecipesFullPicture.visibility = View.GONE
 
-            if (viewModel.choosenFilteredCategories.value.isNullOrEmpty()) {
-                adapter.submitList(it)
-            } else {
-                viewModel.filteredFavoriteRecipeList.value = viewModel.data.value
+            if (!viewModel.choosenFilteredCategories.value.isNullOrEmpty()) {
+                viewModel.filteredRecipeList.value = viewModel.data.value
                     ?.filter {
                         viewModel.choosenFilteredCategories.value!!.contains(it.category.toString())
                     }
-            }
+            } else adapter.submitList(it)
         }
 
         binding.fab.setOnClickListener {
