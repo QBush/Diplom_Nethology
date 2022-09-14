@@ -26,7 +26,6 @@ class AllRecipesFragment : Fragment() {
     private val viewModel by viewModels<RecipesViewModel>(ownerProducer = ::requireParentFragment)
     lateinit var adapter: ListAdapter<Recipe, RecipesAdapter.ViewHolder>
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,10 +42,12 @@ class AllRecipesFragment : Fragment() {
         //слушатель для фильтрации
         setFragmentResultListener(FILTER_DIALOG_RESULT) { _, bundle ->
             val filterResult = bundle.getStringArrayList(SAVED_CATEGORIES_KEY)
+            viewModel.choosenFilteredCategories.value = filterResult
             if (filterResult != null) {
-                viewModel.filteredRecipeList.value = viewModel.data.value?.filter {
-                    filterResult.contains(it.category.toString())
-                }
+                viewModel.filteredFavoriteRecipeList.value = viewModel.data.value
+                    ?.filter {
+                        filterResult.contains(it.category.toString())
+                    }
             }
         }
     }
@@ -65,7 +66,15 @@ class AllRecipesFragment : Fragment() {
             if (it.isNullOrEmpty()) {
                 binding.allRecipesFullPicture.visibility = View.VISIBLE
             } else binding.allRecipesFullPicture.visibility = View.GONE
-            adapter.submitList(it)
+
+            if (viewModel.choosenFilteredCategories.value.isNullOrEmpty()) {
+                adapter.submitList(it)
+            } else {
+                viewModel.filteredFavoriteRecipeList.value = viewModel.data.value
+                    ?.filter {
+                        viewModel.choosenFilteredCategories.value!!.contains(it.category.toString())
+                    }
+            }
         }
 
         binding.fab.setOnClickListener {

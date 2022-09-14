@@ -33,6 +33,9 @@ class RecipesViewModel(
     //Отфильтрованный список во фрагменте с избранными рецептами
     var filteredFavoriteRecipeList = MutableLiveData<List<Recipe>?>()
 
+    //хранит для двух фрагментов текущую фильтрацию
+    var choosenFilteredCategories = MutableLiveData<ArrayList<String>?>()
+
     fun onAddClick() {
         navigateToRecipeContentFragmentFromAllRecipes.value = NEW_RECIPE_ID
     }

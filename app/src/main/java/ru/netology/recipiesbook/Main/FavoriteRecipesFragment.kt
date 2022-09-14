@@ -45,7 +45,7 @@ class FavoriteRecipesFragment : Fragment() {
                         filterResult.contains(it.category.toString()) &&
                                 it.addedToFavorites
                     }
-                    ?.filter { it.addedToFavorites }
+
             }
         }
 

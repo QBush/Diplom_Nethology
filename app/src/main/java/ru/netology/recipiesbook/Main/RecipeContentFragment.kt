@@ -150,7 +150,10 @@ class RecipeContentFragment : Fragment() {
                             viewModel.stepList.value?.clear()
                             findNavController().popBackStack()
                         }
-                    } else findNavController().popBackStack()
+                    } else {
+                        viewModel.stepList.value?.clear()
+                        findNavController().popBackStack()
+                    }
                 }
 
 // сохранение рецепта

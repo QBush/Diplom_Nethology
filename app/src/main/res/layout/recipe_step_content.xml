@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/min_spacing"
     android:id="@+id/recipeStepContent"
     >
 
@@ -23,7 +24,7 @@
     <EditText
         android:id="@+id/stepImage"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:gravity="start|top"
         android:hint="@string/new_step_image"

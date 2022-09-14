@@ -55,7 +55,7 @@ internal class RecipeContentAdapter(
                 //TODO не происходит окрашивание заднего фона
                 val backgroundColor = if (recipeContent.saved) R.color.teal_700
                 else R.color.white
-                binding.saveStepButton.setBackgroundColor(backgroundColor)
+                binding.saveStepButton.setBackgroundResource(backgroundColor)
                 if (recipeContent.saved) {
                     stepText.isFocusable = false
                     stepImage.isFocusable = false
